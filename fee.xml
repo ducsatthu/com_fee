@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.0" method="upgrade">
     <name>com_fee</name>
-    <creationDate>2015-05-25</creationDate>
+    <creationDate>2015-03-22</creationDate>
     <copyright>Bản quyền (C) 2015. Các quyền đều được bảo vệ.</copyright>
     <license>bản quyền mã nguồn mở GNU phiên bản 2</license>
-    <author>Linh</author>
-    <authorEmail>mr.lynk92@gmail.com</authorEmail>
-    <authorUrl>http://</authorUrl>
+    <author>Tran Xuan Duc</author>
+    <authorEmail>ductranxuan.29710@gmail.com</authorEmail>
+    <authorUrl>http://facebook.com/ducsatthuttd</authorUrl>
     <version>1.0.0</version>
     <description></description>
     
@@ -36,14 +36,14 @@
     </files>
     <languages folder="languages/site">
         
-			<language tag="en-GB">en-GB/en-GB.com_fee.ini</language>
-			<language tag="vi-VN">vi-VN/vi-VN.com_fee.ini</language>
+        <language tag="en-GB">en-GB/en-GB.com_fee.ini</language>
+        <language tag="vi-VN">vi-VN/vi-VN.com_fee.ini</language>
     </languages>
     <administration>
         <menu img="components/com_fee/assets/images/s_com_fee.png" >COM_FEE</menu>
         <submenu>
             
-			<menu link="option=com_fee&amp;view=students" view="students" img="components/com_fee/assets/images/s_students.png" alt="Fee/Students">COM_FEE_TITLE_STUDENTS</menu>
+            <menu link="option=com_fee&amp;view=students" view="students" img="components/com_fee/assets/images/s_students.png" alt="Fee/Students">COM_FEE_TITLE_STUDENTS</menu>
 
             <menu link="option=com_fee&amp;view=courses" view="courses" img="components/com_fee/assets/images/s_courses.png" alt="Fee/Courses">COM_FEE_TITLE_COURSES</menu>
 
@@ -76,10 +76,10 @@
         </files>
         <languages folder="languages/administrator">
             
-			<language tag="en-GB">en-GB/en-GB.com_fee.ini</language>
-			<language tag="en-GB">en-GB/en-GB.com_fee.sys.ini</language>
-			<language tag="vi-VN">vi-VN/vi-VN.com_fee.ini</language>
-			<language tag="vi-VN">vi-VN/vi-VN.com_fee.sys.ini</language>
+            <language tag="en-GB">en-GB/en-GB.com_fee.ini</language>
+            <language tag="en-GB">en-GB/en-GB.com_fee.sys.ini</language>
+            <language tag="vi-VN">vi-VN/vi-VN.com_fee.ini</language>
+            <language tag="vi-VN">vi-VN/vi-VN.com_fee.sys.ini</language>
         </languages>
     </administration>
     <plugins>
