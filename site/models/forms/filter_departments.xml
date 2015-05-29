@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="filter">
+        <field name="search" type="text" hint="COM_FEE_SEARCH_FILTER_SUBMIT"
+               label="COM_USERS_FILTER_SEARCH_DESC"
+               class="js-stools-search-string" />
+
+        <field name="department_alias" type="sql" class="inputbox" onchange="this.form.submit();"
+                                    query="SELECT '' AS `alias`, '- Please select Đơn vị trực thuộc -' AS `title` UNION SELECT `alias`, `title` FROM `#__fee_department`" key_field="alias" value_field="title"/>
+
+    </fields>
+</form>

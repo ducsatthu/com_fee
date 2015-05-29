@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+
+              <field name="id" type="text" default="0" label="COM_FEE_FORM_LBL_RECEIPT_ID"
+            readonly="true" class="readonly"
+            description="JGLOBAL_FIELD_ID_DESC" /> 
+
+       <field name="created_by" type="createdby" default="" 
+            label="COM_FEE_FORM_LBL_RECEIPT_CREATED_BY"
+            description="COM_FEE_FORM_DESC_RECEIPT_CREATED_BY"  /> 
+
+       <field name="alias" type="text" size="40" class="inputbox"
+        
+            label="COM_FEE_FORM_LBL_RECEIPT_ALIAS"
+            description="COM_FEE_FORM_DESC_RECEIPT_ALIAS" 
+        
+        
+        
+        filter="safehtml" /> 
+
+       <field name="title" type="text" size="40" class="inputbox"
+        
+            label="COM_FEE_FORM_LBL_RECEIPT_TITLE"
+            description="COM_FEE_FORM_DESC_RECEIPT_TITLE" 
+        
+        
+         required="true" 
+        filter="safehtml" /> 
+
+ <field name="student_alias" type="foreignkey" class="inputbox"
+            label="COM_FEE_FORM_LBL_RECEIPT_STUDENT_ALIAS"
+            description="COM_FEE_FORM_DESC_RECEIPT_STUDENT_ALIAS" input_type="list" table="#__fee_student" key_field="alias" value_field="student_id"  required="true"  /> 
+
+       <field name="filter_student_alias" type="sql" class="inputbox"
+            onchange="this.form.submit();"
+            query="SELECT 0 AS `alias`, '- Please select Mã sinh viên -' AS `alias` UNION SELECT `alias`, `alias` FROM `#__fee_student`" key_field="alias" value_field="student_id"
+             /> 
+
+ <field name="semester_alias" type="foreignkey" class="inputbox"
+            label="COM_FEE_FORM_LBL_RECEIPT_SEMESTER_ALIAS"
+            description="COM_FEE_FORM_DESC_RECEIPT_SEMESTER_ALIAS" input_type="list" table="#__fee_semester" key_field="alias" value_field="title"  required="true"  /> 
+
+       <field name="filter_semester_alias" type="sql" class="inputbox"
+            onchange="this.form.submit();"
+            query="SELECT 0 AS `alias`, '- Please select Học kỳ -' AS `title` UNION SELECT `alias`, `title` FROM `#__fee_semester`" key_field="alias" value_field="title"
+             /> 
+
+ <field name="year_alias" type="foreignkey" class="inputbox"
+            label="COM_FEE_FORM_LBL_RECEIPT_YEAR_ALIAS"
+            description="COM_FEE_FORM_DESC_RECEIPT_YEAR_ALIAS" input_type="list" table="#__fee_year" key_field="alias" value_field="start"  required="true"  /> 
+
+       <field name="filter_year_alias" type="sql" class="inputbox"
+            onchange="this.form.submit();"
+            query="SELECT 0 AS `alias`, '- Please select Năm học -' AS `title` UNION SELECT `alias`, `start` FROM `#__fee_year`" key_field="alias" value_field="title"
+             /> 
+
+       <field name="date" type="calendar" class="inputbox"
+         required="true" 
+        
+         default="0000-00-00" 
+        
+            label="COM_FEE_FORM_LBL_RECEIPT_DATE"
+            description="COM_FEE_FORM_DESC_RECEIPT_DATE" 
+        filter="safehtml" /> 
+
+       <field name="paid" type="text" size="40" class="inputbox"
+        
+            label="COM_FEE_FORM_LBL_RECEIPT_PAID"
+            description="COM_FEE_FORM_DESC_RECEIPT_PAID" 
+        
+        
+         required="true" 
+        filter="safehtml" /> 
+
+         <field
+        name="state"
+        type="list"
+        label="JSTATUS"
+        description="JFIELD_PUBLISHED_DESC"
+        class="inputbox"
+        size="1"
+        default="1">
+        <option value="1">JPUBLISHED</option>
+        <option value="0">JUNPUBLISHED</option>
+        <option value="2">JARCHIVED</option>
+        <option value="-2">JTRASHED</option>
+    </field> 
+
+                        <field name="checked_out" type="hidden" filter="unset" />
+        <field name="checked_out_time" type="hidden" filter="unset" /> 
+
+ </fieldset> 
+
+ <fieldset
+                        name="accesscontrol">
+                       <field name="asset_id" type="hidden" filter="unset" />
+                       <field name="rules"
+                            type="rules"
+                            label="JFIELD_RULES_LABEL"
+                            translate_label="false"
+                            filter="rules"
+                            validate="rules"
+                            class="inputbox"
+                            component="com_fee"
+                            section="receipt"
+                        />
+
+	</fieldset>
+
+</form>

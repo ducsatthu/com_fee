@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.0" method="upgrade">
+    <name>com_fee</name>
+    <creationDate>2015-05-25</creationDate>
+    <copyright>Bản quyền (C) 2015. Các quyền đều được bảo vệ.</copyright>
+    <license>bản quyền mã nguồn mở GNU phiên bản 2</license>
+    <author>Linh</author>
+    <authorEmail>mr.lynk92@gmail.com</authorEmail>
+    <authorUrl>http://</authorUrl>
+    <version>1.0.0</version>
+    <description></description>
+    
+    
+    
+    <install> <!-- Runs on install -->
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+        </sql>
+    </install>
+    <uninstall> <!-- Runs on uninstall -->
+        <sql>
+            <file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+        </sql>
+    </uninstall>
+
+    <files folder="site">
+        <filename>index.html</filename>
+        <filename>fee.php</filename>
+        <filename>controller.php</filename>
+        <filename>router.php</filename>
+        <folder>views</folder>
+        <folder>models</folder>
+        <folder>controllers</folder>
+        <folder>helpers</folder>
+        <folder>assets</folder>
+    </files>
+    <languages folder="languages/site">
+        
+			<language tag="en-GB">en-GB/en-GB.com_fee.ini</language>
+			<language tag="vi-VN">vi-VN/vi-VN.com_fee.ini</language>
+    </languages>
+    <administration>
+        <menu img="components/com_fee/assets/images/s_com_fee.png" >COM_FEE</menu>
+        <submenu>
+            
+			<menu link="option=com_fee&amp;view=students" view="students" img="components/com_fee/assets/images/s_students.png" alt="Fee/Students">COM_FEE_TITLE_STUDENTS</menu>
+
+            <menu link="option=com_fee&amp;view=courses" view="courses" img="components/com_fee/assets/images/s_courses.png" alt="Fee/Courses">COM_FEE_TITLE_COURSES</menu>
+
+            <menu link="option=com_fee&amp;view=departments" view="departments" img="components/com_fee/assets/images/s_departments.png" alt="Fee/Departments">COM_FEE_TITLE_DEPARTMENTS</menu>
+
+            <menu link="option=com_fee&amp;view=levels" view="levels" img="components/com_fee/assets/images/s_levels.png" alt="Fee/Levels">COM_FEE_TITLE_LEVELS</menu>
+
+            <menu link="option=com_fee&amp;view=fees" view="fees" img="components/com_fee/assets/images/s_fees.png" alt="Fee/Fees">COM_FEE_TITLE_FEES</menu>
+
+            <menu link="option=com_fee&amp;view=semesters" view="semesters" img="components/com_fee/assets/images/s_semesters.png" alt="Fee/Semesters">COM_FEE_TITLE_SEMESTERS</menu>
+
+            <menu link="option=com_fee&amp;view=years" view="years" img="components/com_fee/assets/images/s_years.png" alt="Fee/Years">COM_FEE_TITLE_YEARS</menu>
+
+            <menu link="option=com_fee&amp;view=receipts" view="receipts" img="components/com_fee/assets/images/s_receipts.png" alt="Fee/Receipts">COM_FEE_TITLE_RECEIPTS</menu>
+
+        </submenu>
+        <files folder="administrator">
+            <filename>access.xml</filename>
+            <filename>config.xml</filename>
+            <filename>controller.php</filename>
+            <filename>index.html</filename>
+            <filename>fee.php</filename>
+            <folder>controllers</folder>
+            <folder>assets</folder>
+            <folder>helpers</folder>
+            <folder>models</folder>
+            <folder>sql</folder>
+            <folder>tables</folder>
+            <folder>views</folder>
+        </files>
+        <languages folder="languages/administrator">
+            
+			<language tag="en-GB">en-GB/en-GB.com_fee.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_fee.sys.ini</language>
+			<language tag="vi-VN">vi-VN/vi-VN.com_fee.ini</language>
+			<language tag="vi-VN">vi-VN/vi-VN.com_fee.sys.ini</language>
+        </languages>
+    </administration>
+    <plugins>
+        <plugin group="search" plugin="fee"/>
+    </plugins>
+    
+</extension>
+<!-- Component built by the Joomla Component Creator -->
+<!-- http://www.component-creator.com/ -->
