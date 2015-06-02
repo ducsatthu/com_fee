@@ -20,7 +20,7 @@
                                                     filter="safehtml" /> 
 
        <field name="title" type="text" size="40" class="inputbox"
-                                                    
+            readonly="readonly"                                           
             label="COM_FEE_FORM_LBL_RECEIPT_TITLE"
             description="COM_FEE_FORM_DESC_RECEIPT_TITLE" 
                                                     
@@ -52,7 +52,7 @@
 
        <field name="filter_year_alias" type="sql" class="inputbox"
             onchange="this.form.submit();" translate="true"
-            query="SELECT 0 AS `alias`, 'COM_FEE_RECEIPTS_YEAR_ALIAS_FILTER_DEFAULT_OPTION' AS `val` UNION SELECT `alias`, `start` AS val FROM `#__fee_year`" key_field="alias" value_field="val"
+            query="SELECT 0 AS `alias`, 'COM_FEE_RECEIPTS_YEAR_ALIAS_FILTER_DEFAULT_OPTION' AS `val` UNION SELECT `alias`, `start`  AS val FROM `#__fee_year`" key_field="alias" value_field="val"
              /> 
 
        <field name="date" type="calendar" class="inputbox"
