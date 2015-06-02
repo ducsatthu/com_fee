@@ -47,5 +47,25 @@ class FeeController extends JControllerLegacy {
 
         JFactory::getApplication()->close();
     }
+    
+    public function getStudent(){
+        JFactory::getDocument()->setMimeEncoding('application/json');
+
+        $input = JFactory::getApplication()->input;
+        
+        $param['department'] = $input->post->get('department');
+        
+        $param['course'] = $input->post->get('course');
+        
+        $param['level'] = $input->post->get('level');
+        
+        $model_student = $this->getModel('student');
+        
+        $listStudent = $model_student->getItemsByParam($param);
+        
+        echo json_encode($listStudent);
+        
+        JFactory::getApplication()->close();
+    }
 
 }

@@ -45,7 +45,67 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
         });
         js("#jform_level_alias").trigger("liszt:updated");
 
-<?php if (empty($this->item->created_by)) { ?>
+        var department, course, level;
+        js("#jform_department_alias").change(function () {
+            department = js("#jform_department_alias").val();
+            check();
+        }).trigger("change");;
+        js("#jform_course_alias").change(function () {
+            course = js("#jform_course_alias").val();
+            check();
+        }).trigger("change");;
+        js("#jform_level_alias").change(function () {
+            level = js("#jform_level_alias").val();
+            check();
+        }).trigger("change");;
+
+        function check() {
+            js('#list-student-form').hide('slow');
+            if (department && course && level) {
+                var data = {
+                    "department": department,
+                    "course": course,
+                    "level": level
+                }
+                js('#body-table').remove();
+                js('#list-student-form').hide('slow');
+                js.ajax({
+                    type: "POST",
+                    url: "index.php?option=com_fee&task=getStudent",
+                    data: data,
+                    datatype: "json",
+                    success: function (results) {
+                        if (results!== 'false') {
+                            js("h5#department-show").text(js("#jform_level_alias option:selected").text()+" "+js("#jform_department_alias option:selected").text() + " K"+ js("#jform_course_alias option:selected").text());
+                            var parse = JSON.decode(results);
+                            var tbody = '<tbody id="body-table">';
+                            js.each(parse, function (k, v) {
+                                tbody += '<tr>';
+                                tbody += "<td><a href='<?php echo JRoute::_('index.php?option=com_fee&view=student&layout=edit&id=') ?>"+v.id+"'>" + v.student_id + "</a></td>";
+                                tbody += "<td>" + v.title + "</td>";
+                                if(v.special == 1){
+                                    tbody += "<td>" + "<?php echo JText::_('COM_FEE_YES'); ?>" + "</td>";
+                                }else{
+                                    tbody += "<td>" + "<?php echo JText::_('COM_FEE_NO'); ?>" + "</td>";
+                                }
+                                 tbody += "</tr>";
+                            });
+                            tbody += "</tbody>";
+                            
+                            js('#list-student').append(tbody);
+                            
+                            js('#list-student-form').show('slow');
+                        } else {
+                            js('#body-table').remove();
+                            js('#list-student-form').hide('slow');
+                        }
+                    }
+                });
+            }
+        }
+
+
+<?php if (empty($this->item->id)) { ?>
             //check student_id exits
             js('input#jform_student_id').blur(function () {
                 var student_id = "student_id=" + js('input#jform_student_id').val();
@@ -56,14 +116,13 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
                     datatype: "json",
                     success: function (results) {
                         if (results) {
-                            js('#text-notify').text("Mã số này đã ứng với sinh viên:" + results);
+                            js('#text-notify').text("<?php echo JText::_('COM_FEE_TITLE_ERROR_STUDENTID'); ?> " + results);
                             js('#jform_student_id').addClass('invalid');
                             js('div#text-notify-form').show();
-                            console.log(results);
                         } else {
                             js('#text-notify').text();
                             js('div#text-notify-form').hide();
-                            console.log(results);
+                            
                         }
 
                     }
@@ -97,7 +156,7 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
 
         <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_FEE_TITLE_STUDENT', true)); ?>
         <div class="row-fluid">
-            <div class="span10 form-horizontal">
+            <div class="span7 form-horizontal">
                 <fieldset class="adminform">
 
                     <input type="hidden" name="jform[id]" value="<?php echo $this->item->id; ?>" />
@@ -160,9 +219,20 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
                         <div class="control-label"><?php echo $this->form->getLabel('special'); ?></div>
                         <div class="controls"><?php echo $this->form->getInput('special'); ?></div>
                     </div>
-
-
                 </fieldset>
+            </div>
+            <div class="span5 form-vertical" id="list-student-form" style="display: none;">
+                <legend align="center"><?php echo JText::_('COM_FEE_TITLE_STUDENTS'); ?></legend>
+                <h5 align="center" id="department-show"></h5>
+                <table class="table table-bordered table-hover" id="list-student">
+                    <thead>
+                        <tr>
+                            <th><?php echo JText::_('COM_FEE_STUDENTS_STUDENT_ID'); ?></th>
+                            <th><?php echo JText::_('COM_FEE_STUDENTS_TITLE'); ?></th>
+                            <th><?php echo JText::_('COM_FEE_STUDENTS_SPECIAL'); ?></th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
         <?php echo JHtml::_('bootstrap.endTab'); ?>

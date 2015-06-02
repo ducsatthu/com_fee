@@ -5,7 +5,7 @@
  * @package     com_fee
  * @copyright   Bản quyền (C) 2015. Các quyền đều được bảo vệ.
  * @license     bản quyền mã nguồn mở GNU phiên bản 2
- * @author      Linh <mr.lynk92@gmail.com> - http://
+ * @author      Tran Xuan Duc <ductranxuan.29710@gmail.com> - http://facebook.com/ducsatthuttd
  */
 // No direct access.
 defined('_JEXEC') or die;
@@ -131,6 +131,30 @@ class FeeModelStudent extends JModelAdmin {
             }else{
                 return FALSE;
             }
+        }
+        return FALSE;
+    }
+    
+    public function getItemsByParam($param = array()){
+        if(!empty($param) && is_array($param)){
+            
+            $db = JFactory::getDbo();
+            $query = $db->getQuery(true);
+
+            $query
+                    ->select(array(
+                         '`id`','`title`','`student_id`','`special`'
+                    ))
+                    ->from('`#__fee_student`')
+                    ->where('`department_alias` =' . $db->quote($db->escape($param['department'])))
+                    ->where('`course_alias` =' . $db->quote($db->escape($param['course'])))
+                    ->where('`level_alias` =' . $db->quote($db->escape($param['level'])));
+            $db->setQuery($query);
+            $results = $db->loadObjectList();
+            if($results){
+                return $results;
+            }
+            return FALSE;
         }
         return FALSE;
     }
