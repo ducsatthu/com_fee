@@ -240,7 +240,7 @@ class FeeModelReceipts extends JModelList {
                     $db = JFactory::getDbo();
                     $query = $db->getQuery(true);
                     $query
-                            ->select($db->quoteName('start'))
+                            ->select($db->quoteName("CONCAT(CAST(`start` AS CHAR), ' - ',CAST(`end` AS CHAR)) AS start"))
                             ->from('`#__fee_year`')
                             ->where($db->quoteName('alias') . ' = ' . $db->quote($db->escape($value)));
                     $db->setQuery($query);

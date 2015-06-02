@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `#__fee_semester` (
 `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
 `created_by` INT(11)  NOT NULL ,
 `alias` VARCHAR(255)  NOT NULL ,
-`title` VARCHAR(255)  NOT NULL ,
+`title` INT(11)  NOT NULL ,
 PRIMARY KEY (`id`)
 ) DEFAULT COLLATE=utf8_general_ci;
 
@@ -201,3 +201,14 @@ INSERT INTO `#__fee_course` (`id`, `asset_id`, `ordering`, `state`, `checked_out
 (60, 89, 60, 1, 0, '0000-00-00 00:00:00', 301, '4390C684-772D-4BC6-BAB9-67ED5C2FA6AF', 60),
 (61, 89, 61, 1, 0, '0000-00-00 00:00:00', 301, '9870CE95-8C6F-4BD9-B402-6B7D6EDE34AB', 61),
 (62, 89, 62, 1, 0, '0000-00-00 00:00:00', 301, '010AF362-F5F8-4CDD-91E9-106836805D5D', 62);
+
+INSERT INTO `#__fee_level` (`id`, `asset_id`, `ordering`, `state`, `checked_out`, `checked_out_time`, `created_by`, `alias`, `title`) VALUES
+(1, 242, 1, 1, 0, '0000-00-00 00:00:00', 668, 'C2D90233-C3A3-40C8-AB7E-B4C2726E1A15', 'Đại học'),
+(2, 243, 2, 1, 0, '0000-00-00 00:00:00', 668, 'BA875AD5-B5CD-4AE8-8251-C90B19EF8BB0', 'Cao học'),
+(3, 244, 3, 1, 0, '0000-00-00 00:00:00', 668, '339BEE83-8555-4B56-A665-BA99F1460496', 'Cao đẳng'),
+(4, 245, 4, 1, 0, '0000-00-00 00:00:00', 668, '8C3B8FC5-1F03-4D0A-81EF-764867D35E33', 'Liên thông');
+
+INSERT INTO `#__fee_semester` (`id`, `asset_id`, `ordering`, `state`, `checked_out`, `checked_out_time`, `created_by`, `alias`, `title`) VALUES
+(1, 247, 1, 1, 0, '0000-00-00 00:00:00', 668, '4CEC3DF2-759F-49E4-B20E-78718B5C356B', 1),
+(2, 248, 2, 1, 0, '0000-00-00 00:00:00', 668, '30338A28-7BE5-4D36-9DFD-7CB287785129', 2),
+(3, 249, 3, 1, 0, '0000-00-00 00:00:00', 668, '82CCCF60-8C11-43EE-B2B8-E02D79A6A684', 3);
