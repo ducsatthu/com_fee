@@ -43,7 +43,7 @@ class FeeController extends JControllerLegacy {
         
         $check = $model_Student->checkExitsStudent($student_id);
         
-        echo json_encode($check);
+        echo $check;
 
         JFactory::getApplication()->close();
     }
