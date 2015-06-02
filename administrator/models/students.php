@@ -207,6 +207,7 @@ class FeeModelStudents extends JModelList {
             $query1 = $db->getQuery(true);
             $query2 = $db->getQuery(true);
             $query3 = $db->getQuery(true);
+            $query4 = $db->getQuery(true);
 
             $query
                     ->select($db->quoteName('alias'))
@@ -225,7 +226,12 @@ class FeeModelStudents extends JModelList {
                     ->from('`#__fee_department`')
                     ->where($db->quoteName('department_alias') . ' IN (' . $query2 .')');
             
-            $query->union($query1)->union($query2)->union($query3);
+            $query4
+                    ->select($db->quoteName('alias'))
+                    ->from('`#__fee_department`')
+                    ->where($db->quoteName('alias') . ' = ' . $db->quote($db->escape($filter_department_alias)));
+            
+            $query->union($query1)->union($query2)->union($query3)->union($query4);
             
             $db->setQuery($query);
             $results = $db->loadColumn();

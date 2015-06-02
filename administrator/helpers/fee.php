@@ -19,50 +19,33 @@ class FeeHelper {
      * Configure the Linkbar.
      */
     public static function addSubmenu($vName = '') {
-        		JHtmlSidebar::addEntry(
-			JText::_('COM_FEE_TITLE_STUDENTS'),
-			'index.php?option=com_fee&view=students',
-			$vName == 'students'
-		);
-
-                JHtmlSidebar::addEntry(
-            JText::_('COM_FEE_TITLE_COURSES'),
-            'index.php?option=com_fee&view=courses',
-            $vName == 'courses'
-        );
-                JHtmlSidebar::addEntry(
-            JText::_('COM_FEE_TITLE_DEPARTMENTS'),
-            'index.php?option=com_fee&view=departments',
-            $vName == 'departments'
-        );
-                JHtmlSidebar::addEntry(
-            JText::_('COM_FEE_TITLE_LEVELS'),
-            'index.php?option=com_fee&view=levels',
-            $vName == 'levels'
+        JHtmlSidebar::addEntry(
+                JText::_('COM_FEE_TITLE_STUDENTS'), 'index.php?option=com_fee&view=students', $vName == 'students'
         );
 
-               JHtmlSidebar::addEntry(
-			JText::_('COM_FEE_TITLE_FEES'),
-			'index.php?option=com_fee&view=fees',
-			$vName == 'fees'
-		);
+        JHtmlSidebar::addEntry(
+                JText::_('COM_FEE_TITLE_RECEIPTS'), 'index.php?option=com_fee&view=receipts', $vName == 'receipts'
+        );
 
-        		JHtmlSidebar::addEntry(
-			JText::_('COM_FEE_TITLE_SEMESTERS'),
-			'index.php?option=com_fee&view=semesters',
-			$vName == 'semesters'
-		);
-        		JHtmlSidebar::addEntry(
-			JText::_('COM_FEE_TITLE_YEARS'),
-			'index.php?option=com_fee&view=years',
-			$vName == 'years'
-		);
-        		JHtmlSidebar::addEntry(
-			JText::_('COM_FEE_TITLE_RECEIPTS'),
-			'index.php?option=com_fee&view=receipts',
-			$vName == 'receipts'
-		);
+        JHtmlSidebar::addEntry(
+                JText::_('COM_FEE_TITLE_FEES'), 'index.php?option=com_fee&view=fees', $vName == 'fees'
+        );
+        JHtmlSidebar::addEntry(
+                JText::_('COM_FEE_TITLE_COURSES'), 'index.php?option=com_fee&view=courses', $vName == 'courses'
+        );
+        JHtmlSidebar::addEntry(
+                JText::_('COM_FEE_TITLE_DEPARTMENTS'), 'index.php?option=com_fee&view=departments', $vName == 'departments'
+        );
+        JHtmlSidebar::addEntry(
+                JText::_('COM_FEE_TITLE_LEVELS'), 'index.php?option=com_fee&view=levels', $vName == 'levels'
+        );
 
+        JHtmlSidebar::addEntry(
+                JText::_('COM_FEE_TITLE_SEMESTERS'), 'index.php?option=com_fee&view=semesters', $vName == 'semesters'
+        );
+        JHtmlSidebar::addEntry(
+                JText::_('COM_FEE_TITLE_YEARS'), 'index.php?option=com_fee&view=years', $vName == 'years'
+        );
     }
 
     /**
@@ -87,6 +70,5 @@ class FeeHelper {
 
         return $result;
     }
-
 
 }

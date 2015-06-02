@@ -44,20 +44,22 @@
         <submenu>
             
             <menu link="option=com_fee&amp;view=students" view="students" img="components/com_fee/assets/images/s_students.png" alt="Fee/Students">COM_FEE_TITLE_STUDENTS</menu>
+            
+            <menu link="option=com_fee&amp;view=fees" view="fees" img="components/com_fee/assets/images/s_fees.png" alt="Fee/Fees">COM_FEE_TITLE_FEES</menu>
 
+            <menu link="option=com_fee&amp;view=receipts" view="receipts" img="components/com_fee/assets/images/s_receipts.png" alt="Fee/Receipts">COM_FEE_TITLE_RECEIPTS</menu>
+            
             <menu link="option=com_fee&amp;view=courses" view="courses" img="components/com_fee/assets/images/s_courses.png" alt="Fee/Courses">COM_FEE_TITLE_COURSES</menu>
 
             <menu link="option=com_fee&amp;view=departments" view="departments" img="components/com_fee/assets/images/s_departments.png" alt="Fee/Departments">COM_FEE_TITLE_DEPARTMENTS</menu>
 
             <menu link="option=com_fee&amp;view=levels" view="levels" img="components/com_fee/assets/images/s_levels.png" alt="Fee/Levels">COM_FEE_TITLE_LEVELS</menu>
-
-            <menu link="option=com_fee&amp;view=fees" view="fees" img="components/com_fee/assets/images/s_fees.png" alt="Fee/Fees">COM_FEE_TITLE_FEES</menu>
-
+          
             <menu link="option=com_fee&amp;view=semesters" view="semesters" img="components/com_fee/assets/images/s_semesters.png" alt="Fee/Semesters">COM_FEE_TITLE_SEMESTERS</menu>
 
             <menu link="option=com_fee&amp;view=years" view="years" img="components/com_fee/assets/images/s_years.png" alt="Fee/Years">COM_FEE_TITLE_YEARS</menu>
 
-            <menu link="option=com_fee&amp;view=receipts" view="receipts" img="components/com_fee/assets/images/s_receipts.png" alt="Fee/Receipts">COM_FEE_TITLE_RECEIPTS</menu>
+            
 
         </submenu>
         <files folder="administrator">
