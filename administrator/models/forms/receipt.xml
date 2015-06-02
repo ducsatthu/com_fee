@@ -34,7 +34,7 @@
 
        <field name="filter_student_alias" type="sql" class="inputbox"
             onchange="this.form.submit();" translate="true"
-            query="SELECT 0 AS `alias`, 'COM_FEE_RECEIPTS_STUDENT_ALIAS_FILTER_DEFAULT_OPTION' AS `val` UNION SELECT `alias`, `student_id` AS val FROM `#__fee_receipt`" key_field="alias" value_field="val"
+            query="SELECT 0 AS `alias`, 'COM_FEE_RECEIPTS_STUDENT_ALIAS_FILTER_DEFAULT_OPTION' AS `val` UNION SELECT `alias`, `student_id` AS val FROM `#__fee_student`" key_field="alias" value_field="val"
              /> 
 
  <field name="semester_alias" type="foreignkey" class="inputbox"
