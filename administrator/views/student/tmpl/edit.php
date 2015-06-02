@@ -44,6 +44,20 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
 		}
 	});
 	js("#jform_level_alias").trigger("liszt:updated");
+        
+        //check student_id exits
+        js('input#jform_student_id').blur(function(){
+            var student_id = "student_id="+js('input#jform_student_id').val();
+            js.ajax({
+                type: "POST",
+                url: "index.php?option=com_fee&task=checkStudentId",
+                data: student_id,
+                datatype: "json",
+                success: function (results) {
+                    
+                }
+            });
+        });
     });
 
     Joomla.submitbutton = function(task)

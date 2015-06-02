@@ -32,4 +32,20 @@ class FeeController extends JControllerLegacy {
         return $this;
     }
 
+    public function checkStudentId() {
+        JFactory::getDocument()->setMimeEncoding('application/json');
+
+        $input = JFactory::getApplication()->input;
+        
+        $student_id = $input->get('student_id');
+        
+        $model_Student = $this->getModel('student');
+        
+        $check = $model_Student->checkExitsStudent($student_id);
+        
+        echo json_encode($check);
+
+        JFactory::getApplication()->close();
+    }
+
 }
