@@ -48,7 +48,7 @@
 
  <field name="year_alias" type="foreignkey" class="inputbox"
             label="COM_FEE_FORM_LBL_RECEIPT_YEAR_ALIAS"
-            description="COM_FEE_FORM_DESC_RECEIPT_YEAR_ALIAS" input_type="list" table="#__fee_year" key_field="alias" value_field="CONCAT(CAST(`start` AS CHAR), ' - ',CAST(`end` AS CHAR)) AS start"  required="true"  /> 
+            description="COM_FEE_FORM_DESC_RECEIPT_YEAR_ALIAS" input_type="list" table="#__fee_year" key_field="alias" value_field="start" val="CONCAT(CAST(`start` AS CHAR), ' - ',CAST(`end` AS CHAR)) AS start" special="true" required="true"  /> 
 
        <field name="filter_year_alias" type="sql" class="inputbox"
             onchange="this.form.submit();" translate="true"
