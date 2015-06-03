@@ -5,7 +5,7 @@
  * @package     com_fee
  * @copyright   Bản quyền (C) 2015. Các quyền đều được bảo vệ.
  * @license     bản quyền mã nguồn mở GNU phiên bản 2
- * @author      Linh <mr.lynk92@gmail.com> - http://
+ * @author      Tran Xuan Duc <ductranxuan.29710@gmail.com> - http://facebook.com/ducsatthuttd
  */
 defined('_JEXEC') or die;
 
@@ -125,7 +125,7 @@ class FeeModelFees extends JModelList {
 		$query->select('created_by.name AS created_by');
 		$query->join('LEFT', '#__users AS created_by ON created_by.id = a.created_by');
 		// Join over the foreign key 'student_alias'
-		$query->select('#__fee_student_1887487.student_id AS fees_alias_1887487');
+		$query->select('#__fee_student_1887487.student_id AS fees_alias_1887487 , #__fee_student_1887487.title AS fees_title_1887487');
 		$query->join('LEFT', '#__fee_student AS #__fee_student_1887487 ON #__fee_student_1887487.alias = a.student_alias');
 		// Join over the foreign key 'semester_alias'
 		$query->select('#__fee_semester_1887491.title AS fees_title_1887491');
@@ -151,7 +151,7 @@ class FeeModelFees extends JModelList {
                 $query->where('a.id = ' . (int) substr($search, 3));
             } else {
                 $search = $db->Quote('%' . $db->escape($search, true) . '%');
-                $query->where('( a.student_alias LIKE '.$search.'  OR  a.semester_alias LIKE '.$search.'  OR  a.year_alias LIKE '.$search.'  OR  a.rate LIKE '.$search.'  OR  a.payable LIKE '.$search.'  OR  a.owed LIKE '.$search.' )');
+                $query->where('( #__fee_student_1887487.title LIKE '.$search.'  OR a.student_alias LIKE '.$search.'  OR  a.semester_alias LIKE '.$search.'  OR  a.year_alias LIKE '.$search.'  OR  a.rate LIKE '.$search.'  OR  a.payable LIKE '.$search.'  OR  a.owed LIKE '.$search.' )');
             }
         }
 
@@ -206,12 +206,11 @@ class FeeModelFees extends JModelList {
 					$results = $db->loadObject();
 					if ($results) {
 						$textValue[] = $results->student_id;
-                        $textValueTitle[] = $results->title;
+                                                $oneItem->title = $results->title;
 					}
 				}
 
 			$oneItem->student_alias = !empty($textValue) ? implode(', ', $textValue) : $oneItem->student_alias;
-            $oneItem->title = !empty($textValueTitle) ? implode(', ', $textValueTitle) : $oneItem->title;
             
 			}
 
