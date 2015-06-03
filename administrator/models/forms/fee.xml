@@ -1,120 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset>
+    <fieldset>
 
-              <field name="id" type="text" default="0" label="COM_FEE_FORM_LBL_FEE_ID"
-            readonly="true" class="readonly"
-            description="JGLOBAL_FIELD_ID_DESC" /> 
+        <field name="id" type="text" default="0" label="COM_FEE_FORM_LBL_FEE_ID"
+               readonly="true" class="readonly"
+               description="JGLOBAL_FIELD_ID_DESC" /> 
 
-       <field name="created_by" type="createdby" default="" 
-            label="COM_FEE_FORM_LBL_FEE_CREATED_BY"
-            description="COM_FEE_FORM_DESC_FEE_CREATED_BY"  /> 
+        <field name="created_by" type="createdby" default="" 
+               label="COM_FEE_FORM_LBL_FEE_CREATED_BY"
+               description="COM_FEE_FORM_DESC_FEE_CREATED_BY"  /> 
 
-       <field name="alias" type="text" size="40" class="inputbox"
+        <field name="alias" type="text" size="40" class="inputbox"
                                                     
-            label="COM_FEE_FORM_LBL_FEE_ALIAS"
-            description="COM_FEE_FORM_DESC_FEE_ALIAS" 
+               label="COM_FEE_FORM_LBL_FEE_ALIAS"
+               description="COM_FEE_FORM_DESC_FEE_ALIAS" 
                                                     
                                                     
                                                     
-                                                    filter="safehtml" /> 
+               filter="safehtml" /> 
 
-       <field name="title" type="text" size="40" class="inputbox"
-            readonly="readonly"                                           
-            label="COM_FEE_FORM_LBL_FEE_TITLE"
-            description="COM_FEE_FORM_DESC_FEE_TITLE" 
+        <field name="title" type="text" size="40" class="inputbox"
+               readonly="readonly"                                           
+               label="COM_FEE_FORM_LBL_FEE_TITLE"
+               description="COM_FEE_FORM_DESC_FEE_TITLE" 
                                                     
                                                     
                                                     
-                                                    filter="safehtml" /> 
+               filter="safehtml" /> 
 
- <field name="student_alias" type="foreignkey" class="inputbox"
-            label="COM_FEE_FORM_LBL_FEE_STUDENT_ALIAS"
-            description="COM_FEE_FORM_DESC_FEE_STUDENT_ALIAS" input_type="list" table="#__fee_student" key_field="alias" value_field="student_id"  required="true"  /> 
+        <field name="student_alias" type="foreignkey" class="inputbox"
+               label="COM_FEE_FORM_LBL_FEE_STUDENT_ALIAS"
+               description="COM_FEE_FORM_DESC_FEE_STUDENT_ALIAS" input_type="list" table="#__fee_student" key_field="alias" value_field="student_id"  required="true"  /> 
 
-       <field name="filter_student_alias" type="sql" class="inputbox"
-            onchange="this.form.submit();" translate="true"
-            query="SELECT 0 AS `alias`, 'COM_FEE_FEES_STUDENT_ALIAS_FILTER_DEFAULT_OPTION' AS `val` UNION SELECT `alias`, `student_id` AS val FROM `#__fee_student`" key_field="alias" value_field="val"
-             /> 
+        <field name="filter_student_alias" type="sql" class="inputbox"
+               onchange="this.form.submit();" translate="true"
+               query="SELECT 0 AS `alias`, 'COM_FEE_FEES_STUDENT_ALIAS_FILTER_DEFAULT_OPTION' AS `val` UNION SELECT `alias`, `student_id` AS val FROM `#__fee_student`" key_field="alias" value_field="val"
+        /> 
 
- <field name="semester_alias" type="foreignkey" class="inputbox"
-            label="COM_FEE_FORM_LBL_FEE_SEMESTER_ALIAS"
-            description="COM_FEE_FORM_DESC_FEE_SEMESTER_ALIAS" input_type="list" table="#__fee_semester" key_field="alias" value_field="title"  required="true"  /> 
+        <field name="semester_alias" type="foreignkey" class="inputbox"
+               label="COM_FEE_FORM_LBL_FEE_SEMESTER_ALIAS"
+               description="COM_FEE_FORM_DESC_FEE_SEMESTER_ALIAS" input_type="list" table="#__fee_semester" key_field="alias" value_field="title"  required="true"  /> 
 
-       <field name="filter_semester_alias" type="sql" class="inputbox"
-            onchange="this.form.submit();" translate="true"
-            query="SELECT 0 AS `alias`, 'COM_FEE_FEES_SEMESTER_ALIAS_FILTER_DEFAULT_OPTION' AS `val` UNION SELECT `alias`, `title` AS val FROM `#__fee_semester`" key_field="alias" value_field="val"
-             /> 
+        <field name="filter_semester_alias" type="sql" class="inputbox"
+               onchange="this.form.submit();" translate="true"
+               query="SELECT 0 AS `alias`, 'COM_FEE_FEES_SEMESTER_ALIAS_FILTER_DEFAULT_OPTION' AS `val` UNION SELECT `alias`, `title` AS val FROM `#__fee_semester`" key_field="alias" value_field="val"
+        /> 
 
- <field name="year_alias" type="foreignkey" class="inputbox"
-            label="COM_FEE_FORM_LBL_FEE_YEAR_ALIAS"
-            description="COM_FEE_FORM_DESC_FEE_YEAR_ALIAS" input_type="list" table="#__fee_year" key_field="alias" value_field="start"  required="true"  /> 
+        <field name="year_alias" type="foreignkey" class="inputbox"
+               label="COM_FEE_FORM_LBL_FEE_YEAR_ALIAS"
+               description="COM_FEE_FORM_DESC_FEE_YEAR_ALIAS" input_type="list" table="#__fee_year" key_field="alias" value_field="start"  required="true"  /> 
 
-       <field name="filter_year_alias" type="sql" class="inputbox"
-            onchange="this.form.submit();" translate="true"
-            query="SELECT 0 AS `alias`, 'COM_FEE_FEES_YEAR_ALIAS_FILTER_DEFAULT_OPTION' AS `val` UNION SELECT `alias`, `start` AS val FROM `#__fee_year`" key_field="alias" value_field="val"
-             /> 
+        <field name="filter_year_alias" type="sql" class="inputbox"
+               onchange="this.form.submit();" translate="true"
+               query="SELECT 0 AS `alias`, 'COM_FEE_FEES_YEAR_ALIAS_FILTER_DEFAULT_OPTION' AS `val` UNION SELECT `alias`, CONCAT(CAST(`start` AS CHAR), ' - ',CAST(`end` AS CHAR))  AS val FROM `#__fee_year`" key_field="alias" value_field="val"
+        /> 
 
-       <field name="rate" type="text" size="40" class="inputbox"
+        <field name="rate" type="text" size="40" class="inputbox"
                                                     
-            label="COM_FEE_FORM_LBL_FEE_RATE"
-            description="COM_FEE_FORM_DESC_FEE_RATE" 
+               label="COM_FEE_FORM_LBL_FEE_RATE"
+               description="COM_FEE_FORM_DESC_FEE_RATE" 
                                                     
                                                     
                                                     
-                                                    filter="safehtml" /> 
+               filter="safehtml" /> 
 
-       <field name="payable" type="text" size="40" class="inputbox"
+        <field name="payable" type="text" size="40" class="inputbox"
                                                     
-            label="COM_FEE_FORM_LBL_FEE_PAYABLE"
-            description="COM_FEE_FORM_DESC_FEE_PAYABLE" 
+               label="COM_FEE_FORM_LBL_FEE_PAYABLE"
+               description="COM_FEE_FORM_DESC_FEE_PAYABLE" 
                                                     
                                                     
-                                                     required="true" 
-                                                    filter="safehtml" /> 
+               required="true" 
+               filter="safehtml" /> 
 
-       <field name="owed" type="text" size="40" class="inputbox"
+        <field name="owed" type="text" size="40" class="inputbox"
                                                     
-            label="COM_FEE_FORM_LBL_FEE_OWED"
-            description="COM_FEE_FORM_DESC_FEE_OWED" 
+               label="COM_FEE_FORM_LBL_FEE_OWED"
+               description="COM_FEE_FORM_DESC_FEE_OWED" 
                                                     
                                                     
                                                     
-                                                    filter="safehtml" /> 
+               filter="safehtml" /> 
 
-         <field
-        name="state"
-        type="list"
-        label="JSTATUS"
-        description="JFIELD_PUBLISHED_DESC"
-        class="inputbox"
-        size="1"
-        default="1">
-        <option value="1">JPUBLISHED</option>
-        <option value="0">JUNPUBLISHED</option>
-        <option value="2">JARCHIVED</option>
-        <option value="-2">JTRASHED</option>
-    </field> 
+        <field
+            name="state"
+            type="list"
+            label="JSTATUS"
+            description="JFIELD_PUBLISHED_DESC"
+            class="inputbox"
+            size="1"
+            default="1">
+            <option value="1">JPUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
+            <option value="2">JARCHIVED</option>
+            <option value="-2">JTRASHED</option>
+        </field> 
 
-                        <field name="checked_out" type="hidden" filter="unset" />
+        <field name="checked_out" type="hidden" filter="unset" />
         <field name="checked_out_time" type="hidden" filter="unset" /> 
 
- </fieldset> 
+    </fieldset> 
 
- <fieldset 
-                        name="accesscontrol">
-                       <field name="asset_id" type="hidden" filter="unset" />
-                       <field name="rules"
-                            type="rules"
-                            label="JFIELD_RULES_LABEL"
-                            translate_label="false"
-                            filter="rules"
-                            validate="rules"
-                            class="inputbox"
-                            component="com_fee"
-                            section="fee"
-                        />
+    <fieldset 
+        name="accesscontrol">
+        <field name="asset_id" type="hidden" filter="unset" />
+        <field name="rules"
+               type="rules"
+               label="JFIELD_RULES_LABEL"
+               translate_label="false"
+               filter="rules"
+               validate="rules"
+               class="inputbox"
+               component="com_fee"
+               section="fee"
+        />
 
-	</fieldset>
+    </fieldset>
 
 </form>
