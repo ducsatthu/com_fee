@@ -36,33 +36,36 @@ class FeeController extends JControllerLegacy {
         JFactory::getDocument()->setMimeEncoding('application/json');
 
         $input = JFactory::getApplication()->input;
-        
+
         $student_id = $input->get('student_id');
-        
+
         $model_Student = $this->getModel('student');
-        
+
         $check = $model_Student->checkExitsStudent($student_id);
-        
+
         echo $check;
 
         JFactory::getApplication()->close();
     }
-    
-    public function getStudent(){
+
+    public function getStudent() {
         JFactory::getDocument()->setMimeEncoding('application/json');
 
         $input = JFactory::getApplication()->input;
-        
-        $param['department'] = $input->post->get('department');
-        
-        $param['course'] = $input->post->get('course');
-        
-        $param['level'] = $input->post->get('level');
-        
+
+        if ($input->post->get('department') && $input->post->get('course') && $input->post->get('level')) {
+            $param['department'] = $input->post->get('department');
+
+            $param['course'] = $input->post->get('course');
+
+            $param['level'] = $input->post->get('level');
+        } else {
+            $param = $input->get('data');
+        }
         $model_student = $this->getModel('student');
         
         $listStudent = $model_student->getItemsByParam($param);
-        
+
         echo json_encode($listStudent);
         
         JFactory::getApplication()->close();

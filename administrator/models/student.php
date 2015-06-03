@@ -156,6 +156,22 @@ class FeeModelStudent extends JModelAdmin {
             }
             return FALSE;
         }
+        if(!empty ($param) && !is_array($param)){
+            $db = JFactory::getDbo();
+            $query = $db->getQuery(true);
+
+            $query
+                    ->select('`title`')
+                    ->from('`#__fee_student`')
+                    ->where('`alias` =' . $db->quote($db->escape($param)));
+            $db->setQuery($query);
+            
+            $results = $db->loadResult();
+            if($results){
+                return $results;
+            }
+            return FALSE;
+        }
         return FALSE;
     }
 
