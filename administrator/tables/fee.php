@@ -174,22 +174,22 @@ class FeeTablefee extends JTable {
      * Overloaded check function
      */
     public function check() {
-
         //If there is an ordering column and this is a new row then get the next ordering value
         if (property_exists($this, 'ordering') && $this->id == 0) {
             $this->ordering = self::getNextOrder();
 
-            $db = JFactory::getDbo();
+            //check exits fee
+             $db = JFactory::getDbo();
             $query = $db->getQuery(true);
 
             $query
                     ->select('`id`')
-                    ->from('`#__fee_fee`')
+                    ->from($this->_tbl)
                     ->where('`student_alias` = ' . $db->quote($db->escape($this->student_alias)))
                     ->where('`semester_alias` = ' . $db->quote($db->escape($this->semester_alias)))
                     ->where('`year_alias` = ' . $db->quote($db->escape($this->year_alias)));
             $db->setQuery($query);
-            
+
             $result = $db->loadResult();
             if ($result) {
                 $url = JRoute::_('index.php?option=com_fee&view=fee&layout=edit&id=' . $result);
@@ -197,7 +197,28 @@ class FeeTablefee extends JTable {
                 return FALSE;
             }
         }
+        //set default for owed
+        
+        $db = JFactory::getDbo();
+        $query_owed = $db->getQuery(true);
+        
+        
+        $query_owed
+                ->select('SUM(`paid`)')
+                ->from('`#__fee_receipt`')
+                ->where('`student_alias` = ' . $db->quote($db->escape($this->student_alias)))
+                ->where('`semester_alias` = ' . $db->quote($db->escape($this->semester_alias)))
+                ->where('`year_alias` = ' . $db->quote($db->escape($this->year_alias)));
+        $db->setQuery($query_owed);
+        
+        $result = $db->loadResult();
+        if ($result) {
+            $this->owed = $this->payable - ($this->rate * $this->payable / 100) - $result;
+        }else{
+            $this->owed = $this->payable - ($this->rate * $this->payable / 100);
+        }
 
+        
         return parent::check();
     }
 
