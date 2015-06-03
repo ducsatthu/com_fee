@@ -219,15 +219,15 @@ if (!empty($this->extra_sidebar)) {
 				</td>
 				<td>
 
-					<?php echo $item->rate; ?>
+					<?php echo $item->rate.'% / '.number_format($item->payable*$item->rate/100); ?>
 				</td>
 				<td>
 
-					<?php echo $item->payable; ?>
+					<?php echo number_format($item->payable); ?>
 				</td>
 				<td>
 
-					<?php echo $item->owed; ?>
+					<?php echo number_format($item->owed); ?>
 				</td>
 
 
