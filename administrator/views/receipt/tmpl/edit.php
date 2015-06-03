@@ -105,8 +105,6 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
             }).trigger("change");
 
             function checkfee() {
-                js("#department-show").text("");
-                js('#jform_paid').val("");
                 js("tr").removeClass('error');
                 js('#system-message-container-custom').hide('slow');
                 if (student && semester && year) {

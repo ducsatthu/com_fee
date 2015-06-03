@@ -5,7 +5,7 @@
  * @package     com_fee
  * @copyright   Bản quyền (C) 2015. Các quyền đều được bảo vệ.
  * @license     bản quyền mã nguồn mở GNU phiên bản 2
- * @author      Linh <mr.lynk92@gmail.com> - http://
+ * @author      Tran Xuan Duc <ductranxuan.29710@gmail.com> - http://facebook.com/ducsatthuttd
  */
 // No direct access
 defined('_JEXEC') or die;
@@ -179,7 +179,7 @@ class FeeTablefee extends JTable {
             $this->ordering = self::getNextOrder();
 
             //check exits fee
-             $db = JFactory::getDbo();
+            $db = JFactory::getDbo();
             $query = $db->getQuery(true);
 
             $query
@@ -198,11 +198,11 @@ class FeeTablefee extends JTable {
             }
         }
         //set default for owed
-        
+
         $db = JFactory::getDbo();
         $query_owed = $db->getQuery(true);
-        
-        
+
+
         $query_owed
                 ->select('SUM(`paid`)')
                 ->from('`#__fee_receipt`')
@@ -210,15 +210,15 @@ class FeeTablefee extends JTable {
                 ->where('`semester_alias` = ' . $db->quote($db->escape($this->semester_alias)))
                 ->where('`year_alias` = ' . $db->quote($db->escape($this->year_alias)));
         $db->setQuery($query_owed);
-        
+
         $result = $db->loadResult();
         if ($result) {
             $this->owed = $this->payable - ($this->rate * $this->payable / 100) - $result;
-        }else{
+        } else {
             $this->owed = $this->payable - ($this->rate * $this->payable / 100);
         }
 
-        
+
         return parent::check();
     }
 
