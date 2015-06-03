@@ -124,20 +124,13 @@ class FeeModelReceipt extends JModelAdmin {
         $year = date_format(JFactory::getDate(), 'Y');
         $db = JFactory::getDbo();
         $query = $db->getQuery(true);
-        $query1 = $db->getQuery(true);
 
         $query
-                ->select('`alias`')
-                ->from('`#__fee_year`')
-                ->where("start = " . $db->quote($db->escape($year)));
-
-        $query1
                 ->select('MAX(`title`)')
                 ->from($this->_tbl)
-                ->where("`year_alias` = (" . $query . ")");
-
-
-        $db->setQuery($query1);
+                ->where("DATE_FORMAT(`date`,'%Y') = DATE_FORMAT(CURRENT_DATE,'%Y')");
+        
+        $db->setQuery($query);
         $result = $db->loadResult();
         if ($result) {
             return $result + 1;
