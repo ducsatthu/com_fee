@@ -45,9 +45,12 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
         });
         js("#jform_year_alias").trigger("liszt:updated");
 
+        var student, semester, year;
         js("#jform_student_alias").change(function () {
-            var student = js("#jform_student_alias").val();
+            student = js("#jform_student_alias").val();
             data = "data=" + student;
+            js('#body-table').remove();
+            js('#list-student-form').hide('slow');
             if (student) {
                 js.ajax({
                     type: "POST",
@@ -57,11 +60,81 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
                     success: function (results) {
                         results = JSON.decode(results);
                         js('#jform_title').val(results);
+                        js("#department-show").text(results);
+                    }
+                });
+                js.ajax({
+                    type: "POST",
+                    url: "index.php?option=com_fee&task=getFeeStudent",
+                    data: data,
+                    datatype: "json",
+                    success: function (results) {
+                        var parse = JSON.decode(results);
+                        if (parse) {
+                            var tbody = '<tbody id="body-table">';
+                            js.each(parse, function (k, v) {
+                                tbody += '<tr id="form_body_' + k + '">';
+                                tbody += "<td><a href='<?php echo JRoute::_('index.php?option=com_fee&view=fee&layout=edit&id=') ?>" + v.id + "'>" + (k + 1) + "</a></td>";
+                                tbody += "<td>" + js('#jform_semester_alias option[value=' + v.semester_alias + ']').text() + "</td>";
+                                tbody += "<td>" + js('#jform_year_alias option[value=' + v.year_alias + ']').text() + "</td>";
+                                tbody += "<td>" + v.payable_rate + "</td>";
+                                tbody += "<td>" + v.owed + "</td>";
+                                tbody += "</tr>";
+                            });
+                            tbody += "</tbody>";
+
+                            js('#list-student').append(tbody);
+
+                            js('#list-student-form').show('slow');
+                        } else {
+                            js('#body-table').remove();
+                            js('#list-student-form').hide('slow');
+                        }
                     }
                 });
             }
-
+            checkfee();
         }).trigger("change");
+<?php if (!$this->item->id) { ?>
+            js("#jform_semester_alias").change(function () {
+                semester = js("#jform_semester_alias").val();
+                checkfee();
+            }).trigger("change");
+            js("#jform_year_alias").change(function () {
+                year = js("#jform_year_alias").val();
+                checkfee();
+            }).trigger("change");
+
+            function checkfee() {
+                js("tr").removeClass('error');
+                js('#system-message-container-custom').hide('slow');
+                if (student && semester && year) {
+                    var data = {
+                        "student": student,
+                        "semester": semester,
+                        "year": year
+                    };
+                    js.ajax({
+                        type: "POST",
+                        url: "index.php?option=com_fee&task=checkFee",
+                        data: data,
+                        datatype: "json",
+                        success: function (results) {
+                            results = JSON.decode(results);
+                            if (results) {
+                                var form = '#form_body_' + (results - 1);
+                                js(form).addClass('error');
+                                js('#text-alert-custom').text("<?php echo JText::_('COM_FEE_ERROR_FEE_EXITS'); ?>");
+                                js('#system-message-container-custom').show('slow');
+                            } else {
+                                js('#system-message-container-custom').hide('slow');
+                                js("tr").removeClass('error');
+                            }
+                        }
+                    });
+                }
+            }
+<?php } ?>
     });
 
     Joomla.submitbutton = function (task)
@@ -89,7 +162,12 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
 
         <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_FEE_TITLE_FEE', true)); ?>
         <div class="row-fluid">
-            <div class="span10 form-horizontal">
+            <div class="span7 form-horizontal">
+                <div id="system-message-container-custom" style="display: none;">
+                    <div class="alert alert-error">
+                        <p id="text-alert-custom"></p>
+                    </div>
+                </div>
                 <fieldset class="adminform">
 
                     <input type="hidden" name="jform[id]" value="<?php echo $this->item->id; ?>" />
@@ -158,6 +236,21 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
 
 
                 </fieldset>
+            </div>
+            <div class="span5 form-vertical" id="list-student-form" style="display: none;">
+                <legend align="center"><?php echo JText::_('COM_FEE_TITLE_STUDENT_INFO'); ?></legend>
+                <h5 align="center" id="department-show"></h5>
+                <table class="table table-bordered table-hover" id="list-student">
+                    <thead>
+                        <tr>
+                            <th><?php echo JText::_('COM_FEE_ORDER_TITLE'); ?></th>
+                            <th><?php echo JText::_('COM_FEE_FEES_SEMESTER_ALIAS'); ?></th>
+                            <th><?php echo JText::_('COM_FEE_FEES_YEAR_ALIAS'); ?></th>
+                            <th><?php echo JText::_('COM_FEE_FEES_PAYABLE_RATE'); ?></th>
+                            <th><?php echo JText::_('COM_FEE_FEES_OWED'); ?></th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
         <?php echo JHtml::_('bootstrap.endTab'); ?>
