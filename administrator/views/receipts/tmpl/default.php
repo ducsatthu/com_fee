@@ -247,7 +247,7 @@ $total = 0;
                         </tr>
                     <?php endforeach; ?>
                     <tr>
-                        <td colspan="7">
+                        <td colspan="8">
                         </td>
                         <td>
                             <h6 class="text-info"><?php echo JText::_('COM_FEE_TOTAL_PAID'); ?></h6>
