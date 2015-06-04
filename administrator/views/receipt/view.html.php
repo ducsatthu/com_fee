@@ -67,6 +67,9 @@ class FeeViewReceipt extends JViewLegacy {
         // If an existing item, can save to a copy.
         if (!$isNew && $canDo->get('core.create')) {
              JToolBarHelper::custom('receipt.prints', 'print.png', 'print.png', 'COM_FEE_PRINT_FEE', false);
+             if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit')) {
+                JToolbarHelper::versions('com_fee.receipt', $this->item->id);
+            }
       //      JToolBarHelper::custom('receipt.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
         }
         if (empty($this->item->id)) {

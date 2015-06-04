@@ -22,6 +22,7 @@ class FeeTablereceipt extends JTable {
      */
     public function __construct(&$db) {
         parent::__construct('#__fee_receipt', 'id', $db);
+        JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_fee.receipt'));
     }
 
     /**

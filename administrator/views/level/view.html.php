@@ -66,7 +66,11 @@ class FeeViewLevel extends JViewLegacy {
         }
         // If an existing item, can save to a copy.
         if (!$isNew && $canDo->get('core.create')) {
-            JToolBarHelper::custom('level.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+        //    JToolBarHelper::custom('level.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+            if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit')) {
+                JToolbarHelper::versions('com_fee.level', $this->item->id);
+            }
+            
         }
         if (empty($this->item->id)) {
             JToolBarHelper::cancel('level.cancel', 'JTOOLBAR_CANCEL');

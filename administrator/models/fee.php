@@ -22,7 +22,7 @@ class FeeModelFee extends JModelAdmin {
      * @since	1.6
      */
     protected $text_prefix = 'COM_FEE';
-
+    public $typeAlias = 'com_fee.fee';
     /**
      * Returns a reference to the a Table object, always creating it.
      *

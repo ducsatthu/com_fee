@@ -23,6 +23,7 @@ class FeeModelReceipt extends JModelAdmin {
      */
     protected $text_prefix = 'COM_FEE';
     protected $_tbl = "`#__fee_receipt`";
+    public $typeAlias = 'com_fee.receipt';
 
     /**
      * Returns a reference to the a Table object, always creating it.

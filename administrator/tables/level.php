@@ -24,6 +24,7 @@ class FeeTablelevel extends JTable
 	public function __construct(&$db)
 	{
 		parent::__construct('#__fee_level', 'id', $db);
+                JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_fee.level'));
 	}
 
 	/**

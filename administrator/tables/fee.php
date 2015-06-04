@@ -22,6 +22,7 @@ class FeeTablefee extends JTable {
      */
     public function __construct(&$db) {
         parent::__construct('#__fee_fee', 'id', $db);
+        JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_fee.fee'));
     }
 
     /**
