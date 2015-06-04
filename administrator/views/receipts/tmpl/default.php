@@ -121,6 +121,9 @@ $total = 0;
                             <?php echo JHtml::_('grid.sort', 'COM_FEE_RECEIPTS_TITLE', 'a.title', $listDirn, $listOrder); ?>
                         </th>
                         <th class='left'>
+                            <?php echo JHtml::_('grid.sort', 'COM_FEE_STUDENTS_TITLE', 'a.student_alias', $listDirn, $listOrder); ?>
+                        </th>
+                        <th class='left'>
                             <?php echo JHtml::_('grid.sort', 'COM_FEE_RECEIPTS_STUDENT_ALIAS', 'a.student_alias', $listDirn, $listOrder); ?>
                         </th>
                         <th class='left'>
@@ -203,6 +206,10 @@ $total = 0;
                             <td>
 
                                 <?php echo $item->title; ?>
+                            </td>
+                            <td>
+
+                                <?php echo $item->student_name; ?>
                             </td>
                             <td>
 

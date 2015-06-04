@@ -5,7 +5,7 @@
  * @package     com_fee
  * @copyright   Bản quyền (C) 2015. Các quyền đều được bảo vệ.
  * @license     bản quyền mã nguồn mở GNU phiên bản 2
- * @author      Linh <mr.lynk92@gmail.com> - http://
+ * @author      Tran Xuan Duc <ductranxuan.29710@gmail.com> - http://facebook.com/ducsatthuttd
  */
 defined('_JEXEC') or die;
 
@@ -124,7 +124,7 @@ class FeeModelReceipts extends JModelList {
         $query->select('created_by.name AS created_by');
         $query->join('LEFT', '#__users AS created_by ON created_by.id = a.created_by');
         // Join over the foreign key 'student_alias'
-        $query->select('#__fee_student_1887542.student_id AS students_alias_1887542');
+        $query->select('#__fee_student_1887542.student_id AS students_alias_1887542, #__fee_student_1887542.title AS students_title_1887542');
         $query->join('LEFT', '#__fee_student AS #__fee_student_1887542 ON #__fee_student_1887542.alias = a.student_alias');
         // Join over the foreign key 'semester_alias'
         $query->select('#__fee_semester_1887545.title AS semesters_title_1887545');
@@ -150,7 +150,7 @@ class FeeModelReceipts extends JModelList {
                 $query->where('a.id = ' . (int) substr($search, 3));
             } else {
                 $search = $db->Quote('%' . $db->escape($search, true) . '%');
-                $query->where('( a.title LIKE ' . $search . '  OR  #__fee_student_1887542.student_id  LIKE ' . $search . '  OR  #__fee_semester_1887545.title LIKE ' . $search . '  OR  #__fee_year_1887547.start LIKE ' . $search . '  OR  a.date LIKE ' . $search . '  OR  a.paid LIKE ' . $search . ' )');
+                $query->where('( #__fee_student_1887542.title LIKE ' . $search . '  OR a.title LIKE ' . $search . '  OR  #__fee_student_1887542.student_id  LIKE ' . $search . '  OR  #__fee_semester_1887545.title LIKE ' . $search . '  OR  #__fee_year_1887547.start LIKE ' . $search . '  OR  a.date LIKE ' . $search . '  OR  a.paid LIKE ' . $search . ' )');
             }
         }
 
@@ -198,13 +198,16 @@ class FeeModelReceipts extends JModelList {
                     $db = JFactory::getDbo();
                     $query = $db->getQuery(true);
                     $query
-                            ->select($db->quoteName('student_id'))
+                            ->select(array(
+                                $db->quoteName('student_id'), $db->quoteName('title')
+                            ))
                             ->from('`#__fee_student`')
                             ->where($db->quoteName('alias') . ' = ' . $db->quote($db->escape($value)));
                     $db->setQuery($query);
                     $results = $db->loadObject();
                     if ($results) {
                         $textValue[] = $results->student_id;
+                        $oneItem->student_name = $results->title;
                     }
                 }
 
