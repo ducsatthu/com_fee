@@ -66,6 +66,9 @@ class FeeViewStudent extends JViewLegacy {
         }
         // If an existing item, can save to a copy.
         if (!$isNew && $canDo->get('core.create')) {
+            if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit')) {
+                JToolbarHelper::versions('com_fee.student', $this->item->id);
+            }
            // JToolBarHelper::custom('student.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
         }
         if (empty($this->item->id)) {

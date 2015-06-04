@@ -21,6 +21,26 @@
                label="COM_FEE_DEPARTMENT_CODE"
                description="COM_FEE_DEPARTMENT_CODE_DESCRIPTION"
          />
+          
+          <field
+            name="save_history"
+            type="radio"
+            class="btn-group btn-group-yesno"
+            default="0"
+            label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
+            description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
+        >
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field
+            name="history_limit"
+            type="text"
+            filter="integer"
+            label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
+            description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
+            default="5"
+        />
     </fieldset>
     <fieldset 
         name="permissions"

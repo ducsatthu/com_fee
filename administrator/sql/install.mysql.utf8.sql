@@ -135,6 +135,13 @@ CREATE TABLE IF NOT EXISTS `#__fee_receipt` (
 PRIMARY KEY (`id`)
 ) DEFAULT COLLATE=utf8_general_ci;
 
+/** Support Content history 
+	fee_student
+**/
+INSERT INTO `#__content_types` (`type_title`, `type_alias`, `table`, `rules`, `field_mappings`, `router`, `content_history_options`) 
+SELECT 'student', 'com_fee.student', '{"special": {"dbtable": "#__fee_student","key": "id","type": "student","prefix":"FeeTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common": {"core_content_item_id":"id","core_title":"title","core_state":"state","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"introtext", "core_hits":"hits","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"attribs", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"urls", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "core_xreference":"xreference", "asset_id":"asset_id"},"special":{}}', 'FeeHelperRoute::getStudentRoute', '{"formFile":"administrator\\/components\\/com_fee\\/models\\/forms\\/student.xml", "hideFields": ["asset_id","checked_out","checked_out_time","access"], "ignoreChanges": [ "checked_out", "checked_out_time"],"convertToInt": [], "displayLookup": [{"sourceColumn":"department_alias","targetTable":"#__fee_department","targetColumn":"alias","displayColumn":"title"},{"sourceColumn":"course_alias","targetTable":"#__fee_course","targetColumn":"alias","displayColumn":"title"},{"sourceColumn":"level_alias","targetTable":"#__fee_level","targetColumn":"alias","displayColumn":"title"}]}'
+FROM DUAL
+WHERE NOT EXISTS (SELECT `type_alias` FROM `#__content_types` WHERE `type_alias`='com_fee.student');
 
 
 
