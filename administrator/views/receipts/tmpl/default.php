@@ -243,7 +243,7 @@ $total = 0;
                         <td colspan="7">
                         </td>
                         <td>
-                            <h6 class="text-info"> Tổng Nộp:</h6>
+                            <h6 class="text-info"><?php echo JText::_('COM_FEE_TOTAL_PAID'); ?></h6>
                         </td>
                         <td>
                             <h6> <?php echo number_format($total); ?></h6>

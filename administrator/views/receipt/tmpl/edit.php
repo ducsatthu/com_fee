@@ -70,6 +70,8 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
                     success: function (results) {
                         var parse = JSON.decode(results);
                         if (parse) {
+                            var totalOwed = 0;
+                            var totalPaid = 0
                             var tbody = '<tbody id="body-table">';
                             js.each(parse, function (k, v) {
                                 tbody += '<tr id="form_body_' + k + '">';
@@ -77,9 +79,20 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
                                 tbody += "<td>" + js('#jform_semester_alias option[value=' + v.semester_alias + ']').text() + "</td>";
                                 tbody += "<td>" + js('#jform_year_alias option[value=' + v.year_alias + ']').text() + "</td>";
                                 tbody += "<td>" + v.payable_rate + "</td>";
-                                tbody += "<td id='owed_" + k + "'>" + v.owed + "</td>";
+                                tbody += "<td>" + v.owed + "</td>";
                                 tbody += "</tr>";
+                                totalOwed += parseInt(v.owed);
+                                totalPaid += parseInt(v.payable_rate);
+
                             });
+                            console.log(totalOwed);
+                            tbody += '<tr class="info"><td  colspan="2"></td>';
+                            tbody += '<td><?php echo JText::_('COM_FEE_TOTAL'); ?></td>';
+
+                            tbody += '<td>' + totalPaid + '</td>';
+                            tbody += '<td>' + totalOwed + '</td>';
+                            tbody += "</tr>";
+                            tbody += "</tbody>";
                             tbody += "</tbody>";
 
                             js('#list-student').append(tbody);

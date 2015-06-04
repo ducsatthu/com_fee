@@ -255,7 +255,7 @@ $totalOwed = 0;
                         <td colspan="6">
                         </td>
                         <td>
-                            <h6 class="text-info"> Tổng:</h6>
+                            <h6 class="text-info"><?php echo JText::_('COM_FEE_TOTAL'); ?></h6>
                         </td>
                         <td>
                             <h6> <?php echo number_format($totalRate); ?></h6>
