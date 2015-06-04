@@ -244,6 +244,134 @@ class FeeViewReceipts extends JViewLegacy {
             JHtml::_('select.options', $options, "value", "text", $this->state->get('filter.year_alias')),
             true
         );
+        
+        //Filter for the field department_alias;
+        jimport('joomla.form.form');
+        $options = array();
+        JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
+        $form = JForm::getInstance('com_fee.student', 'student');
+
+        $field = $form->getField('department_alias');
+
+        $query = $form->getFieldAttribute('filter_department_alias','query');
+        $translate = $form->getFieldAttribute('filter_department_alias','translate');
+        $key = $form->getFieldAttribute('filter_department_alias','key_field');
+        $value = $form->getFieldAttribute('filter_department_alias','value_field');
+
+        // Get the database object.
+        $db = JFactory::getDBO();
+
+        // Set the query and get the result list.
+        $db->setQuery($query);
+        $items = $db->loadObjectlist();
+
+        // Build the field options.
+        if (!empty($items))
+        {
+            foreach ($items as $item)
+            {
+                if ($translate == true)
+                {
+                    $options[] = JHtml::_('select.option', $item->$key, JText::_($item->$value));
+                }
+                else
+                {
+                    $options[] = JHtml::_('select.option', $item->$key, $item->$value);
+                }
+            }
+        }
+
+        JHtmlSidebar::addFilter(
+            '$Đơn vị trực thuộc',
+            'filter_department_alias',
+            JHtml::_('select.options', $options, "value", "text", $this->state->get('filter.department_alias')),
+            true
+        );     
+        //Filter for the field course_alias;
+        jimport('joomla.form.form');
+        $options = array();
+        JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
+        $form = JForm::getInstance('com_fee.student', 'student');
+
+        $field = $form->getField('course_alias');
+
+        $query = $form->getFieldAttribute('filter_course_alias','query');
+        $translate = $form->getFieldAttribute('filter_course_alias','translate');
+        $key = $form->getFieldAttribute('filter_course_alias','key_field');
+        $value = $form->getFieldAttribute('filter_course_alias','value_field');
+
+        // Get the database object.
+        $db = JFactory::getDBO();
+
+        // Set the query and get the result list.
+        $db->setQuery($query);
+        $items = $db->loadObjectlist();
+
+        // Build the field options.
+        if (!empty($items))
+        {
+            foreach ($items as $item)
+            {
+                if ($translate == true)
+                {
+                    $options[] = JHtml::_('select.option', $item->$key, JText::_($item->$value));
+                }
+                else
+                {
+                    $options[] = JHtml::_('select.option', $item->$key, $item->$value);
+                }
+            }
+        }
+
+        JHtmlSidebar::addFilter(
+            '$Khóa',
+            'filter_course_alias',
+            JHtml::_('select.options', $options, "value", "text", $this->state->get('filter.course_alias')),
+            true
+        );  
+        
+        //Filter for the field level_alias;
+        jimport('joomla.form.form');
+        $options = array();
+        JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
+        $form = JForm::getInstance('com_fee.student', 'student');
+
+        $field = $form->getField('level_alias');
+
+        $query = $form->getFieldAttribute('filter_level_alias','query');
+        $translate = $form->getFieldAttribute('filter_level_alias','translate');
+        $key = $form->getFieldAttribute('filter_level_alias','key_field');
+        $value = $form->getFieldAttribute('filter_level_alias','value_field');
+
+        // Get the database object.
+        $db = JFactory::getDBO();
+
+        // Set the query and get the result list.
+        $db->setQuery($query);
+        $items = $db->loadObjectlist();
+
+        // Build the field options.
+        if (!empty($items))
+        {
+            foreach ($items as $item)
+            {
+                if ($translate == true)
+                {
+                    $options[] = JHtml::_('select.option', $item->$key, JText::_($item->$value));
+                }
+                else
+                {
+                    $options[] = JHtml::_('select.option', $item->$key, $item->$value);
+                }
+            }
+        }
+
+        JHtmlSidebar::addFilter(
+            '$Loại trình độ',
+            'filter_level_alias',
+            JHtml::_('select.options', $options, "value", "text", $this->state->get('filter.level_alias')),
+            true
+        );
     }
 
 	protected function getSortFields()
@@ -255,6 +383,9 @@ class FeeViewReceipts extends JViewLegacy {
 		'a.title' => JText::_('COM_FEE_RECEIPTS_TITLE'),
 		'a.student_alias' => JText::_('COM_FEE_RECEIPTS_STUDENT_ALIAS'),
 		'a.semester_alias' => JText::_('COM_FEE_RECEIPTS_SEMESTER_ALIAS'),
+                'a.department_alias' => JText::_('COM_FEE_STUDENTS_DEPARTMENT_ALIAS'),
+		'a.course_alias' => JText::_('COM_FEE_STUDENTS_COURSE_ALIAS'),
+		'a.level_alias' => JText::_('COM_FEE_STUDENTS_LEVEL_ALIAS'),
 		'a.year_alias' => JText::_('COM_FEE_RECEIPTS_YEAR_ALIAS'),
 		'a.date' => JText::_('COM_FEE_RECEIPTS_DATE'),
 		'a.paid' => JText::_('COM_FEE_RECEIPTS_PAID'),

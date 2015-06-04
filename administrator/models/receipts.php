@@ -37,6 +37,10 @@ class FeeModelReceipts extends JModelList {
                 'year_alias', 'a.year_alias',
                 'date', 'a.date',
                 'paid', 'a.paid',
+                
+                'department_alias', 'a.department_alias',
+                'course_alias', 'a.course_alias',
+                'level_alias', 'a.level_alias',
             );
         }
 
@@ -68,6 +72,15 @@ class FeeModelReceipts extends JModelList {
 
         //Filtering year_alias
         $this->setState('filter.year_alias', $app->getUserStateFromRequest($this->context . '.filter.year_alias', 'filter_year_alias', '', 'string'));
+        
+         //Filtering department_alias
+        $this->setState('filter.department_alias', $app->getUserStateFromRequest($this->context . '.filter.department_alias', 'filter_department_alias', '', 'string'));
+
+        //Filtering course_alias
+        $this->setState('filter.course_alias', $app->getUserStateFromRequest($this->context . '.filter.course_alias', 'filter_course_alias', '', 'string'));
+
+        //Filtering level_alias
+        $this->setState('filter.level_alias', $app->getUserStateFromRequest($this->context . '.filter.level_alias', 'filter_level_alias', '', 'string'));
 
 
         // Load the parameters.
@@ -133,6 +146,15 @@ class FeeModelReceipts extends JModelList {
         $query->select('#__fee_year_1887547.start AS years_title_1887547');
         $query->join('LEFT', '#__fee_year AS #__fee_year_1887547 ON #__fee_year_1887547.alias = a.year_alias');
 
+         // Join over the foreign key 'department_alias'
+        $query->select('#__fee_department_1886853.title AS department_title_1886853');
+        $query->join('LEFT', '#__fee_department AS #__fee_department_1886853 ON #__fee_department_1886853.alias = #__fee_student_1887542.department_alias');
+        // Join over the foreign key 'course_alias'
+        $query->select('#__fee_course_1886860.title AS course_title_1886860');
+        $query->join('LEFT', '#__fee_course AS #__fee_course_1886860 ON #__fee_course_1886860.alias = #__fee_student_1887542.course_alias');
+        // Join over the foreign key 'level_alias'
+        $query->select('#__fee_level_1886861.title AS level_title_1886861');
+        $query->join('LEFT', '#__fee_level AS #__fee_level_1886861 ON #__fee_level_1886861.alias = #__fee_student_1887542.level_alias');
 
 
         // Filter by published state
@@ -174,7 +196,29 @@ class FeeModelReceipts extends JModelList {
             $query->where("a.year_alias = '" . $db->escape($filter_year_alias) . "'");
         }
 
+         //Filtering department_alias
+        $filter_department_alias = $this->state->get("filter.department_alias");
+        if ($filter_department_alias) {
+            $allDepartment = $this->getAllDepartment($filter_department_alias);
+            if ($allDepartment) {
+                $query->where("#__fee_student_1887542.department_alias IN ('" . implode("','", $allDepartment) . "')");
+            } else {
+                $query->where("#__fee_student_1887542.department_alias = '" . $db->escape($filter_department_alias) . "'");
+            }
+        }
 
+        //Filtering course_alias
+        $filter_course_alias = $this->state->get("filter.course_alias");
+        if ($filter_course_alias) {
+            $query->where("#__fee_student_1887542.course_alias = '" . $db->escape($filter_course_alias) . "'");
+        }
+
+        //Filtering level_alias
+        $filter_level_alias = $this->state->get("filter.level_alias");
+        if ($filter_level_alias) {
+            $query->where("#__fee_student_1887542.level_alias = '" . $db->escape($filter_level_alias) . "'");
+        }
+        
         // Add the list ordering clause.
         $orderCol = $this->state->get('list.ordering');
         $orderDirn = $this->state->get('list.direction');
@@ -183,6 +227,51 @@ class FeeModelReceipts extends JModelList {
         }
 
         return $query;
+    }
+    
+    public function getAllDepartment($filter_department_alias) {
+        if ($filter_department_alias) {
+            $db = $this->getDbo();
+            $query = $db->getQuery(true);
+            $query1 = $db->getQuery(true);
+            $query2 = $db->getQuery(true);
+            $query3 = $db->getQuery(true);
+            $query4 = $db->getQuery(true);
+
+            $query
+                    ->select($db->quoteName('alias'))
+                    ->from('`#__fee_department`')
+                    ->where($db->quoteName('department_alias') . ' = ' . $db->quote($db->escape($filter_department_alias)));
+            $query1
+                    ->select($db->quoteName('alias'))
+                    ->from('`#__fee_department`')
+                    ->where($db->quoteName('department_alias') . ' IN (' . $query .')');
+            $query2
+                    ->select($db->quoteName('alias'))
+                    ->from('`#__fee_department`')
+                    ->where($db->quoteName('department_alias') . ' IN (' . $query1 .')');
+            $query3
+                    ->select($db->quoteName('alias'))
+                    ->from('`#__fee_department`')
+                    ->where($db->quoteName('department_alias') . ' IN (' . $query2 .')');
+            
+            $query4
+                    ->select($db->quoteName('alias'))
+                    ->from('`#__fee_department`')
+                    ->where($db->quoteName('alias') . ' = ' . $db->quote($db->escape($filter_department_alias)));
+            
+            $query->union($query1)->union($query2)->union($query3)->union($query4);
+            
+            $db->setQuery($query);
+            $results = $db->loadColumn();
+            
+            if($results){
+                
+                return $results;
+            }
+            return FALSE;
+        }
+        return FALSE;
     }
 
     public function getItems() {
@@ -199,7 +288,7 @@ class FeeModelReceipts extends JModelList {
                     $query = $db->getQuery(true);
                     $query
                             ->select(array(
-                                $db->quoteName('student_id'), $db->quoteName('title')
+                                $db->quoteName('student_id'),$db->quoteName('title')
                             ))
                             ->from('`#__fee_student`')
                             ->where($db->quoteName('alias') . ' = ' . $db->quote($db->escape($value)));
