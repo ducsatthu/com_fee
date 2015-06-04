@@ -54,7 +54,20 @@
                onchange="this.form.submit();" translate="true"
                query="SELECT 0 AS `alias`, 'COM_FEE_FEES_YEAR_ALIAS_FILTER_DEFAULT_OPTION' AS `val` UNION SELECT `alias`, CONCAT(CAST(`start` AS CHAR), ' - ',CAST(`end` AS CHAR))  AS val FROM `#__fee_year`" key_field="alias" value_field="val"
         /> 
-
+        
+        <field name="filter_department_alias" type="sql" class="inputbox"
+               onchange="this.form.submit();" translate="true"
+               query="SELECT 0 AS `alias`, 'COM_FEE_DEPARTMENTS_DEPARTMENT_ALIAS_FILTER_DEFAULT_OPTION' AS `val` UNION SELECT `alias`, `title` AS val FROM `#__fee_department`" key_field="alias" value_field="val"
+        /> 
+        <field name="filter_course_alias" type="sql" class="inputbox"
+               onchange="this.form.submit();" translate="true"
+               query="SELECT 0 AS `alias`, 'COM_FEE_STUDENTS_COURSE_ALIAS_FILTER_DEFAULT_OPTION' AS `val` UNION SELECT `alias`, `title` AS val FROM `#__fee_course`" key_field="alias" value_field="val"
+        /> 
+        <field name="filter_level_alias" type="sql" class="inputbox"
+               onchange="this.form.submit();" translate="true"
+               query="SELECT 0 AS `alias`, 'COM_FEE_STUDENTS_LEVEL_ALIAS_FILTER_DEFAULT_OPTION' AS `val` UNION SELECT `alias`, `title` AS val FROM `#__fee_level`" key_field="alias" value_field="val"
+        /> 
+        
         <field name="rate" type="text" size="40" class="inputbox"
                                                     
                label="COM_FEE_FORM_LBL_FEE_RATE"
