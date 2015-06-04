@@ -5,7 +5,7 @@
  * @package     com_fee
  * @copyright   Bản quyền (C) 2015. Các quyền đều được bảo vệ.
  * @license     bản quyền mã nguồn mở GNU phiên bản 2
- * @author      Tran Xuan Duc <ductranxuan.29710@gmail.com> - http://facebook.com/ducsatthuttd
+ * @author      Linh <mr.lynk92@gmail.com> - http://
  */
 // No direct access
 defined('_JEXEC') or die;
@@ -317,6 +317,19 @@ class FeeViewFees extends JViewLegacy {
 
         JHtmlSidebar::addFilter(
                 '$Loại trình độ', 'filter_level_alias', JHtml::_('select.options', $options, "value", "text", $this->state->get('filter.level_alias')), true
+        );
+
+        //Filter for the field special
+        $select_label = JText::sprintf('COM_FEE_FILTER_SELECT_LABEL', 'Miễn giảm');
+        $options = array();
+        $options[0] = new stdClass();
+        $options[0]->value = "1";
+        $options[0]->text = "Không Miễn giảm";
+        $options[1] = new stdClass();
+        $options[1]->value = "2";
+        $options[1]->text = "Miễn giảm";
+        JHtmlSidebar::addFilter(
+                $select_label, 'filter_rate', JHtml::_('select.options', $options, "value", "text", $this->state->get('filter.rate'), true)
         );
     }
 

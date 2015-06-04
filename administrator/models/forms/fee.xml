@@ -76,6 +76,12 @@
                                                     
                                                     
                filter="safehtml" /> 
+        
+        <field name="filter_rate" type="list" onchange="this.form.submit();">
+            <option value="">COM_FEE_FORM_LBL_FEE_RATE</option>
+            <option value="1">Miễn giảm</option>
+            <option value="2">Không miễn giảm</option>
+        </field> 
 
         <field name="payable" type="text" size="40" class="inputbox"
                                                     

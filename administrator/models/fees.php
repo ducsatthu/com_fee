@@ -82,6 +82,8 @@ class FeeModelFees extends JModelList {
         //Filtering level_alias
         $this->setState('filter.level_alias', $app->getUserStateFromRequest($this->context . '.filter.level_alias', 'filter_level_alias', '', 'string'));
 
+        //Filtering rate
+        $this->setState('filter.rate', $app->getUserStateFromRequest($this->context . '.filter.rate', 'filter_rate', '', 'string'));
 
         // Load the parameters.
         $params = JComponentHelper::getParams('com_fee');
@@ -220,6 +222,15 @@ class FeeModelFees extends JModelList {
             $query->where("#__fee_student_1887487.level_alias = '" . $db->escape($filter_level_alias) . "'");
         }
 
+        //Filtering special
+        $filter_rate = $this->state->get("filter.rate");
+        if ($filter_rate) {
+            if ((int) $filter_rate === 2) {
+                $query->where("a.rate > 0");
+            } else {
+                $query->where("a.rate = 0");
+            }
+        }
         // Add the list ordering clause.
         $orderCol = $this->state->get('list.ordering');
         $orderDirn = $this->state->get('list.direction');
