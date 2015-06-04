@@ -16,6 +16,11 @@
                label="COM_FEE_DEPARTMENT"
                description="COM_FEE_DEPARTMENT_DESCRIPTION"
          />
+          <field name="department_code" type="text" 
+               default="Mã đơn vị SDNS : 1055493" 
+               label="COM_FEE_DEPARTMENT_CODE"
+               description="COM_FEE_DEPARTMENT_CODE_DESCRIPTION"
+         />
     </fieldset>
     <fieldset 
         name="permissions"
