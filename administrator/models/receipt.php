@@ -99,7 +99,101 @@ class FeeModelReceipt extends JModelAdmin {
 
         return $item;
     }
+    
+    public function getItemPrint($pk = null) {
+        if ($item = parent::getItem($pk)) {
 
+            //get student info
+            if ($item->student_alias) {
+                $db = JFactory::getDbo();
+
+                $query = $db->getQuery(true);
+
+                $query
+                        ->select(array(
+                            '`#__fee_student`.`title` AS title', '`#__fee_student`.`student_id`'
+                        ))
+                        ->from('`#__fee_student`')
+                        //join department
+                        ->select('`#__fee_department`.`title` AS department')
+                        ->join('LEFT', '`#__fee_department` ON `#__fee_student`.`department_alias` = `#__fee_department`.`alias`  ')
+                        //join course
+                        ->select('`#__fee_course`.`title` AS course')
+                        ->join('LEFT', '`#__fee_course` ON `#__fee_student`.`course_alias` = `#__fee_course`.`alias`  ')
+                        ->where('`#__fee_student`.`alias` = ' . $db->quote($item->student_alias));
+
+                $db->setQuery($query);
+
+                $student = $db->loadObject();
+                if (!$student) {
+                    $this->setError(JText::_("COM_FEE_ERROR_STUDENT_DO_NOT_EXITS"));
+                    return false;
+                }
+                $item->student_name = $student->title;
+                $item->student_id = $student->student_id;
+                $item->department = $student->department;
+                $item->course = $student->course;
+            }
+
+            //get semester to roman
+            if ($item->semester_alias) {
+                $db = JFactory::getDbo();
+
+                $query = $db->getQuery(true);
+
+                $query
+                        ->select('`title`')
+                        ->from('`#__fee_semester`')
+                        ->where('`alias` = ' . $db->quote($item->semester_alias));
+
+                $db->setQuery($query);
+
+                $semester_title = $db->loadResult();
+
+                if (!$semester_title) {
+                    $this->setError(JText::_("COM_FEE_ERROR_SEMESTER_DO_NOT_EXITS"));
+                    return false;
+                }
+                $item->semester_title = ((int) $semester_title > 0) ? $this->number2roman((int) $semester_title) : $semester_title;
+            }
+            //get year 
+            if ($item->year_alias) {
+                $db = JFactory::getDbo();
+
+                $query = $db->getQuery(true);
+
+                $query
+                        ->select("CONCAT(CAST(`start` AS CHAR), ' - ',CAST(`end` AS CHAR)) AS start")
+                        ->from('`#__fee_year`')
+                        ->where('`alias` = ' . $db->quote($item->year_alias));
+
+                $db->setQuery($query);
+
+                $year = $db->loadResult();
+                
+               
+                if (!$year) {
+                    $this->setError(JText::_("COM_FEE_ERROR_YEAR_DO_NOT_EXITS"));
+                    return false;
+                }
+                $item->year_title = $year;
+                
+            }
+           
+            $date = new DateTime($item->date);
+            $item->day = date_format($date, 'd');
+            $item->month = date_format($date, 'm');
+            $item->year = date_format($date, 'Y');
+            
+            if (!$this->convert_number_to_words((int) $item->paid)) {
+                $this->setError(JText::_("COM_FEE_ERROR_CONVER_NUMBER_TO_ROMAN"));
+                return false;
+            }
+            $item->paidString = $this->convert_number_to_words((int) $item->paid);
+             
+        }
+        return $item;
+    }
     /**
      * Prepare and sanitise the table prior to saving.
      *

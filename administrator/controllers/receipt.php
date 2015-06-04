@@ -22,5 +22,10 @@ class FeeControllerReceipt extends JControllerForm
         $this->view_list = 'receipts';
         parent::__construct();
     }
-
+    
+    function prints(){
+        $id = $this->input->getArray()['jform']['id'];
+        
+        $this->setRedirect('index.php?option=com_fee&view=receipt&format=print&layout=print&id='.$id,false); 
+    }
 }
