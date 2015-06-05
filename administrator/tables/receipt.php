@@ -22,7 +22,6 @@ class FeeTablereceipt extends JTable {
      */
     public function __construct(&$db) {
         parent::__construct('#__fee_receipt', 'id', $db);
-        JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_fee.receipt'));
     }
 
     /**
@@ -179,6 +178,27 @@ class FeeTablereceipt extends JTable {
         //If there is an ordering column and this is a new row then get the next ordering value
         if (property_exists($this, 'ordering') && $this->id == 0) {
             $this->ordering = self::getNextOrder();
+        }
+
+        if (!$this->student_alias || !$this->semester_alias || !$this->year_alias) {
+            return FALSE;
+        }
+
+        $query = $this->_db->getQuery(true);
+
+        $query
+                ->select('`id`')
+                ->from('`#__fee_fee`')
+                ->where('`student_alias` = ' . $this->_db->quote($this->_db->escape($this->student_alias)))
+                ->where('`semester_alias` = ' . $this->_db->quote($this->_db->escape($this->semester_alias)))
+                ->where('`year_alias` = ' . $this->_db->quote($this->_db->escape($this->year_alias)));
+        $this->_db->setQuery($query);
+
+        $results = $this->_db->loadResult();
+
+        if (!$results) {
+            $this->setError(JText::_('COM_FEE_RECEIPT_ERROR_NOT_EXITS_FEE'));
+            return FALSE;
         }
 
         return parent::check();
