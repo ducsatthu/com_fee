@@ -19,7 +19,7 @@
                 font-size: 12pt;
                 background: #e6e6e6;
                 margin-left: 20%;
-                
+
                 margin-right: 20%;
             }
             .page{
@@ -94,9 +94,9 @@
                 <table align="center">
                     <tr>
                         <td align="center">
-                            <h6 style="text-transform: uppercase;"><?php echo JComponentHelper::getParams('com_fee')->get('name_school'); ?></h6>
-                            <p style="font-size: 10pt;"><?php echo JComponentHelper::getParams('com_fee')->get('address'); ?></p>
-                            <p style="font-size: 10pt;"><?php echo JComponentHelper::getParams('com_fee')->get('department_code'); ?></p>
+                            <h6 style="text-transform: uppercase;"><?php echo JComponentHelper::getParams('com_fee')->get('name_school', 'Trường Đại học Mỏ - Địa chất'); ?></h6>
+                            <p style="font-size: 10pt;"><?php echo JComponentHelper::getParams('com_fee')->get('address', 'Đức Thằng Bắc Từ Liêm Hà Nội'); ?></p>
+                            <p style="font-size: 10pt;"><?php echo JComponentHelper::getParams('com_fee')->get('department_code', 'Mã đơn vị SDNS : 1055493'); ?></p>
                         </td>
                         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                         <td align="center">
@@ -177,9 +177,9 @@
                                 <table align="center">
                                     <tr>
                                         <td align="center">
-                                            <h6 style="text-transform: uppercase;"><?php echo JComponentHelper::getParams('com_fee')->get('name_school'); ?></h6>
-                                            <p style="font-size: 10pt;"><?php echo JComponentHelper::getParams('com_fee')->get('address'); ?></p>
-                                            <p style="font-size: 10pt;"><?php echo JComponentHelper::getParams('com_fee')->get('department_code'); ?></p>
+                                            <h6 style="text-transform: uppercase;"><?php echo JComponentHelper::getParams('com_fee')->get('name_school', 'Trường Đại học Mỏ - Địa chất'); ?></h6>
+                                            <p style="font-size: 10pt;"><?php echo JComponentHelper::getParams('com_fee')->get('address', 'Đức Thằng Bắc Từ Liêm Hà Nội'); ?></p>
+                                            <p style="font-size: 10pt;"><?php echo JComponentHelper::getParams('com_fee')->get('department_code', 'Mã đơn vị SDNS : 1055493'); ?></p>
                                         </td>
                                         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                         <td align="center">
