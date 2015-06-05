@@ -1,12 +1,12 @@
 <?php
+
 /**
  * @version     1.0.0
  * @package     com_fee
  * @copyright   Bản quyền (C) 2015. Các quyền đều được bảo vệ.
  * @license     bản quyền mã nguồn mở GNU phiên bản 2
- * @author      Linh <mr.lynk92@gmail.com> - http://
+ * @author      Tran Xuan Duc <ductranxuan.29710@gmail.com> - http://facebook.com/ducsatthuttd
  */
-
 // No direct access.
 defined('_JEXEC') or die;
 
@@ -15,52 +15,57 @@ jimport('joomla.application.component.controlleradmin');
 /**
  * Receipts list controller class.
  */
-class FeeControllerReceipts extends JControllerAdmin
-{
-	/**
-	 * Proxy for getModel.
-	 * @since	1.6
-	 */
-	public function getModel($name = 'receipt', $prefix = 'FeeModel', $config = array())
-	{
-		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
-		return $model;
-	}
-    
-    
-	/**
-	 * Method to save the submitted ordering values for records via AJAX.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public function saveOrderAjax()
-	{
-		// Get the input
-		$input = JFactory::getApplication()->input;
-		$pks = $input->post->get('cid', array(), 'array');
-		$order = $input->post->get('order', array(), 'array');
+class FeeControllerReceipts extends JControllerAdmin {
 
-		// Sanitize the input
-		JArrayHelper::toInteger($pks);
-		JArrayHelper::toInteger($order);
+    /**
+     * Proxy for getModel.
+     * @since	1.6
+     */
+    public function getModel($name = 'receipt', $prefix = 'FeeModel', $config = array()) {
+        $model = parent::getModel($name, $prefix, array('ignore_request' => true));
+        return $model;
+    }
 
-		// Get the model
-		$model = $this->getModel();
+    /**
+     * Method to save the submitted ordering values for records via AJAX.
+     *
+     * @return  void
+     *
+     * @since   3.0
+     */
+    public function saveOrderAjax() {
+        // Get the input
+        $input = JFactory::getApplication()->input;
+        $pks = $input->post->get('cid', array(), 'array');
+        $order = $input->post->get('order', array(), 'array');
 
-		// Save the ordering
-		$return = $model->saveorder($pks, $order);
+        // Sanitize the input
+        JArrayHelper::toInteger($pks);
+        JArrayHelper::toInteger($order);
 
-		if ($return)
-		{
-			echo "1";
-		}
+        // Get the model
+        $model = $this->getModel();
 
-		// Close the application
-		JFactory::getApplication()->close();
-	}
-    
-    
-    
+        // Save the ordering
+        $return = $model->saveorder($pks, $order);
+
+        if ($return) {
+            echo "1";
+        }
+
+        // Close the application
+        JFactory::getApplication()->close();
+    }
+
+    public function prints() {
+        $config = $this->input->getArray();
+        if (!$config['filter_year_alias'] || !$config['filter_level_alias']) {
+            echo "<script>alert('chọn năm học + Loại trình độ');</script>";
+            echo "<script>window.history.back()</script>";
+            return 0;
+        }
+
+        $this->setRedirect('index.php?option=com_fee&view=receipts&format=prints&layout=prints', true);
+    }
+
 }
