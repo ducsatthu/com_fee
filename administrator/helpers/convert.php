@@ -35,7 +35,7 @@ class FeeHelperConvert {
                 if ((int) $cutN[$i] !== 0) {
                     
                         $string .= self::dictionaryNumberVNAll($cutN[$i]) . self::dictionaryNumberVN($i);
-                    if((int)$cutN[$i-1] < 100 && ($i+1)<=count($cutN) && ($i-1)!=0){
+                    if(@(int)$cutN[$i-1] < 100 && @($i+1)<=count($cutN) && @($i-1)!=0){
                         $string .= ' Không trăm ';
                     }
                 }
