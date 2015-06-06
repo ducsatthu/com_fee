@@ -33,10 +33,12 @@ class FeeHelperConvert {
             $cutN = self::cutStringnumber($number);
             for ($i = count($cutN) - 1; $i >= 0; $i--) {
                 if ((int) $cutN[$i] !== 0) {
-                    
-                        $string .= self::dictionaryNumberVNAll($cutN[$i]) . self::dictionaryNumberVN($i);
-                    if(@(int)$cutN[$i-1] < 100 && @($i+1)<=count($cutN) && @($i-1)!=0){
+                    $string .= self::dictionaryNumberVNAll($cutN[$i]) . self::dictionaryNumberVN($i);
+                    if (@(int) $cutN[$i - 1] < 100 && @($i + 1) <= count($cutN) && @($i - 1) != 0) {
                         $string .= ' Không trăm ';
+                    }
+                    if (@(int) $cutN[$i - 1] < 10 && @($i + 1) <= count($cutN) && @($i - 1) != 0) {
+                        $string .= ' lẻ ';
                     }
                 }
             }
@@ -179,7 +181,7 @@ class FeeHelperConvert {
                 $remainder = $number % 100;
 
                 $string = $dictionary[$hundreds] . ' ' . $dictionary[100];
-                
+
                 if ($remainder) {
                     if ($remainder < 10) {
                         $string .= $conjunction . 'lẻ ' . self::dictionaryNumberVNAll($remainder);
