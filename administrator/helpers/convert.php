@@ -93,7 +93,7 @@ class FeeHelperConvert {
     }
 
     /**
-     * lever number to word Vietnameses
+     * level number to word Vietnameses
      * 
      * @param type $n
      * @return string
