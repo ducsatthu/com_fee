@@ -15,12 +15,105 @@ defined('_JEXEC') or die;
  */
 class FeeHelperConvert {
 
+    /**
+     * convert number to words vietnamese 
+     * 
+     * @param type $number
+     * @return boolean|int
+     */
     public static function convert_number_to_words($number) {
 
+        if (is_numeric($number)) {
+            $number = (string) $number;
+            $cutN = self::cutStringnumber($number);
+            $string = '';
+            for ($i = count($cutN) - 1; $i >= 0; $i--) {
+                if ((int) $cutN[$i] !== 0) {
+                    $string .= self::dictionaryNumberVNAll($cutN[$i]) . self::dictionaryNumberVN($i);
+                }
+            }
+            return $string;
+        }
+        return 0;
+    }
+
+    /**
+     * Cut number string to number array 
+     * 
+     * @param type $string
+     * @return string
+     */
+    public static function cutStringnumber($string) {
+        $level = 0;
+        while ($len = self::getval($string)) {
+            // get partial number from 0 to 999
+            $string_partial = substr($string, (strlen($string) - $len));
+            // get hundreds
+            $hund = ($string_partial - ($string_partial % 100)) / 100;
+            // get tens
+            $tens = $string_partial - ($hund * 100);
+            $tens = ($tens - ($tens % 10)) / 10;
+            // get ones
+            $ones = $string_partial - ($tens * 10) - ($hund * 100);
+            // remove partial_string form original string             
+            $string = substr($string, 0, (strlen($string) - $len));
+            // edbug echoing
+            // you need to create a function that convert number to text only from 0 to 999 to set correct million/thousand etc, use $level.
+            //$text = getTextvalue($hund,$tens,$ones,$level).$text;
+            //increment $level
+            $arrayNumberCut[$level] = $hund . $tens . $ones;
+
+            $level++;
+        }
+        return $arrayNumberCut;
+    }
+
+    /**
+     * Get Lenght number to cut
+     * 
+     * @param type $n
+     * @return boolean|int
+     */
+    public static function getval($n) {
+        switch (strlen($n)) {
+            case 0: return false;
+            case 1: return 1;
+            case 2: return 2;
+            case 3: return 3;
+            default: return 3;
+        }
+    }
+
+    /**
+     * lever number to word Vietnameses
+     * 
+     * @param type $n
+     * @return string
+     */
+    public static function dictionaryNumberVN($n) {
+        $dictionary = array(
+            0 => ' ',
+            1 => ' ngàn ',
+            2 => ' triệu ',
+            3 => ' tỷ ',
+            4 => ' ngàn tỷ ',
+            5 => ' ngàn ngàn tỷ '
+        );
+        return $dictionary[$n];
+    }
+
+    /**
+     * Convert number int < 999 
+     * 
+     * @param type $number
+     * @return string
+     */
+    public static function dictionaryNumberVNAll($number) {
+        $number = (int) $number;
         $hyphen = ' ';
         $conjunction = '  ';
         $separator = ' ';
-        $negative = 'âm ';
+        $negative = 'Âm ';
         $decimal = ' phẩy ';
         $dictionary = array(
             0 => 'Không',
@@ -38,7 +131,7 @@ class FeeHelperConvert {
             12 => 'Mười hai',
             13 => 'Mười ba',
             14 => 'Mười bốn',
-            15 => 'Mười năm',
+            15 => 'Mười lăm',
             16 => 'Mười sáu',
             17 => 'Mười bảy',
             18 => 'Mười tám',
@@ -52,37 +145,15 @@ class FeeHelperConvert {
             80 => 'Tám mươi',
             90 => 'Chín mươi',
             100 => 'trăm',
-            1000 => 'ngàn',
-            1000000 => 'triệu',
-            1000000000 => 'tỷ',
-            1000000000000 => 'nghìn tỷ',
-            1000000000000000 => 'ngàn triệu triệu',
-            1000000000000000000 => 'tỷ tỷ'
+            1000 => 'ngàn'
         );
-
-        if (!is_numeric($number)) {
-            return false;
-        }
-
-        if (($number >= 0 && (int) $number < 0) || (int) $number < 0 - PHP_INT_MAX) {
-// overflow
-            trigger_error(
-                    'convert_number_to_words only accepts numbers between -' . PHP_INT_MAX . ' and ' . PHP_INT_MAX, E_USER_WARNING
-            );
-            return false;
-        }
-
         if ($number < 0) {
-            return $negative . self::convert_number_to_words(abs($number));
+            return $negative . self::dictionaryNumberVNAll(abs($number));
         }
-
-        $string = $fraction = null;
-
-        if (strpos($number, '.') !== false) {
-            list($number, $fraction) = explode('.', $number);
-        }
-
         switch (true) {
+            //      case $number < 10;
+            //           $string = 'lẻ ' . $dictionary[$number];
+            //          break;
             case $number < 21:
                 $string = $dictionary[$number];
                 break;
@@ -99,30 +170,14 @@ class FeeHelperConvert {
                 $remainder = $number % 100;
                 $string = $dictionary[$hundreds] . ' ' . $dictionary[100];
                 if ($remainder) {
-                    $string .= $conjunction . self::convert_number_to_words($remainder);
-                }
-                break;
-            default:
-                $baseUnit = pow(1000, floor(log($number, 1000)));
-                $numBaseUnits = (int) ($number / $baseUnit);
-                $remainder = $number % $baseUnit;
-                $string = self::convert_number_to_words($numBaseUnits) . ' ' . $dictionary[$baseUnit];
-                if ($remainder) {
-                    $string .= $remainder < 100 ? $conjunction : $separator;
-                    $string .= self::convert_number_to_words($remainder);
+                    if ($remainder < 10) {
+                        $string .= $conjunction . 'lẻ ' . self::dictionaryNumberVNAll($remainder);
+                    } else {
+                        $string .= $conjunction . self::dictionaryNumberVNAll($remainder);
+                    }
                 }
                 break;
         }
-
-        if (null !== $fraction && is_numeric($fraction)) {
-            $string .= $decimal;
-            $words = array();
-            foreach (str_split((string) $fraction) as $number) {
-                $words[] = $dictionary[$number];
-            }
-            $string .= implode(' ', $words);
-        }
-
         return $string;
     }
 
@@ -169,7 +224,9 @@ class FeeHelperConvert {
         $n = intval($num);
         $res = '';
 
-        /*         * * roman_numerals array ** */
+        /** 
+         *  roman_numerals array 
+         */
         $roman_numerals = array(
             'M' => 1000,
             'CM' => 900,
