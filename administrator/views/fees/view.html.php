@@ -5,7 +5,7 @@
  * @package     com_fee
  * @copyright   Bản quyền (C) 2015. Các quyền đều được bảo vệ.
  * @license     bản quyền mã nguồn mở GNU phiên bản 2
- * @author      Linh <mr.lynk92@gmail.com> - http://
+ * @author      Tran Xuan Duc <ductranxuan.29710@gmail.com> - http://facebook.com/ducsatthuttd
  */
 // No direct access
 defined('_JEXEC') or die;
@@ -61,6 +61,9 @@ class FeeViewFees extends JViewLegacy {
 
             if ($canDo->get('core.create')) {
                 JToolBarHelper::addNew('fee.add', 'JTOOLBAR_NEW');
+                if ($canDo->get('core.edit')) {
+                    JToolBarHelper::custom('fees.printsOwed', 'print.png', 'print.png', 'COM_FEE_PRINTS_OWED_FEE', false);
+                }
             }
 
             if ($canDo->get('core.edit') && isset($this->items[0])) {
