@@ -24,12 +24,20 @@ class FeeHelperConvert {
     public static function convert_number_to_words($number) {
 
         if (is_numeric($number)) {
+            $string = '';
+            if ($number < 0) {
+                $number = abs($number);
+                $string = 'Âm ';
+            }
             $number = (string) $number;
             $cutN = self::cutStringnumber($number);
-            $string = '';
             for ($i = count($cutN) - 1; $i >= 0; $i--) {
                 if ((int) $cutN[$i] !== 0) {
-                    $string .= self::dictionaryNumberVNAll($cutN[$i]) . self::dictionaryNumberVN($i);
+                    
+                        $string .= self::dictionaryNumberVNAll($cutN[$i]) . self::dictionaryNumberVN($i);
+                    if((int)$cutN[$i-1] < 100 && ($i+1)<=count($cutN) && ($i-1)!=0){
+                        $string .= ' Không trăm ';
+                    }
                 }
             }
             return $string;
@@ -96,8 +104,9 @@ class FeeHelperConvert {
             1 => ' ngàn ',
             2 => ' triệu ',
             3 => ' tỷ ',
-            4 => ' ngàn tỷ ',
-            5 => ' ngàn ngàn tỷ '
+            4 => ' ngàn ',
+            5 => ' triệu ',
+            6 => ' tỷ ',
         );
         return $dictionary[$n];
     }
@@ -168,7 +177,9 @@ class FeeHelperConvert {
             case $number < 1000:
                 $hundreds = $number / 100;
                 $remainder = $number % 100;
+
                 $string = $dictionary[$hundreds] . ' ' . $dictionary[100];
+                
                 if ($remainder) {
                     if ($remainder < 10) {
                         $string .= $conjunction . 'lẻ ' . self::dictionaryNumberVNAll($remainder);
@@ -224,7 +235,7 @@ class FeeHelperConvert {
         $n = intval($num);
         $res = '';
 
-        /** 
+        /**
          *  roman_numerals array 
          */
         $roman_numerals = array(
