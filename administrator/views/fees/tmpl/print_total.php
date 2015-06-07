@@ -127,7 +127,7 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
                 border:1px solid black;
             }
         </style>
-         <script>
+        <script>
             window.print();
         </script>
 
@@ -177,59 +177,66 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
                 </tr>
                 <?php
                 $i = 1;
-                $total_hundpercent =0;
+                $total_hundpercent = 0;
                 $total_decrease = 0;
-                $total_free=0;
-                $total_all_student = 0;
+                $total_free = 0;
                 $total_owed_ago = 0;
                 $total_payable = 0;
-                $total_total =0;
-                $total_paid =0;
-                $total_owed = 0;
+                $total_total = 0;
+                $total_paid = 0;
+                $total_oweds = 0;
                 foreach ($this->items as $item) {
                     ?>
                     <tr>
                         <td align="center"><?php echo $i++ ?></td>
                         <td><?php echo $item->title ?></td>
                         <td align="center"><?php echo $this->info->course; ?></td>
-                        <td align="center"><?php 
-                            echo number_format($item->hundpercent, '0', ' ', ' '); 
+                        <td align="center"><?php
+                            echo number_format($item->hundpercent, '0', ' ', ' ');
                             $total_hundpercent += $item->hundpercent;
-                        ?></td>
-                        <td align="center"><?php 
+                            ?></td>
+                        <td align="center"><?php
                             echo number_format($item->decrease, '0', ' ', ' ');
                             $total_decrease += $item->decrease;
-                        ?></td>
-                        <td align="center"><?php 
-                            echo number_format($item->free, '0', ' ', ' '); 
-                             $total_free += $item->free;
-                        ?></td>
-                        <td align="center"><?php 
-                            echo number_format($item->hundpercent + $item->decrease + $item->free, '0', ' ', ' '); 
-                            $total_all_student += $item->hundpercent + $item->decrease + $item->free;
-                        ?></td>
-                        <td align="center"><?php 
-                            echo number_format($item->totalOwed, '0', ' ', ' '); 
-                            $total_owed_ago += $item->totalOwed;
                             ?></td>
-                        <td align="right"><?php 
-                            echo number_format($item->pay, '0', ' ', ' '); 
-                            $total_payable += $item->pay;
-                        ?></td>
-                        <td align="right"><?php 
-                            echo number_format($item->pay + $item->totalOwed, '0', ' ', ' '); 
-                            $total_total += $item->pay + $item->totalOwed;
-                        ?></td>
-                        <td align="right"><?php 
-                            echo number_format($item->paid, '0', ' ', ' ');
-                            $total_paid += $item->paid;
-                        ?></td>
+                        <td align="center"><?php
+                            echo number_format($item->free, '0', ' ', ' ');
+                            $total_free += $item->free;
+                            ?></td>
+                        <td align="center"><?php
+                            echo number_format($item->hundpercent + $item->decrease + $item->free, '0', ' ', ' ');
+                            ?></td>
+                        <td align="right"><?php
+                        echo number_format($item->totalOwed, '0', ' ', ' ');
+                        $total_owed_ago += $item->totalOwed;
+                            ?></td>
+                        <td align="right"><?php
+                        echo number_format($item->pay, '0', ' ', ' ');
+                        $total_payable += $item->pay;
+                            ?></td>
+                        <td align="right"><?php
+                        #quan tam cai nay thuc tổng nợ
+                        echo number_format($item->pay + $item->totalOwed, '0', ' ', ' ');
+                        $totalOwedNow = $item->pay + $item->totalOwed;
+                        $total_total += $item->pay + $item->totalOwed;
+                            ?></td>
+                        <td align="right"><?php
+                        echo number_format($item->paid, '0', ' ', ' ');
+                        $total_paid += $item->paid;
+                            ?></td>
                         <td align="right"> </td>
-                        <td align="right"><?php 
-                            echo number_format($item->paid, '0', ' ', ' '); 
-                            $total_paid += $item->paid;
-                            ?></td>
-                        <td align="right"></td>
+                        <td align="right"><?php
+                        #quan tam cai nay thuc thu
+                        echo number_format($item->paid, '0', ' ', ' ');
+                            ?>
+                        </td>
+                        <td align="right">
+                            <?php
+                            $totalOwed = $totalOwedNow - $item->paid;
+                            $total_oweds += $totalOwed;
+                            echo number_format($totalOwed, '0', ' ', ' ');
+                            ?>
+                        </td>
                     </tr>
                     <?php
                 }
@@ -238,47 +245,51 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
 
                 <tr style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 0px solid black;">
                     <td align="center" colspan="3">Cộng:</td>
-                    <td align="center"><?php echo $total_hundpercent; ?> </td>
-                    <td align="center"><?php echo $total_decrease; ?></td>
-                    <td align="center"><?php echo $total_free; ?></td>
-                    <td align="center"><?php echo $total_all_student; ?></td>
-                    <td align="right" ><?php echo number_format($total_owed_ago, '0', ' ', ' '); ?></td>
-                    <td align="right"><?php echo number_format($total_payable, '0', ' ', ' '); ?></td>
-                    <td align="right"><?php echo number_format($total_total, '0', ' ', ' '); ?></td>
-                    <td align="right"><?php echo number_format($total_paid, '0', ' ', ' '); ?></td>
-                    <td align="right">0</td>
-                    <td align="right"><?php echo number_format($total_paid, '0', ' ', ' '); ?></td>
-                    <td align="right"><?php echo number_format($total_paid, '0', ' ', ' '); ?></td>
+                    <td align="center"><span><?php echo $total_hundpercent; ?> </span></td>
+                    <td align="center"><span><?php echo $total_decrease; ?></span></td>
+                    <td align="center"><span><?php echo $total_free; ?></span></td>
+                    <td align="center"><span><?php echo $total_hundpercent + $total_decrease + $total_free; ?></span></td>
+                    <td align="right" ><span><?php echo number_format($total_owed_ago, '0', ' ', ' '); ?></span></td>
+                    <td align="right"><span><?php echo number_format($total_payable, '0', ' ', ' '); ?></span></td>
+                    <td align="right"><span><?php echo number_format($total_total, '0', ' ', ' '); ?></span></td>
+                    <td align="right"><span><?php echo number_format($total_paid, '0', ' ', ' '); ?></span></td>
+                    <td align="right"><span></span></td>
+                    <td align="right"><span><?php echo number_format($total_paid, '0', ' ', ' '); ?></span></td>
+                    <td align="right"><span><?php echo number_format($total_oweds, '0', ' ', ' '); ?></span></td>
                 </tr>
             </table>
 
             <div style="padding-top:2mm">
             </div>
 
-            <table>
-                <tr>
-                    <td align="center" colspan="3">Cộng: (Bằng chữ số tiền thực thu)</td>
-                    <td align="center"> <?php echo number_format($total_paid) ?></td>
-                    <td align="center">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
-                    <td align="center">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
-                    <td align="center">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
-                </tr>
-            </table>
+            <div style="padding-left: 5mm" align="left">
+                <p>
+                    <i>Cộng ( Số tiền thực thu bằng chữ ):</i>
+                    <span><i><?php echo FeeHelperConvert::convert_number_to_words($total_paid); ?> đồng chẵn</i></span> 
+                </p>
+            </div>
 
             <table>
                 <tr>
                     <td align="center">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
                     <td align="center"><br><h4>Duyệt của BGH</h4></td>
-                    <td align="center">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
-                    <td align="center"><br><h4>Phụ trách đơn vị<h4></td>
-                                <td align="center">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
-                                <td align="center"><br><h4>Phụ trách kế toán<h4></td>
-                                            <td align="center">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
-                                            <td align="center"><i>Hà Nôi, ngày 19 tháng 5 năm 2015</i><br><h4>Người lập bảng</h4></td>			
-                                            </tr>
-                                            </table>
+                    <td align="center">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
+                    <td align="center"><br><h4>Phụ trách đơn vị</h4></td>
+                    <td align="center">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
+                    <td align="center"><br><h4>Phụ trách kế toán</h4></td>
+                    <td align="center">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
+                    <td align="center">
+                        <?php
+                        $now = new DateTime();
+                        $day = date_format($now, 'd');
+                        ?>
+                        <p><i>Hà nội, ngày <?php echo date_format($now, 'd'); ?> tháng <?php echo date_format($now, 'm'); ?> năm <?php echo date_format($now, 'Y'); ?></i></p>
+                        <h4>Người lập bảng</h4>
+                    </td>			
+                </tr>
+            </table>
 
-                                            </div>
-                                            </body>
-                                            </html>
+        </div>
+    </body>
+</html>
 
