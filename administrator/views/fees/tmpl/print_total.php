@@ -71,7 +71,7 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
             {
                 size: auto;   /* auto is the initial value */
                 margin: 0mm;  /* this affects the margin in the printer settings */
-
+                size: landscape;
             }
             .page{
                 page-break-inside: avoid;
