@@ -37,6 +37,9 @@ class FeeViewFees extends JViewLegacy {
         if ($this->_layout === 'print_rate') {
             $this->items = $this->get('ItemsPrintsRate');
         }
+        if ($this->_layout === 'print_total') {
+            $this->items = $this->get('ItemsPrintsTotalFee');
+        }
         $this->info = $this->get('Info');
         $this->pagination = $this->get('Pagination');
 

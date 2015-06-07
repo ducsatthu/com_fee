@@ -172,7 +172,7 @@ class FeeModelReceipts extends JModelList {
                 $query->where('a.id = ' . (int) substr($search, 3));
             } else {
                 $search = $db->Quote('%' . $db->escape($search, true) . '%');
-                $query->where('( #__fee_student_1887542.title LIKE ' . $search . '  OR a.title LIKE ' . $search . '  OR  #__fee_student_1887542.student_id  LIKE ' . $search . '  OR  #__fee_semester_1887545.title LIKE ' . $search . '  OR  #__fee_year_1887547.start LIKE ' . $search . '  OR  a.date LIKE ' . $search . '  OR  a.paid LIKE ' . $search . ' )');
+                $query->where('( #__fee_student_1887542.title LIKE ' . $search . '  OR a.title LIKE ' . $search . '  OR  #__fee_student_1887542.student_id  LIKE ' . $search . '  OR  #__fee_semester_1887545.title LIKE ' . $search . '  OR  #__fee_year_1887547.start LIKE ' . $search . ' OR  a.paid LIKE ' . $search . ' )');
             }
         }
 
