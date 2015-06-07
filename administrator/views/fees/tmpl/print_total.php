@@ -141,7 +141,7 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
                         <h6><?php echo JComponentHelper::getParams('com_fee')->get('department', 'PHÒNG TÀI VỤ') ?></h6></td>
                     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                     <td align="center" style="text-transform: uppercase"><?php echo JText::_('COM_FEE_LIST_TOTAL_FEE') ?>
-                        NĂM HỌC <?php echo $this->info->year; ?>
+                        <?php echo $this->info->year; ?>
                         <br>HỆ <?php echo $this->info->level; ?> - KHÓA: <?php echo $this->info->course; ?></td>
                     <td align="center"><br>Trang: 1</td>
                 </tr>
