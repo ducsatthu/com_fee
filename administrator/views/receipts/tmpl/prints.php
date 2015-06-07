@@ -79,7 +79,7 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
 
             p{
                 margin: 1mm;
-               
+
             }
             h6{
                 margin: 0mm;
@@ -221,9 +221,11 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
                         <td colspan="4" style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 0px solid black;"></td>
                         <td align="center" style="border-right:0px;border-left:0px;border-top: 1px solid black;border-bottom: 1px solid black;">Cộng : </td>
                         <td align="center" style="border-right: 1px solid black;border-left: 0px;border-top: 1px solid black;border-bottom: 1px solid black;"  align="center">
-                            <?php
-                            echo number_format($total, 0, " ", " ");
-                            ?>
+                            <span>
+                                <?php
+                                echo number_format($total, 0, " ", " ");
+                                ?>
+                            </span>
                         </td>
                     </tr>
                 </table>
@@ -231,39 +233,39 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
                 </div>
                 <div style="padding-left: 5mm" align="left">
                     <p>
-                        <i>Cộng số tiền nộp ( Bằng chữ ):<i>
-                                <span><?php echo FeeHelperConvert::convert_number_to_words($total); ?> đồng chẵn</span> 
-                                </p>
-                                </div>
-                                <table>
-                                    <tr>
-                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                        <td align="center">
-                                            <p>&nbsp;</p>
-                                            <h4>Người nộp tiền</h4>
-                                        </td>
-                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <i>Cộng số tiền nộp ( Bằng chữ ):</i>
+                        <span><?php echo FeeHelperConvert::convert_number_to_words($total); ?> đồng chẵn</span> 
+                    </p>
+                </div>
+                <table>
+                    <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td align="center">
+                            <p>&nbsp;</p>
+                            <h4>Người nộp tiền</h4>
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 
-                                        <td align="center">
-                                            <?php
-                                            $datenow = new DateTime();
-                                            $daynow = date_format($datenow, 'd');
-                                            $monthnow = date_format($datenow, 'm');
-                                            $yearnow = date_format($datenow, 'Y');
-                                            ?>
-                                            <p>Hà nội,ngày <?php echo $daynow; ?> tháng <?php echo $monthnow; ?> năm <?php echo $yearnow; ?></p>
-                                            <h4><b>Người nộp tiền</b></h4>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <br>
-                                </div>
-
-
-                                <?php
-                            }
+                        <td align="center">
+                            <?php
+                            $datenow = new DateTime();
+                            $daynow = date_format($datenow, 'd');
+                            $monthnow = date_format($datenow, 'm');
+                            $yearnow = date_format($datenow, 'Y');
                             ?>
+                            <p>Hà nội,ngày <?php echo $daynow; ?> tháng <?php echo $monthnow; ?> năm <?php echo $yearnow; ?></p>
+                            <h4><b>Người nộp tiền</b></h4>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+            </div>
 
 
-                            </body>
-                            </html>
+            <?php
+        }
+        ?>
+
+
+    </body>
+</html>

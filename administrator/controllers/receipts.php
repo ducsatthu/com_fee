@@ -60,8 +60,8 @@ class FeeControllerReceipts extends JControllerAdmin {
     public function prints() {
         $config = $this->input->getArray();
         if (!$config['filter_year_alias'] || !$config['filter_level_alias']) {
-            echo "<script>alert('chọn năm học + Loại trình độ');</script>";
-            echo "<script>window.history.back()</script>";
+            echo "<script>alert('" . JText::_('COM_FEE_ERROR_REQUIRE_SELECTED_YEAR_LEVEL') . "');</script>";
+            echo "<script>window.location = 'index.php?option=com_fee&view=receipts'</script>";
             return 0;
         }
 

@@ -175,7 +175,7 @@ class FeeModelFees extends JModelList {
                 $query->where('a.id = ' . (int) substr($search, 3));
             } else {
                 $search = $db->Quote('%' . $db->escape($search, true) . '%');
-                $query->where('( #__fee_student_1887487.title LIKE ' . $search . '  OR a.student_alias LIKE ' . $search . '  OR  a.semester_alias LIKE ' . $search . '  OR  a.year_alias LIKE ' . $search . '  OR  a.rate LIKE ' . $search . '  OR  a.payable LIKE ' . $search . '  OR  a.owed LIKE ' . $search . ' )');
+                $query->where('( #__fee_student_1887487.title LIKE ' . $search . '  OR #__fee_student_1887487.student_id LIKE ' . $search . '  OR  #__fee_semester_1887491.title LIKE ' . $search . '  OR  #__fee_year_1887494.start LIKE ' . $search . '  OR  a.rate LIKE ' . $search . '  OR  a.payable LIKE ' . $search . '  OR  a.owed LIKE ' . $search . ' )');
             }
         }
 

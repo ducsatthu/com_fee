@@ -102,6 +102,7 @@ class FeeModelReceipt extends JModelAdmin {
     }
 
     public function getItemPrint($pk = null) {
+        require_once JPATH_COMPONENT . '/helpers/convert.php';
         if ($item = parent::getItem($pk)) {
 
             //get student info
@@ -184,7 +185,6 @@ class FeeModelReceipt extends JModelAdmin {
             $item->day = date_format($date, 'd');
             $item->month = date_format($date, 'm');
             $item->year = date_format($date, 'Y');
-            require_once JPATH_COMPONENT . '/helpers/convert.php';
             if (!FeeHelperConvert::convert_number_to_words($item->paid)) {
                 $this->setError(JText::_("COM_FEE_ERROR_CONVER_NUMBER_TO_ROMAN"));
                 return false;
