@@ -657,6 +657,60 @@ class FeeModelFees extends JModelList {
     }
     
     /**
+     * Get Items for layout print rate
+     * 
+     * @return boolean|object
+     */
+    public function getItemsPrintsRate() {
+        $year = $this->getState('filter.year_alias');
+        $department = $this->getState('filter.department_alias');
+        $course = $this->getState('filter.course_alias');
+        $level = $this->getState('filter.level_alias');
+
+
+        if (!$year || !$department || !$course || !$level) {
+            $this->setError(JText::_('COM_FEE_ERROR_REQUIRE_SELECTED'));
+            return FALSE;
+        }
+        $db = JFactory::getDbo();
+
+        //get student by department, level, course
+        $queryGetStudent = $db->getQuery(TRUE);
+        $queryGetStudent
+                ->select('`alias`')
+                ->from('`#__fee_student`')
+                ->where('`department_alias` = ' . $db->quote($db->escape($department)))
+                ->where('`level_alias` = ' . $db->quote($db->escape($level)))
+                ->where('`course_alias` = ' . $db->quote($db->escape($course)));
+
+        $db->setQuery($queryGetStudent);
+        $listStudent = $db->loadColumn();
+
+        if (!$listStudent) {
+            $this->setError(JText::_('COM_FEE_ERROR_NOT_EXITS_STUDENTS'));
+            return FALSE;
+        }
+
+        // get total payable of student in selected year
+        $queryGetPayable = $db->getQuery(TRUE);
+        $queryGetPayable
+                ->select('sum(payable) as totalPay,(sum(`rate`)/count(`rate`)) as rate')
+                ->from('`#__fee_fee`')
+                ->select('`#__fee_student`.`title` AS name')
+                ->join('LEFT', '`#__fee_student` ON `#__fee_student`.`alias` = `#__fee_fee`.`student_alias`')
+                ->where("`student_alias` IN ('" . implode("','", $listStudent) . "')")
+                ->where("`year_alias` = " . $db->quote($db->escape($year)))
+                ->group("`student_alias`");
+        $db->setQuery($queryGetPayable);
+        $result = $db->loadObjectList();
+        foreach ($result as $key => $value) {
+            @$items[$key]->totalPay = $value->totalPay;
+            @$items[$key]->rate = $value->rate;
+            @$items[$key]->name = $value->name;
+        }
+        return @$items;
+    }
+    /**
      * Get Infomation prints
      * 
      * @return boolean|object
