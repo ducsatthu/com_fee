@@ -252,7 +252,7 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';;
                                         $day = date_format($now, 'd');
                                         ?>
                                         <p>Hà nội, ngày <?php echo date_format($now, 'd'); ?> tháng <?php echo date_format($now, 'm'); ?> năm <?php echo date_format($now, 'Y'); ?></p>
-                                        <h4><b>Cán bộ thu tiên</b></h4>
+                                        <h4><b>Cán bộ thu tiền</b></h4>
                                     </td>
                                 </tr>
                             </table>
