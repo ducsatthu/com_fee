@@ -70,8 +70,8 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
             {
                 size: auto;   /* auto is the initial value */
                 margin: 0mm;  /* this affects the margin in the printer settings */
-                margin-left: 1cm;
-                margin-right: 1cm;
+                margin-left: 0.5cm;
+                margin-right: 0.5cm;
             }
             .page{
                 page-break-inside: avoid;
@@ -111,7 +111,7 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
             }
             table.table-border{
                 border-collapse: collapse;
-                width: 95%;
+                width: 97%;
             }
             table.table-border td
             {
@@ -202,7 +202,7 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
                                 ?>
                             </td>
                             <td align="center">C-<?php echo $this->items[$item]->title; ?></td>
-                            <td align="center" style="border-right: 1px solid black;">
+                            <td align="right" style="border-right: 1px solid black;">
                                 <?php
                                 echo number_format($this->items[$item]->paid, 0, " ", " ");
                                 ?>
