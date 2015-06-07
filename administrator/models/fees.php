@@ -733,6 +733,7 @@ class FeeModelFees extends JModelList {
             $item->year = $db->loadResult();
         }
         if ($department) {
+            $queryDepartment = $db->getQuery(TRUE);
             $queryDepartment
                     ->select('`title`')
                     ->from('`#__fee_department`')
