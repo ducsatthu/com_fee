@@ -63,6 +63,8 @@ class FeeViewFees extends JViewLegacy {
                 JToolBarHelper::addNew('fee.add', 'JTOOLBAR_NEW');
                 if ($canDo->get('core.edit')) {
                     JToolBarHelper::custom('fees.printsOwed', 'print.png', 'print.png', 'COM_FEE_PRINTS_OWED_FEE', false);
+                    JToolBarHelper::custom('fees.printFee', 'print.png', 'print.png', 'COM_FEE_PRINTS_FEE_DEPARTMENT', false);
+
                 }
             }
 

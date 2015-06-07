@@ -508,6 +508,159 @@ class FeeModelFees extends JModelList {
         
     }
     
+    /**
+     * Get Item for layout print fee
+     * 
+     * @return boolean|object
+     */
+    public function getItemsPrintFee() {
+        $year = $this->getState('filter.year_alias');
+        $department = $this->getState('filter.department_alias');
+        $course = $this->getState('filter.course_alias');
+        $level = $this->getState('filter.level_alias');
+
+        if (!$year || !$department || !$course || !$level) {
+            $this->setError(JText::_('COM_FEE_ERROR_REQUIRE_SELECTED'));
+            return FALSE;
+        }
+
+        $db = JFactory::getDbo();
+
+
+        //get student by department && course && level
+        $querygetS = $db->getQuery(true);
+        $querygetS
+                ->select('`alias`')
+                ->from('`#__fee_student`')
+                ->where('`department_alias` = ' . $db->quote($db->escape($department)))
+                ->where('`course_alias` = ' . $db->quote($db->escape($course)))
+                ->where('`level_alias` = ' . $db->quote($db->escape($level)));
+        $db->setQuery($querygetS);
+
+        $listStudent = $db->loadColumn();
+
+        if (!$listStudent) {
+            $this->setError(JText::_('COM_FEE_ERROR_NOT_EXITS_STUDENTS'));
+            return FALSE;
+        }
+
+        //get year select
+        $querySelectYear = $db->getQuery(true);
+
+        $querySelectYear
+                ->select('`start`')
+                ->from('`#__fee_year`')
+                ->where('`alias` = ' . $db->quote($db->escape($year)));
+        $db->setQuery($querySelectYear);
+
+        $yearStart = $db->loadResult();
+
+        //get List year alias
+        $queryListAlias = $db->getQuery(true);
+
+        $queryListAlias
+                ->select('`alias`')
+                ->from('`#__fee_year`')
+                ->where('`start` <= ' . $db->quote($db->escape($yearStart)));
+        $db->setQuery($queryListAlias);
+
+        $listYearAlias = $db->loadColumn();
+
+        //get List year ago
+        $queryListAliasAgo = $db->getQuery(true);
+
+        $queryListAliasAgo
+                ->select('`alias`')
+                ->from('`#__fee_year`')
+                ->where('`start` < ' . $db->quote($db->escape($yearStart)));
+        $db->setQuery($queryListAliasAgo);
+
+        $listYearAliasAgo = $db->loadColumn();
+
+        $query = $db->getQuery(true);
+        #'`student_id`','sum(`owed`) AS allowed','sum(`payable` - `payable`*rate/100) AS Pay','sum(`rate`)/count(`rate`) as rate'
+        $query
+                ->select(array(
+                    'student_alias'
+                ))
+                ->from('`#__fee_fee` as fee')
+                ->select('`#__fee_student`.`title`')
+                ->join('LEFT', '`#__fee_student` ON `#__fee_student`.`alias` = `student_alias`')
+                ->where("`student_alias` IN ('" . implode("','", $listStudent) . "')")
+                ->where("`year_alias`  IN ('" . implode("','", $listYearAlias) . "')")
+                ->group('`student_alias`');
+
+        $db->setQuery($query);
+
+        $items = $db->loadObjectList();
+
+        foreach ($items as $item) {
+            //list owed ago
+            $query = $db->getQuery(TRUE);
+
+            $query
+                    ->select('sum(`owed`)')
+                    ->from('`#__fee_fee`')
+                    ->where('`student_alias` = ' . $db->quote($db->escape($item->student_alias)))
+                    ->where("`year_alias`  IN ('" . implode("','", $listYearAliasAgo) . "')");
+
+            $db->setQuery($query);
+
+            $result = $db->loadResult();
+
+            if ($result) {
+                $item->owedAgo = $result;
+            } else {
+                $item->owedAgo = '0';
+            }
+            //end list owed ago
+            //list rate + pay
+            $query = $db->getQuery(TRUE);
+
+            $query
+                    ->select(array(
+                        'sum(`rate`)/count(`rate`) as rate', 'sum(`payable` - `payable`*rate/100) AS pay'
+                    ))
+                    ->from('`#__fee_fee`')
+                    ->where('`student_alias` = ' . $db->quote($db->escape($item->student_alias)))
+                    ->where("`year_alias`  = " . $db->quote($db->escape($year)));
+
+            $db->setQuery($query);
+
+            $results = $db->loadObject();
+            $item->rate = $results->rate;
+            $item->pay = $results->pay;
+            //end list rate + pay
+            //get paid
+            $query = $db->getQuery(TRUE);
+
+            $query
+                    ->select(array(
+                        'sum(`paid`) as paid'
+                    ))
+                    ->from('`#__fee_receipt`')
+                    ->where('`student_alias` = ' . $db->quote($db->escape($item->student_alias)))
+                    ->where("`year_alias`  = " . $db->quote($db->escape($year)));
+
+            $db->setQuery($query);
+
+            $result = $db->loadResult();
+
+            if ($result) {
+                $item->paid = $result;
+            } else {
+                $item->paid = 0;
+            }
+            //end paid
+        }
+        return $items;
+    }
+    
+    /**
+     * Get Infomation prints
+     * 
+     * @return boolean|object
+     */
     public function getInfo(){
         
         $year = $this->getState('filter.year_alias');

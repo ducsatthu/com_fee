@@ -5,7 +5,7 @@
  * @package     com_fee
  * @copyright   Bản quyền (C) 2015. Các quyền đều được bảo vệ.
  * @license     bản quyền mã nguồn mở GNU phiên bản 2
- * @author      Linh <mr.lynk92@gmail.com> - http://
+ * @author      Tran Xuan Duc <ductranxuan.29710@gmail.com> - http://facebook.com/ducsatthuttd
  */
 // No direct access
 defined('_JEXEC') or die;
@@ -27,7 +27,13 @@ class FeeViewFees extends JViewLegacy {
      */
     public function display($tpl = null) {
         $this->state = $this->get('State');
-        $this->items = $this->get('ItemsPrintsOwed');
+
+        if ($this->_layout === 'print_owed') {
+            $this->items = $this->get('ItemsPrintsOwed');
+        }
+        if ($this->_layout === 'print_fee') {
+            $this->items = $this->get('ItemsPrintFee');
+        }
         $this->info = $this->get('Info');
         $this->pagination = $this->get('Pagination');
 
@@ -36,11 +42,10 @@ class FeeViewFees extends JViewLegacy {
             throw new Exception(implode("\n", $errors));
         }
 
-       
+
         parent::display($tpl);
     }
 
-   
     protected function getSortFields() {
         return array(
             'a.id' => JText::_('JGRID_HEADING_ID'),
