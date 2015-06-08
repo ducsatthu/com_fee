@@ -66,6 +66,7 @@ class FeeViewFees extends JViewLegacy {
                     JToolBarHelper::custom('fees.printsOwedlevel', 'print.png', 'print.png', 'COM_FEE_PRINTS_OWED_FEE_LEVEL', false);
                     JToolBarHelper::custom('fees.printFee', 'print.png', 'print.png', 'COM_FEE_PRINTS_FEE_DEPARTMENT', false);
                     JToolBarHelper::custom('fees.printTotalFee', 'print.png', 'print.png', 'COM_FEE_PRINTS_TOTAL_FEE', FALSE);
+                    JToolBarHelper::custom('fees.printTotalFeeLevel', 'print.png', 'print.png', 'COM_FEE_PRINTS_TOTAL_FEE_LEVEL', FALSE);
                     JToolBarHelper::custom('fees.printRate', 'print.png', 'print.png', 'COM_FEE_PRINTS_RATE', FALSE);
                 }
             }

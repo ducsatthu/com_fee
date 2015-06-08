@@ -389,11 +389,11 @@ class FeeModelFees extends JModelList {
             return FALSE;
         }
 
-         $objectYear = $this->getYearAgo($year);
+        $objectYear = $this->getYearAgo($year);
 
-       #$yearStart = $objectYear->start;
+        #$yearStart = $objectYear->start;
         $listYearAlias = $objectYear->listAlias;
-        
+
         $listYearAliasAgo = $objectYear->listAliasAgo;
 
         $query = $db->getQuery(true);
@@ -623,7 +623,7 @@ class FeeModelFees extends JModelList {
         }
         return $items;
     }
-    
+
     /**
      * Get items for print owed by level
      * 
@@ -677,7 +677,7 @@ class FeeModelFees extends JModelList {
                         ->from('`#__fee_fee` as fee')
                         ->where("`year_alias`  IN ('" . implode("','", $listYearAgo) . "')")
                         ->where('`owed` > 0')
-                        ->where('`student_alias` = ' .  $db->quote($db->escape($item->student_alias)))
+                        ->where('`student_alias` = ' . $db->quote($db->escape($item->student_alias)))
                         ->group('`student_alias`');
 
                 $db->setQuery($query);
@@ -694,7 +694,7 @@ class FeeModelFees extends JModelList {
                 $query
                         ->select('sum(`payable` - `payable`*`rate`/100) as totalPay')
                         ->from('`#__fee_fee`')
-                        ->where("`student_alias`= " .  $db->quote($db->escape($item->student_alias)))
+                        ->where("`student_alias`= " . $db->quote($db->escape($item->student_alias)))
                         ->where("`year_alias` = " . $db->quote($db->escape($year)))
                         ->group("`student_alias`");
 
@@ -711,7 +711,7 @@ class FeeModelFees extends JModelList {
                 $query
                         ->select('sum(`paid`) as totalPaid')
                         ->from('`#__fee_receipt`')
-                        ->where("`student_alias`= " .  $db->quote($db->escape($item->student_alias)))
+                        ->where("`student_alias`= " . $db->quote($db->escape($item->student_alias)))
                         ->where("`year_alias` = " . $db->quote($db->escape($year)))
                         ->group("`student_alias`");
 
@@ -723,15 +723,16 @@ class FeeModelFees extends JModelList {
                 } else {
                     $item->totalPaid = 0;
                 }
-                
-                $item->totalOwed =  $item->totalOwedAgo + $item->totalPayable - $item->totalPaid ;
+
+                $item->totalOwed = $item->totalOwedAgo + $item->totalPayable - $item->totalPaid;
             }
         }
 
         return $items;
     }
+
     /**
-     * Get Items for layout print rate
+     * Get Items for layout Prints Total Fee
      * 
      * @return boolean|object
      */
@@ -739,6 +740,7 @@ class FeeModelFees extends JModelList {
         $year = $this->getState('filter.year_alias');
         $course = $this->getState('filter.course_alias');
         $level = $this->getState('filter.level_alias');
+
 
         $db = JFactory::getDbo();
 
@@ -786,12 +788,13 @@ class FeeModelFees extends JModelList {
                         ->group('`#__fee_student`.`department_alias`')
                 ;
                 $db->setQuery($query);
-
-                if($db->loadResult()){
-                    $item->hundpercent = $db->loadResult();
-                }
-                else {
-                    $item->hundpercent =0;
+                
+                $result = $db->loadResult();
+                
+                if ($result) {
+                    $item->hundpercent = $result;
+                } else {
+                    $item->hundpercent = 0;
                 }
 
                 //get payable decrease
@@ -808,10 +811,12 @@ class FeeModelFees extends JModelList {
                 ;
                 $db->setQuery($query);
 
-                if($db->loadResult()){
-                    $item->decrease = $db->loadResult();
+                $result = $db->loadResult();
+                if ($result) {
+                    $item->decrease = $result;
+                } else {
+                    $item->decrease = 0;
                 }
-                else $item->decrease =0;
 
                 //get payable free
                 $query = $db->getQuery(true);
@@ -827,11 +832,12 @@ class FeeModelFees extends JModelList {
                 ;
                 $db->setQuery($query);
 
-                $item->free = $db->loadResult();
-                if($db->loadResult()){
-                   $item->free = $db->loadResult(); 
+                $result = $db->loadResult();
+                if ($result) {
+                    $item->free = $result;
+                } else {
+                    $item->free = 0;
                 }
-                else $item->free = 0;
 
                 //get total Owed ago
                 $query = $db->getQuery(true);
@@ -860,20 +866,214 @@ class FeeModelFees extends JModelList {
                 ;
 
                 $db->setQuery($query);
-                
+
                 $result = $db->loadResult();
-                
-                if($result){
+
+                if ($result) {
                     $item->paid = $result;
-                }
-                else{
-                    $item->paid =0;
+                } else {
+                    $item->paid = 0;
                 }
             }
             return $items;
         }
-        
-       
+    }
+
+    /**
+     * Get Items for layout Prints Total Fee By Level
+     * @return boolean|object
+     */
+    public function getItemsPrintsTotalFeeLevel() {
+        $year = $this->getState('filter.year_alias');
+        $level = $this->getState('filter.level_alias');
+
+
+        if (!$year || !$level) {
+            $this->setError('COM_FEE_ERROR_REQUIRE_SELECTED_YEAR_LEVEL');
+            return FALSE;
+        }
+
+        $db = JFactory::getDbo();
+
+
+        //Get Department + Course By level
+        $query = $db->getQuery(true);
+
+        $query
+                ->select(array(
+                    'count(`#__fee_student`.`id`) AS CountStudent', '`#__fee_student`.`department_alias`', '`#__fee_student`.`course_alias`'
+                ))
+                ->from('`#__fee_student`')
+                ->select('`#__fee_department`.`title` as department')
+                ->join('LEFT', '`#__fee_department` ON `#__fee_department`.`alias` = `#__fee_student`.`department_alias`')
+                ->select('`#__fee_course`.`title` as course')
+                ->join('LEFT', '`#__fee_course` ON `#__fee_course`.`alias` = `#__fee_student`.`course_alias`')
+                ->where('`level_alias` = ' . $db->quote($db->escape($level)))
+                ->group('`department_alias`')
+                ->group('`course_alias`')
+                ->order('`#__fee_course`.`title`')
+        ;
+
+        $db->setQuery($query);
+
+        $items = $db->loadObjectList();
+
+        if (!$items) {
+            $this->setError(JText::_('COM_FEE_ERROR_NOT_EXITS_STUDENTS_FROM_LEVEL'));
+            return FALSE;
+        }
+
+
+
+        $objectYear = $this->getYearAgo($year);
+
+        #$yearStart = $objectYear->start;
+
+        $listYearAliasAgo = $objectYear->listAliasAgo;
+
+        foreach ($items as $item) {
+            $query = $db->getQuery(true);
+
+            $query
+                    ->select('sum(`payable` - `payable`*`rate`/100) AS pay')
+                    ->from('`#__fee_fee`')
+                    //       ->select('count(`student_alias`)')
+                    ->join('LEFT', '`#__fee_student` ON `#__fee_student`.`alias` = `#__fee_fee`.`student_alias` ')
+                    ->where('`#__fee_student`.`course_alias` = ' . $db->quote($db->escape($item->course_alias)))
+                    ->where('`#__fee_student`.`department_alias` = ' . $db->quote($db->escape($item->department_alias)))
+                    ->where('`#__fee_student`.`level_alias` = ' . $db->quote($db->escape($level)))
+                    ->where('`#__fee_fee`.`year_alias` = ' . $db->quote($db->escape($year)))
+                    ->group(' `#__fee_student`.`department_alias`')
+                    ->group(' `#__fee_student`.`course_alias`')
+            ;
+            ;
+
+            $db->setQuery($query);
+
+            $result = $db->loadResult();
+
+            $item->pay = $result;
+
+            if (!$result) {
+                $item->pay = '0';
+            }
+
+            //get payable 100%
+            $query = $db->getQuery(true);
+
+            $query
+                    ->select('count(DISTINCT `#__fee_student`.`id`) as total100percent')
+                    ->from('`#__fee_student`')
+                    ->join('LEFT', '`#__fee_fee` ON `#__fee_fee`.`student_alias` = `#__fee_student`.`alias`')
+                    ->where("`rate` = 0")
+                    ->where('`#__fee_student`.`course_alias` = ' . $db->quote($db->escape($item->course_alias)))
+                    ->where('`#__fee_student`.`department_alias` = ' . $db->quote($db->escape($item->department_alias)))
+                    ->where('`#__fee_student`.`level_alias` = ' . $db->quote($db->escape($level)))
+                    ->where('`#__fee_fee`.`year_alias` = ' . $db->quote($db->escape($year)))
+                    ->group(' `#__fee_student`.`department_alias`')
+                    ->group(' `#__fee_student`.`course_alias`')
+            ;
+            $db->setQuery($query);
+
+            if ($db->loadResult()) {
+                $item->hundpercent = $db->loadResult();
+            } else {
+                $item->hundpercent = 0;
+            }
+
+            //get payable decrease
+            $query = $db->getQuery(true);
+
+            $query
+                    ->select('count(DISTINCT `#__fee_student`.`id`) as total100percent')
+                    ->from('`#__fee_student`')
+                    ->join('LEFT', '`#__fee_fee` ON `#__fee_fee`.`student_alias` = `#__fee_student`.`alias`')
+                    ->where("`rate` BETWEEN 1 AND 99")
+                    ->where('`#__fee_student`.`course_alias` = ' . $db->quote($db->escape($item->course_alias)))
+                    ->where('`#__fee_student`.`department_alias` = ' . $db->quote($db->escape($item->department_alias)))
+                    ->where('`#__fee_student`.`level_alias` = ' . $db->quote($db->escape($level)))
+                    ->where('`#__fee_fee`.`year_alias` = ' . $db->quote($db->escape($year)))
+                    ->group(' `#__fee_student`.`department_alias`')
+                    ->group(' `#__fee_student`.`course_alias`')
+            ;
+            $db->setQuery($query);
+
+            if ($db->loadResult()) {
+                $item->decrease = $db->loadResult();
+            } else {
+                $item->decrease = 0;
+            }
+
+            //get payable free
+            $query = $db->getQuery(true);
+
+            $query
+                    ->select('count(DISTINCT `#__fee_student`.`id`) as total100percent')
+                    ->from('`#__fee_student`')
+                    ->join('LEFT', '`#__fee_fee` ON `#__fee_fee`.`student_alias` = `#__fee_student`.`alias`')
+                    ->where("`rate` = 100")
+                    ->where('`#__fee_student`.`course_alias` = ' . $db->quote($db->escape($item->course_alias)))
+                    ->where('`#__fee_student`.`department_alias` = ' . $db->quote($db->escape($item->department_alias)))
+                    ->where('`#__fee_student`.`level_alias` = ' . $db->quote($db->escape($level)))
+                    ->where('`#__fee_fee`.`year_alias` = ' . $db->quote($db->escape($year)))
+                    ->group(' `#__fee_student`.`department_alias`')
+                    ->group(' `#__fee_student`.`course_alias`')
+            ;
+            $db->setQuery($query);
+
+            $item->free = $db->loadResult();
+            if ($db->loadResult()) {
+                $item->free = $db->loadResult();
+            } else {
+                $item->free = 0;
+            }
+
+            //get total Owed ago
+            $query = $db->getQuery(true);
+
+            $query
+                    ->select('sum(`owed`)')
+                    ->from('`#__fee_fee`')
+                    ->join('LEFT', '`#__fee_student` ON `#__fee_student`.`alias` = `#__fee_fee`.`student_alias`')
+                    ->where("`year_alias` IN('" . implode("','", $listYearAliasAgo) . "')")
+                    ->where('`#__fee_student`.`course_alias` = ' . $db->quote($db->escape($item->course_alias)))
+                    ->where('`#__fee_student`.`department_alias` = ' . $db->quote($db->escape($item->department_alias)))
+                    ->where('`#__fee_student`.`level_alias` = ' . $db->quote($db->escape($level)))
+            ;
+            $db->setQuery($query);
+
+            $result = $db->loadResult();
+
+            $item->totalOwed = $result;
+
+            if (!$result) {
+                $item->totalOwed = 0;
+            }
+
+            //get Paid from receipt
+            $query = $db->getQuery(TRUE);
+
+            $query
+                    ->select('sum(`paid`) as paid')
+                    ->from('`#__fee_receipt`')
+                    ->join('LEFT', '`#__fee_student` ON `#__fee_student`.`alias` = `#__fee_receipt`.`student_alias`')
+                    ->where("`year_alias` = " . $db->quote($db->escape($year)))
+                    ->where('`#__fee_student`.`course_alias` = ' . $db->quote($db->escape($item->course_alias)))
+                    ->where('`#__fee_student`.`department_alias` = ' . $db->quote($db->escape($item->department_alias)))
+                    ->where('`#__fee_student`.`level_alias` = ' . $db->quote($db->escape($level)))
+            ;
+
+            $db->setQuery($query);
+
+            $result = $db->loadResult();
+
+            if ($result) {
+                $item->paid = $result;
+            } else {
+                $item->paid = 0;
+            }
+        }
+        return $items;
     }
 
     /**
@@ -894,7 +1094,7 @@ class FeeModelFees extends JModelList {
         }
         $db = JFactory::getDbo();
 
-        //get student by department, level, course
+//get student by department, level, course
         $queryGetStudent = $db->getQuery(TRUE);
         $queryGetStudent
                 ->select('`alias`')
@@ -911,7 +1111,7 @@ class FeeModelFees extends JModelList {
             return FALSE;
         }
 
-        // get total payable of student in selected year
+// get total payable of student in selected year
         $queryGetPayable = $db->getQuery(TRUE);
         $queryGetPayable
                 ->select('sum(payable) as totalPay,(sum(`rate`)/count(`rate`)) as rate')
@@ -919,8 +1119,8 @@ class FeeModelFees extends JModelList {
                 ->select('`#__fee_student`.`title` AS name')
                 ->join('LEFT', '`#__fee_student` ON `#__fee_student`.`alias` = `#__fee_fee`.`student_alias`')
                 ->where("`student_alias` IN ('" . implode("','", $listStudent) . "')")
-                ->where('`rate` > 0')
                 ->where("`year_alias` = " . $db->quote($db->escape($year)))
+                ->where('`rate` > 0')
                 ->group("`student_alias`");
         $db->setQuery($queryGetPayable);
         $result = $db->loadObjectList();
@@ -1006,7 +1206,7 @@ class FeeModelFees extends JModelList {
         if ($year) {
             $db = JFactory::getDbo();
 
-            //get year select
+//get year select
             $querySelectYear = $db->getQuery(true);
 
             $querySelectYear
@@ -1017,7 +1217,7 @@ class FeeModelFees extends JModelList {
 
             @$item->start = $db->loadResult();
 
-            //get List year alias
+//get List year alias
             $queryListAlias = $db->getQuery(true);
 
             $queryListAlias
@@ -1028,7 +1228,7 @@ class FeeModelFees extends JModelList {
 
             @$item->listAlias = $db->loadColumn();
 
-            //get List year ago
+//get List year ago
             $queryListAliasAgo = $db->getQuery(true);
 
             $queryListAliasAgo
@@ -1044,4 +1244,4 @@ class FeeModelFees extends JModelList {
         return 0;
     }
 
-}   
+}
