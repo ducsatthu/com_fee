@@ -625,6 +625,112 @@ class FeeModelFees extends JModelList {
     }
     
     /**
+     * Get items for print owed by level
+     * 
+     * @return boolean|object
+     */
+    public function getItemsPrintsOwedLevel() {
+        $year = $this->getState('filter.year_alias');
+        $level = $this->getState('filter.level_alias');
+
+
+        if (!$year || !$level) {
+            $this->setError(JText::_('COM_FEE_ERROR_REQUIRE_SELECTED_YEAR_LEVEL'));
+            return FALSE;
+        }
+        $objectYear = $this->getYearAgo($year);
+
+        $listYearAlias = $objectYear->listAlias;
+
+        $listYearAgo = $objectYear->listAliasAgo;
+
+        $db = JFactory::getDbo();
+
+        $query = $db->getQuery(TRUE);
+
+        $query
+                ->select(array(
+                    'student_alias'
+                ))
+                ->from('`#__fee_fee` as fee')
+                ->select('`#__fee_student`.`title`')
+                ->join('LEFT', '`#__fee_student` ON `#__fee_student`.`alias` = `student_alias`')
+                ->select('`#__fee_department`.`title` as department')
+                ->join('LEFT', '`#__fee_department` ON `#__fee_department`.alias = `#__fee_student`.`department_alias`')
+                ->select('`#__fee_course`.`title` as course')
+                ->join('LEFT', '`#__fee_course` ON `#__fee_course`.alias = `#__fee_student`.`course_alias`')
+                ->where("`year_alias`  IN ('" . implode("','", $listYearAlias) . "')")
+                ->where('`owed` > 0')
+                ->group('`student_alias`');
+
+        $db->setQuery($query);
+
+        $items = $db->loadObjectList();
+
+
+        if ($items) {
+            foreach ($items as $item) {
+                //TOTAL OWED AGO
+                $query = $db->getQuery(TRUE);
+                $query
+                        ->select('sum(`owed`)')
+                        ->from('`#__fee_fee` as fee')
+                        ->where("`year_alias`  IN ('" . implode("','", $listYearAgo) . "')")
+                        ->where('`owed` > 0')
+                        ->where('`student_alias` = ' .  $db->quote($db->escape($item->student_alias)))
+                        ->group('`student_alias`');
+
+                $db->setQuery($query);
+
+                $result = $db->loadResult();
+
+                if ($result) {
+                    $item->totalOwedAgo = $result;
+                } else {
+                    $item->totalOwedAgo = 0;
+                }
+                //TOTAL PAYABLE
+                $query = $db->getQuery(TRUE);
+                $query
+                        ->select('sum(`payable` - `payable`*`rate`/100) as totalPay')
+                        ->from('`#__fee_fee`')
+                        ->where("`student_alias`= " .  $db->quote($db->escape($item->student_alias)))
+                        ->where("`year_alias` = " . $db->quote($db->escape($year)))
+                        ->group("`student_alias`");
+
+                $db->setQuery($query);
+
+                $result = $db->loadResult();
+                if ($result) {
+                    $item->totalPayable = $result;
+                } else {
+                    $item->totalPayable = 0;
+                }
+                //TOTAL PAID
+                $query = $db->getQuery(TRUE);
+                $query
+                        ->select('sum(`paid`) as totalPaid')
+                        ->from('`#__fee_receipt`')
+                        ->where("`student_alias`= " .  $db->quote($db->escape($item->student_alias)))
+                        ->where("`year_alias` = " . $db->quote($db->escape($year)))
+                        ->group("`student_alias`");
+
+                $db->setQuery($query);
+
+                $result = $db->loadResult();
+                if ($result) {
+                    $item->totalPaid = $result;
+                } else {
+                    $item->totalPaid = 0;
+                }
+                
+                $item->totalOwed =  $item->totalOwedAgo + $item->totalPayable - $item->totalPaid ;
+            }
+        }
+
+        return $items;
+    }
+    /**
      * Get Items for layout print rate
      * 
      * @return boolean|object
