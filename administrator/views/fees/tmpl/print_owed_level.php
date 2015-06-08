@@ -131,7 +131,7 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
         if ($lenght % $itemPerPage == 0) {
             $page = $lenght / $itemPerPage;
         } else {
-            $page = (int) $lenght / $itemPerPage + 1;
+            $page = (int) ($lenght / $itemPerPage + 1);
         }
         $item = 0;
         for ($i = 1; $i <= $page; $i++) {
