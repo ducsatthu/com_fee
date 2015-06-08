@@ -68,8 +68,7 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
             {
                 size: auto;   /* auto is the initial value */
                 margin: 0mm;  /* this affects the margin in the printer settings */
-                margin-left: 1cm;
-                margin-right: 1cm;
+               
             }
             .page{
                 page-break-inside: avoid;
@@ -149,7 +148,7 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
                         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                         <td align="center">
                             <h3 style="text-transform: uppercase"><?php echo JText::_('COM_FEE_LIST_OWED'); ?></h3>
-                            <p style="text-transform: uppercase" align="left">Năm Học: <?php echo $this->info->year; ?> </p>
+                            <p style="text-transform: uppercase">Năm Học: <?php echo $this->info->year; ?> </p>
                             <h5 style="text-transform: uppercase">Hệ : <?php echo $this->info->level; ?></h5>
                         </td>
                         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
