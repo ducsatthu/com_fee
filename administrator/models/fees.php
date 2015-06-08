@@ -919,6 +919,7 @@ class FeeModelFees extends JModelList {
                 ->select('`#__fee_student`.`title` AS name')
                 ->join('LEFT', '`#__fee_student` ON `#__fee_student`.`alias` = `#__fee_fee`.`student_alias`')
                 ->where("`student_alias` IN ('" . implode("','", $listStudent) . "')")
+                ->where('`rate` > 0')
                 ->where("`year_alias` = " . $db->quote($db->escape($year)))
                 ->group("`student_alias`");
         $db->setQuery($queryGetPayable);

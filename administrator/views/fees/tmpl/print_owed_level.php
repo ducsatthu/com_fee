@@ -68,7 +68,7 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
             {
                 size: auto;   /* auto is the initial value */
                 margin: 0mm;  /* this affects the margin in the printer settings */
-               
+
             }
             .page{
                 page-break-inside: avoid;
@@ -152,9 +152,7 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
                             <h5 style="text-transform: uppercase">Hệ : <?php echo $this->info->level; ?></h5>
                         </td>
                         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-
                     </tr>
-
                 </table>
                 <div style="padding-top:5mm">
 
