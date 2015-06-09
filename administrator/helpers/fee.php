@@ -22,14 +22,15 @@ class FeeHelper {
         JHtmlSidebar::addEntry(
                 JText::_('COM_FEE_TITLE_STUDENTS'), 'index.php?option=com_fee&view=students', $vName == 'students'
         );
-
+        
+        JHtmlSidebar::addEntry(
+                JText::_('COM_FEE_TITLE_FEES'), 'index.php?option=com_fee&view=fees', $vName == 'fees'
+        );
+        
         JHtmlSidebar::addEntry(
                 JText::_('COM_FEE_TITLE_RECEIPTS'), 'index.php?option=com_fee&view=receipts', $vName == 'receipts'
         );
 
-        JHtmlSidebar::addEntry(
-                JText::_('COM_FEE_TITLE_FEES'), 'index.php?option=com_fee&view=fees', $vName == 'fees'
-        );
         JHtmlSidebar::addEntry(
                 JText::_('COM_FEE_TITLE_COURSES'), 'index.php?option=com_fee&view=courses', $vName == 'courses'
         );
