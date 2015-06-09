@@ -744,139 +744,181 @@ class FeeModelFees extends JModelList {
 
         $db = JFactory::getDbo();
 
+        //Get Department + Course By level
         $query = $db->getQuery(true);
 
         $query
-                ->select('sum(`payable` - `payable`*`rate`/100) AS pay')
-                ->from('`#__fee_fee`')
-                //       ->select('count(`student_alias`)')
-                ->join('LEFT', '`#__fee_student` ON `#__fee_student`.`alias` = `#__fee_fee`.`student_alias` ')
                 ->select(array(
-                    '`#__fee_department`.`title`', '`#__fee_department`.`alias` as department'
+                    'count(`#__fee_student`.`id`) AS CountStudent', '`#__fee_student`.`department_alias`', '`#__fee_student`.`course_alias`'
                 ))
+                ->from('`#__fee_student`')
+                ->select('`#__fee_department`.`title` as department')
                 ->join('LEFT', '`#__fee_department` ON `#__fee_department`.`alias` = `#__fee_student`.`department_alias`')
-                ->where('`#__fee_student`.`course_alias` = ' . $db->quote($db->escape($course)))
-                ->where('`#__fee_student`.`level_alias` = ' . $db->quote($db->escape($level)))
-                ->where('`#__fee_fee`.`year_alias` = ' . $db->quote($db->escape($year)))
-                ->group(' `#__fee_department`.`alias`');
+                ->select('`#__fee_course`.`title` as course')
+                ->join('LEFT', '`#__fee_course` ON `#__fee_course`.`alias` = `#__fee_student`.`course_alias`')
+                ->where('`level_alias` = ' . $db->quote($db->escape($level)))
+                ->where('`course_alias` =' . $db->quote($db->escape($course)))
+                ->group('`department_alias`')
+                ->group('`course_alias`')
+                ->order('`#__fee_course`.`title`')
         ;
 
         $db->setQuery($query);
 
         $items = $db->loadObjectList();
 
+        if (!$items) {
+            $this->setError(JText::_('COM_FEE_ERROR_NOT_EXITS_STUDENTS_FROM_LEVEL'));
+            return FALSE;
+        }
         $objectYear = $this->getYearAgo($year);
 
-        #$yearStart = $objectYear->start;
-
         $listYearAliasAgo = $objectYear->listAliasAgo;
+        foreach ($items as $item) {
+            $query = $db->getQuery(true);
 
+            $query
+                    ->select('sum(`payable` - `payable`*`rate`/100) AS pay')
+                    ->from('`#__fee_fee`')
+                    //       ->select('count(`student_alias`)')
+                    ->join('LEFT', '`#__fee_student` ON `#__fee_student`.`alias` = `#__fee_fee`.`student_alias` ')
+                    ->where('`#__fee_student`.`course_alias` = ' . $db->quote($db->escape($item->course_alias)))
+                    ->where('`#__fee_student`.`department_alias` = ' . $db->quote($db->escape($item->department_alias)))
+                    ->where('`#__fee_student`.`level_alias` = ' . $db->quote($db->escape($level)))
+                    ->where('`#__fee_fee`.`year_alias` = ' . $db->quote($db->escape($year)))
+                    ->group(' `#__fee_student`.`department_alias`')
+                    ->group(' `#__fee_student`.`course_alias`')
+            ;
+            ;
 
-        if ($items) {
-            foreach ($items as $item) {
+            $db->setQuery($query);
 
-                //get payable 100%
-                $query = $db->getQuery(true);
+            $result = $db->loadResult();
 
-                $query
-                        ->select('count(DISTINCT `#__fee_student`.`id`) as total100percent')
-                        ->from('`#__fee_student`')
-                        ->join('LEFT', '`#__fee_fee` ON `#__fee_fee`.`student_alias` = `#__fee_student`.`alias`')
-                        ->where('`#__fee_student`.`department_alias` = ' . $db->quote($db->escape($item->department)))
-                        ->where('`year_alias` = ' . $db->quote($db->escape($year)))
-                        ->where("`rate` = 0")
-                        ->group('`#__fee_student`.`department_alias`')
-                ;
-                $db->setQuery($query);
-                
-                $result = $db->loadResult();
-                
-                if ($result) {
-                    $item->hundpercent = $result;
-                } else {
-                    $item->hundpercent = 0;
-                }
+            $item->pay = $result;
 
-                //get payable decrease
-                $query = $db->getQuery(true);
-
-                $query
-                        ->select('count(DISTINCT `#__fee_student`.`id`) as total100percent')
-                        ->from('`#__fee_student`')
-                        ->join('LEFT', '`#__fee_fee` ON `#__fee_fee`.`student_alias` = `#__fee_student`.`alias`')
-                        ->where('`#__fee_student`.`department_alias` = ' . $db->quote($db->escape($item->department)))
-                        ->where('`year_alias` = ' . $db->quote($db->escape($year)))
-                        ->where("`rate` BETWEEN 1 AND 99")
-                        ->group('`#__fee_student`.`department_alias`')
-                ;
-                $db->setQuery($query);
-
-                $result = $db->loadResult();
-                if ($result) {
-                    $item->decrease = $result;
-                } else {
-                    $item->decrease = 0;
-                }
-
-                //get payable free
-                $query = $db->getQuery(true);
-
-                $query
-                        ->select('count(DISTINCT `#__fee_student`.`id`) as total100percent')
-                        ->from('`#__fee_student`')
-                        ->join('LEFT', '`#__fee_fee` ON `#__fee_fee`.`student_alias` = `#__fee_student`.`alias`')
-                        ->where('`#__fee_student`.`department_alias` = ' . $db->quote($db->escape($item->department)))
-                        ->where('`year_alias` = ' . $db->quote($db->escape($year)))
-                        ->where("`rate` = 100")
-                        ->group('`#__fee_student`.`department_alias`')
-                ;
-                $db->setQuery($query);
-
-                $result = $db->loadResult();
-                if ($result) {
-                    $item->free = $result;
-                } else {
-                    $item->free = 0;
-                }
-
-                //get total Owed ago
-                $query = $db->getQuery(true);
-
-                $query
-                        ->select('sum(`owed`)')
-                        ->from('`#__fee_fee`')
-                        ->join('LEFT', '`#__fee_student` ON `#__fee_student`.`alias` = `#__fee_fee`.`student_alias`')
-                        ->where("`year_alias` IN('" . implode("','", $listYearAliasAgo) . "')")
-                        ->where('`#__fee_student`.`department_alias` = ' . $db->quote($db->escape($item->department)))
-                ;
-                $db->setQuery($query);
-
-                $item->totalOwed = $db->loadResult();
-
-                //get Paid from receipt
-                //get paid
-                $query = $db->getQuery(TRUE);
-
-                $query
-                        ->select('sum(`paid`) as paid')
-                        ->from('`#__fee_receipt`')
-                        ->join('LEFT', '`#__fee_student` ON `#__fee_student`.`alias` = `#__fee_receipt`.`student_alias`')
-                        ->where("`year_alias` = " . $db->quote($db->escape($year)))
-                        ->where('`#__fee_student`.`department_alias` = ' . $db->quote($db->escape($item->department)))
-                ;
-
-                $db->setQuery($query);
-
-                $result = $db->loadResult();
-
-                if ($result) {
-                    $item->paid = $result;
-                } else {
-                    $item->paid = 0;
-                }
+            if (!$result) {
+                $item->pay = '0';
             }
-            return $items;
+
+            //get payable 100%
+            $query = $db->getQuery(true);
+
+            $query
+                    ->select('count(DISTINCT `#__fee_student`.`id`) as total100percent')
+                    ->from('`#__fee_student`')
+                    ->join('LEFT', '`#__fee_fee` ON `#__fee_fee`.`student_alias` = `#__fee_student`.`alias`')
+                    ->where("`rate` = 0")
+                    ->where('`#__fee_student`.`course_alias` = ' . $db->quote($db->escape($item->course_alias)))
+                    ->where('`#__fee_student`.`department_alias` = ' . $db->quote($db->escape($item->department_alias)))
+                    ->where('`#__fee_student`.`level_alias` = ' . $db->quote($db->escape($level)))
+                    ->where('`#__fee_fee`.`year_alias` = ' . $db->quote($db->escape($year)))
+                    ->group(' `#__fee_student`.`department_alias`')
+                    ->group(' `#__fee_student`.`course_alias`')
+            ;
+            $db->setQuery($query);
+
+            if ($db->loadResult()) {
+                $item->hundpercent = $db->loadResult();
+            } else {
+                $item->hundpercent = 0;
+            }
+
+            //get payable decrease
+            $query = $db->getQuery(true);
+
+            $query
+                    ->select('count(DISTINCT `#__fee_student`.`id`) as total100percent')
+                    ->from('`#__fee_student`')
+                    ->join('LEFT', '`#__fee_fee` ON `#__fee_fee`.`student_alias` = `#__fee_student`.`alias`')
+                    ->where("`rate` BETWEEN 1 AND 99")
+                    ->where('`#__fee_student`.`course_alias` = ' . $db->quote($db->escape($item->course_alias)))
+                    ->where('`#__fee_student`.`department_alias` = ' . $db->quote($db->escape($item->department_alias)))
+                    ->where('`#__fee_student`.`level_alias` = ' . $db->quote($db->escape($level)))
+                    ->where('`#__fee_fee`.`year_alias` = ' . $db->quote($db->escape($year)))
+                    ->group(' `#__fee_student`.`department_alias`')
+                    ->group(' `#__fee_student`.`course_alias`')
+            ;
+            $db->setQuery($query);
+
+            if ($db->loadResult()) {
+                $item->decrease = $db->loadResult();
+            } else {
+                $item->decrease = 0;
+            }
+
+            //get payable free
+            $query = $db->getQuery(true);
+
+            $query
+                    ->select('count(DISTINCT `#__fee_student`.`id`) as total100percent')
+                    ->from('`#__fee_student`')
+                    ->join('LEFT', '`#__fee_fee` ON `#__fee_fee`.`student_alias` = `#__fee_student`.`alias`')
+                    ->where("`rate` = 100")
+                    ->where('`#__fee_student`.`course_alias` = ' . $db->quote($db->escape($item->course_alias)))
+                    ->where('`#__fee_student`.`department_alias` = ' . $db->quote($db->escape($item->department_alias)))
+                    ->where('`#__fee_student`.`level_alias` = ' . $db->quote($db->escape($level)))
+                    ->where('`#__fee_fee`.`year_alias` = ' . $db->quote($db->escape($year)))
+                    ->group(' `#__fee_student`.`department_alias`')
+                    ->group(' `#__fee_student`.`course_alias`')
+            ;
+            $db->setQuery($query);
+
+            $item->free = $db->loadResult();
+            if ($db->loadResult()) {
+                $item->free = $db->loadResult();
+            } else {
+                $item->free = 0;
+            }
+
+            //get total Owed ago
+            $query = $db->getQuery(true);
+
+            $query
+                    ->select('sum(`owed`)')
+                    ->from('`#__fee_fee`')
+                    ->join('LEFT', '`#__fee_student` ON `#__fee_student`.`alias` = `#__fee_fee`.`student_alias`')
+                    ->where("`year_alias` IN('" . implode("','", $listYearAliasAgo) . "')")
+                    ->where('`#__fee_student`.`course_alias` = ' . $db->quote($db->escape($item->course_alias)))
+                    ->where('`#__fee_student`.`department_alias` = ' . $db->quote($db->escape($item->department_alias)))
+                    ->where('`#__fee_student`.`level_alias` = ' . $db->quote($db->escape($level)))
+            ;
+            $db->setQuery($query);
+
+            $result = $db->loadResult();
+
+            $item->totalOwed = $result;
+
+            if (!$result) {
+                $item->totalOwed = 0;
+            }
+
+            //get Paid from receipt
+            $query = $db->getQuery(TRUE);
+
+            $query
+                    ->select('sum(`paid`) as paid')
+                    ->from('`#__fee_receipt`')
+                    ->join('LEFT', '`#__fee_student` ON `#__fee_student`.`alias` = `#__fee_receipt`.`student_alias`')
+                    ->where("`year_alias` = " . $db->quote($db->escape($year)))
+                    ->where('`#__fee_student`.`course_alias` = ' . $db->quote($db->escape($item->course_alias)))
+                    ->where('`#__fee_student`.`department_alias` = ' . $db->quote($db->escape($item->department_alias)))
+                    ->where('`#__fee_student`.`level_alias` = ' . $db->quote($db->escape($level)))
+            ;
+
+            $db->setQuery($query);
+
+            $result = $db->loadResult();
+
+            if ($result) {
+                $item->paid = $result;
+            } else {
+                $item->paid = 0;
+            }
         }
+
+
+        return $items;
     }
 
     /**
