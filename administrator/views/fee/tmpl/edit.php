@@ -75,7 +75,7 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
                             var totalPaid = 0
                             var tbody = '<tbody id="body-table">';
                             js.each(parse, function (k, v) {
-                                tbody += '<tr id="form_body_' + k + '">';
+                                tbody += '<tr id="form_body_' + v.id + '">';
                                 tbody += "<td><a href='<?php echo JRoute::_('index.php?option=com_fee&view=fee&layout=edit&id=') ?>" + v.id + "'>" + (k + 1) + "</a></td>";
                                 tbody += "<td>" + js('#jform_semester_alias option[value=' + v.semester_alias + ']').text() + "</td>";
                                 tbody += "<td>" + js('#jform_year_alias option[value=' + v.year_alias + ']').text() + "</td>";
@@ -86,7 +86,6 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
                                 totalPaid += parseInt(v.payable_rate);
 
                             });
-                            console.log(totalOwed);
                             tbody += '<tr class="info"><td  colspan="2"></td>';
                             tbody += '<td><?php echo JText::_('COM_FEE_TOTAL'); ?></td>';
 
@@ -135,7 +134,7 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
                         success: function (results) {
                             results = JSON.decode(results);
                             if (results) {
-                                var form = '#form_body_' + (results - 1);
+                                var form = '#form_body_' + results;
                                 js(form).addClass('error');
                                 js('#text-alert-custom').text("<?php echo JText::_('COM_FEE_ERROR_FEE_EXITS'); ?>");
                                 js('#system-message-container-custom').show('slow');
