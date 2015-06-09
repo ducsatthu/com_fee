@@ -28,7 +28,10 @@ class FeeViewReceipts extends JViewLegacy {
         $this->state = $this->get('State');
         $this->items = $this->get('Items');
         $this->pagination = $this->get('Pagination');
-
+        if ($this->_layout === 'print_person') {
+            $this->items = $this->get('ItemsPrintsPerson');
+        }
+        $this->info = $this->get('Info');
         // Check for errors.
         if (count($errors = $this->get('Errors'))) {
             throw new Exception(implode("\n", $errors));

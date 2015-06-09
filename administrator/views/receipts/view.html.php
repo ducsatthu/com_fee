@@ -62,7 +62,8 @@ class FeeViewReceipts extends JViewLegacy {
             if ($canDo->get('core.create')) {
                 JToolBarHelper::addNew('receipt.add', 'JTOOLBAR_NEW');
                 if ($canDo->get('core.edit') && isset($this->items[0])) {
-                    JToolBarHelper::custom('receipts.prints', 'print.png', 'print.png', 'Bảng kê thu tiền học phí', false);
+                    JToolBarHelper::custom('receipts.printsPerson', 'print.png', 'print.png', 'COM_FEE_RECEIPT_PERSON', TRUE);
+                    JToolBarHelper::custom('receipts.prints', 'print.png', 'print.png', 'COM_FEE_RECEIPT_LEVEL', false);
                 }
             }
 

@@ -347,5 +347,211 @@ class FeeModelReceipts extends JModelList {
         }
         return $items;
     }
+    
+    /**
+     * Get Items for prints persion
+     * @return boolean|Object
+     */
+    public function getItemsPrintsPerson() {
 
+        $arrayCID = json_decode(JFactory::getApplication()->input->getString('cid'));
+
+
+        $year = $this->getState('filter.year_alias');
+
+        if (!$year || !$arrayCID) {
+            $this->setError(JText::_('COM_FEE_RECEIPT_PERSON_ERROR_SELECTED'));
+            return FALSE;
+        }
+        $db = JFactory::getDbo();
+        $objectYear = $this->getYearAgo($year);
+        $listYearAgo = $objectYear->listAliasAgo;
+
+        for ($i = 0; $i < count($arrayCID); $i++) {
+            $queryStudent = $db->getQuery(TRUE);
+            $queryStudent
+                    ->select('DISTINCT `student_alias` ')
+                    ->from('`#__fee_receipt`')
+                    ->where('`year_alias` = ' . $db->quote($db->escape($year)))
+                    ->where('`id` = ' . $db->quote($db->escape($arrayCID[$i])));
+            $db->setQuery($queryStudent);
+
+            $listStudent[$i] = $db->loadResult();
+        }
+        $listStudent = array_unique($listStudent);
+
+
+        for ($i = 0; $i < count($listStudent); $i++) {
+            //Get Receipt + Student info
+            $queryReceipt = $db->getQuery(TRUE);
+            $queryReceipt
+                    ->select(array(
+                        '`#__fee_receipt`.`id`',
+                        '`#__fee_receipt`.`title`',
+                        '`#__fee_receipt`.`date`',
+                        '`#__fee_receipt`.`paid`',
+                        '`#__fee_student`.`title` as name',
+                        '`#__fee_level`.`title` as level',
+                        '`#__fee_course`.`title` as course',
+                        '`#__fee_department`.`title` as department',
+                    ))
+                    ->from('`#__fee_receipt`')
+                    ->from('`#__fee_student`')
+                    ->from('`#__fee_level`')
+                    ->from('`#__fee_course`')
+                    ->from('`#__fee_department`')
+                    ->where('`#__fee_receipt`.`year_alias` = ' . $db->quote($db->escape($year)))
+                    ->where('`#__fee_receipt`.`student_alias` = ' . $db->quote($db->escape($listStudent[$i])))
+                    ->where('`#__fee_student`.`alias` = `#__fee_receipt`.`student_alias`')
+                    ->where('`#__fee_student`.`level_alias` = `#__fee_level`.`alias`')
+                    ->where('`#__fee_student`.`course_alias` = `#__fee_course`.`alias`')
+                    ->where('`#__fee_student`.`department_alias` = `#__fee_department`.`alias`');
+            $db->setQuery($queryReceipt);
+
+            @$item[$i]->receipt = $db->loadObjectList();
+
+
+            //get Payable
+            $queryPayable = $db->getQuery(TRUE);
+            $queryPayable
+                    ->select('sum(`payable`) as payable')
+                    ->from('`#__fee_fee`')
+                    ->where("`student_alias`= " . $db->quote($db->escape($listStudent[$i])))
+                    ->where("`year_alias` = " . $db->quote($db->escape($year)));
+
+            $db->setQuery($queryPayable);
+            @$item[$i]->receipt[0]->payable = $db->loadResult();
+
+            if ($db->loadResult()) {
+                @$item[$i]->receipt[0]->payable = $db->loadResult();
+            } else
+                @$item[$i]->receipt[0]->payable = 0;
+
+            //get Owed Ago
+            $queryOwed = $db->getQuery(TRUE);
+            $queryOwed
+                    ->select('sum(`owed`) as owed_ago')
+                    ->from('`#__fee_fee` as fee')
+                    ->where("`year_alias`  IN ('" . implode("','", $listYearAgo) . "')")
+                    ->where("`student_alias`= " . $db->quote($db->escape($listStudent[$i])));
+
+            $db->setQuery($queryOwed);
+            if ($db->loadResult()) {
+                @$item[$i]->receipt[0]->owed_ago = $db->loadResult();
+            } else
+                @$item[$i]->receipt[0]->owed_ago = 0;
+        }
+        return $item;
+    }
+    
+    /**
+     * Get infomation
+     * @return type|object
+     */
+    public function getInfo() {
+
+        $year = $this->getState('filter.year_alias');
+        $department = $this->getState('filter.department_alias');
+        $course = $this->getState('filter.course_alias');
+        $level = $this->getState('filter.level_alias');
+
+
+        $item = (object) array();
+        $db = JFactory::getDbo();
+        if ($year) {
+            $queryYear = $db->getQuery(TRUE);
+
+            $queryYear
+                    ->select("CONCAT(CAST(`start` AS CHAR), ' - ',CAST(`end` AS CHAR))")
+                    ->from('`#__fee_year`')
+                    ->where('`alias` = ' . $db->quote($db->escape($year)));
+
+            $db->setQuery($queryYear);
+
+            $item->year = $db->loadResult();
+        }
+        if ($department) {
+            $queryDepartment = $db->getQuery(TRUE);
+            $queryDepartment
+                    ->select('`title`')
+                    ->from('`#__fee_department`')
+                    ->where('`alias` = ' . $db->quote($db->escape($department)));
+            $db->setQuery($queryDepartment);
+
+            $item->department = $db->loadResult();
+        }
+
+        if ($course) {
+            $queryCourse = $db->getQuery(TRUE);
+
+            $queryCourse
+                    ->select('`title`')
+                    ->from('`#__fee_course`')
+                    ->where('`alias` = ' . $db->quote($db->escape($course)));
+            $db->setQuery($queryCourse);
+
+            $item->course = $db->loadResult();
+        }
+
+        if ($level) {
+            $queryLevel = $db->getQuery(TRUE);
+
+            $queryLevel
+                    ->select('`title`')
+                    ->from('`#__fee_level`')
+                    ->where('`alias` = ' . $db->quote($db->escape($level)));
+            $db->setQuery($queryLevel);
+
+            $item->level = $db->loadResult();
+        }
+        return $item;
+    }
+    
+    /**
+     * Get year ago
+     * @param type $year
+     * @return int
+     */
+    private function getYearAgo($year) {
+
+        if ($year) {
+            $db = JFactory::getDbo();
+
+            //get year select
+            $querySelectYear = $db->getQuery(true);
+
+            $querySelectYear
+                    ->select('`start`')
+                    ->from('`#__fee_year`')
+                    ->where('`alias` = ' . $db->quote($db->escape($year)));
+            $db->setQuery($querySelectYear);
+
+            @$item->start = $db->loadResult();
+
+            //get List year alias
+            $queryListAlias = $db->getQuery(true);
+
+            $queryListAlias
+                    ->select('`alias`')
+                    ->from('`#__fee_year`')
+                    ->where('`start` <= ' . $db->quote($db->escape($item->start)));
+            $db->setQuery($queryListAlias);
+
+            @$item->listAlias = $db->loadColumn();
+
+            //get List year ago
+            $queryListAliasAgo = $db->getQuery(true);
+
+            $queryListAliasAgo
+                    ->select('`alias`')
+                    ->from('`#__fee_year`')
+                    ->where('`start` < ' . $db->quote($db->escape($item->start)));
+            $db->setQuery($queryListAliasAgo);
+
+            @$item->listAliasAgo = $db->loadColumn();
+
+            return $item;
+        }
+        return 0;
+    }
 }

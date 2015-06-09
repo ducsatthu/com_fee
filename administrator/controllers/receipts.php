@@ -67,5 +67,17 @@ class FeeControllerReceipts extends JControllerAdmin {
 
         $this->setRedirect('index.php?option=com_fee&view=receipts&format=prints&layout=prints', true);
     }
-
+    
+    public function printsPerson() {
+        $arrayInput = $this->input->getArray();
+        $filter_year_alias = $arrayInput['filter_year_alias'];
+        $cid = json_encode($arrayInput['cid']);
+        if (!$filter_year_alias || !$cid) {
+            echo "<script>alert('" . JText::_('COM_FEE_RECEIPT_PERSON_ERROR_SELECTED') . "');</script>";
+            echo "<script>window.location = 'index.php?option=com_fee&view=receipts'</script>";
+            return 0;
+        }
+        $url = 'index.php?option=com_fee&view=receipts&format=prints&layout=print_person&cid='.$cid;
+        $this->setRedirect($url);
+    }
 }
