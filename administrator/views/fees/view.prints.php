@@ -46,6 +46,9 @@ class FeeViewFees extends JViewLegacy {
         if ($this->_layout === 'print_owed_level') {
             $this->items = $this->get('ItemsPrintsOwedLevel');
         }
+        if ($this->_layout === 'print_owed_course') {
+            $this->items = $this->get('ItemsPrintsOwedCourse');
+        }
         $this->info = $this->get('Info');
         $this->pagination = $this->get('Pagination');
 
