@@ -14,50 +14,68 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('behavior.keepalive');
-
 // Import CSS
 $document = JFactory::getDocument();
 $document->addStyleSheet('components/com_fee/assets/css/fee.css');
 ?>
 <script type="text/javascript">
+
     js = jQuery.noConflict();
     js(document).ready(function () {
+<?php
+if ($this->item->id) {
+    ?>
+            js('input:hidden.department_alias').each(function () {
+                var name = js(this).attr('name');
+                if (name.indexOf('department_aliashidden')) {
+                    js('#jform_department_alias option[value="' + js(this).val() + '"]').attr('selected', true);
 
-        js('input:hidden.department_alias').each(function () {
-            var name = js(this).attr('name');
-            if (name.indexOf('department_aliashidden')) {
-                js('#jform_department_alias option[value="' + js(this).val() + '"]').attr('selected', true);
-            }
-        });
-        js("#jform_department_alias").trigger("liszt:updated");
-        js('input:hidden.course_alias').each(function () {
-            var name = js(this).attr('name');
-            if (name.indexOf('course_aliashidden')) {
-                js('#jform_course_alias option[value="' + js(this).val() + '"]').attr('selected', true);
-            }
-        });
-        js("#jform_course_alias").trigger("liszt:updated");
-        js('input:hidden.level_alias').each(function () {
-            var name = js(this).attr('name');
-            if (name.indexOf('level_aliashidden')) {
-                js('#jform_level_alias option[value="' + js(this).val() + '"]').attr('selected', true);
-            }
-        });
-        js("#jform_level_alias").trigger("liszt:updated");
+                }
+            });
+            js("#jform_department_alias").trigger("liszt:updated");
+            js('input:hidden.course_alias').each(function () {
+                var name = js(this).attr('name');
+                if (name.indexOf('course_aliashidden')) {
+                    js('#jform_course_alias option[value="' + js(this).val() + '"]').attr('selected', true);
+                }
+            });
+            js("#jform_course_alias").trigger("liszt:updated");
+            js('input:hidden.level_alias').each(function () {
+                var name = js(this).attr('name');
+                if (name.indexOf('level_aliashidden')) {
+                    js('#jform_level_alias option[value="' + js(this).val() + '"]').attr('selected', true);
+                }
+            });
+            js("#jform_level_alias").trigger("liszt:updated");
+    <?php
+} else {
+    if ($this->item->department_alias && $this->item->course_alias && $this->item->level_alias) {
+        ?>
+                js('#jform_department_alias option[value="<?php echo $this->item->department_alias; ?>"]').attr('selected', true);
+                js("#jform_department_alias").trigger("liszt:updated");
 
+                js('#jform_course_alias option[value="<?php echo $this->item->course_alias; ?>"]').attr('selected', true);
+                js("#jform_course_alias").trigger("liszt:updated");
+
+                js('#jform_level_alias option[value="<?php echo $this->item->level_alias; ?>"]').attr('selected', true);
+                js("#jform_level_alias").trigger("liszt:updated");
+        <?php
+    }
+}
+?>
         var department, course, level;
         js("#jform_department_alias").change(function () {
             department = js("#jform_department_alias").val();
             check();
-        }).trigger("change");;
+        }).trigger("change");
         js("#jform_course_alias").change(function () {
             course = js("#jform_course_alias").val();
             check();
-        }).trigger("change");;
+        }).trigger("change");
         js("#jform_level_alias").change(function () {
             level = js("#jform_level_alias").val();
             check();
-        }).trigger("change");;
+        }).trigger("change");
 
         function check() {
             js('#list-student-form').hide('slow');
@@ -75,25 +93,25 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
                     data: data,
                     datatype: "json",
                     success: function (results) {
-                        if (results!== 'false') {
-                            js("h5#department-show").text(js("#jform_level_alias option:selected").text()+" "+js("#jform_department_alias option:selected").text() + " K"+ js("#jform_course_alias option:selected").text());
+                        if (results !== 'false') {
+                            js("h5#department-show").text(js("#jform_level_alias option:selected").text() + " " + js("#jform_department_alias option:selected").text() + " K" + js("#jform_course_alias option:selected").text());
                             var parse = JSON.decode(results);
                             var tbody = '<tbody id="body-table">';
                             js.each(parse, function (k, v) {
                                 tbody += '<tr>';
-                                tbody += "<td><a href='<?php echo JRoute::_('index.php?option=com_fee&view=student&layout=edit&id=') ?>"+v.id+"'>" + v.student_id + "</a></td>";
+                                tbody += "<td><a href='<?php echo JRoute::_('index.php?option=com_fee&view=student&layout=edit&id=') ?>" + v.id + "'>" + v.student_id + "</a></td>";
                                 tbody += "<td>" + v.title + "</td>";
-                                if(v.special == 1){
+                                if (v.special == 1) {
                                     tbody += "<td>" + "<?php echo JText::_('COM_FEE_YES'); ?>" + "</td>";
-                                }else{
+                                } else {
                                     tbody += "<td>" + "<?php echo JText::_('COM_FEE_NO'); ?>" + "</td>";
                                 }
-                                 tbody += "</tr>";
+                                tbody += "</tr>";
                             });
                             tbody += "</tbody>";
-                            
+
                             js('#list-student').append(tbody);
-                            
+
                             js('#list-student-form').show('slow');
                         } else {
                             js('#body-table').remove();
@@ -122,13 +140,13 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
                         } else {
                             js('#text-notify').text();
                             js('div#text-notify-form').hide();
-                            
                         }
-
                     }
                 });
             });
-<?php } ?>
+    <?php
+}
+?>
     });
 
     Joomla.submitbutton = function (task)

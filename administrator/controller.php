@@ -65,7 +65,17 @@ class FeeController extends JControllerLegacy {
         $model_student = $this->getModel('student');
 
         $listStudent = $model_student->getItemsByParam($param);
-
+        
+        //save session 
+        $session = JFactory::getSession();
+        
+        $session->set('department',$param['department']);
+        
+        $session->set('course',$param['course']);
+        
+        $session->set('level',$param['level']);
+        
+        
         echo json_encode($listStudent);
 
         JFactory::getApplication()->close();

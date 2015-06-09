@@ -28,6 +28,18 @@ class FeeViewStudent extends JViewLegacy {
         $this->state = $this->get('State');
         $this->item = $this->get('Item');
         $this->form = $this->get('Form');
+        if (!$this->item->id) {
+            $session = JFactory::getSession();
+            $department = $session->get('department', '');
+            $course = $session->get('course', '');
+            $level = $session->get('level', '');
+            if ($department && $course && $level) {
+                $this->item->department_alias = $department;
+                $this->item->course_alias = $course;
+                $this->item->level_alias = $level;
+            }
+        }
+
 
         // Check for errors.
         if (count($errors = $this->get('Errors'))) {
@@ -69,7 +81,7 @@ class FeeViewStudent extends JViewLegacy {
             if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit')) {
                 JToolbarHelper::versions('com_fee.student', $this->item->id);
             }
-           // JToolBarHelper::custom('student.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+            // JToolBarHelper::custom('student.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
         }
         if (empty($this->item->id)) {
             JToolBarHelper::cancel('student.cancel', 'JTOOLBAR_CANCEL');
