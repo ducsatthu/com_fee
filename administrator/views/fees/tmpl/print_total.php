@@ -1,6 +1,5 @@
 <?php
 require_once JPATH_COMPONENT . '/helpers/convert.php';
-var_dump($this->items);
 ?>
 <html>
     <head>
