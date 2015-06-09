@@ -61,7 +61,13 @@ class FeeViewFees extends JViewLegacy {
 
             if ($canDo->get('core.create')) {
                 JToolBarHelper::addNew('fee.add', 'JTOOLBAR_NEW');
-                if ($canDo->get('core.edit')) {
+                
+            }
+
+            if ($canDo->get('core.edit') && isset($this->items[0])) {
+                JToolBarHelper::editList('fee.edit', 'JTOOLBAR_EDIT');
+            }
+            if ($canDo->get('core.edit') && $canDo->get('core.create')) {
                     JToolBarHelper::custom('fees.printsOwed', 'print.png', 'print.png', 'COM_FEE_PRINTS_OWED_FEE', false);
                     JToolBarHelper::custom('fees.printsOwedcourse', 'print.png', 'print.png', 'COM_FEE_PRINTS_OWED_FEE_COURSE', false);
                     JToolBarHelper::custom('fees.printsOwedlevel', 'print.png', 'print.png', 'COM_FEE_PRINTS_OWED_FEE_LEVEL', false);
@@ -70,11 +76,6 @@ class FeeViewFees extends JViewLegacy {
                     JToolBarHelper::custom('fees.printTotalFeeLevel', 'print.png', 'print.png', 'COM_FEE_PRINTS_TOTAL_FEE_LEVEL', FALSE);
                     JToolBarHelper::custom('fees.printRate', 'print.png', 'print.png', 'COM_FEE_PRINTS_RATE', FALSE);
                 }
-            }
-
-            if ($canDo->get('core.edit') && isset($this->items[0])) {
-                JToolBarHelper::editList('fee.edit', 'JTOOLBAR_EDIT');
-            }
         }
 
         if ($canDo->get('core.edit.state')) {
