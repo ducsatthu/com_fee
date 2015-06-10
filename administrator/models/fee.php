@@ -5,7 +5,7 @@
  * @package     com_fee
  * @copyright   Bản quyền (C) 2015. Các quyền đều được bảo vệ.
  * @license     bản quyền mã nguồn mở GNU phiên bản 2
-* @author      Tran Xuan Duc <ductranxuan.29710@gmail.com> - http://facebook.com/ducsatthuttd
+ * @author      Tran Xuan Duc <ductranxuan.29710@gmail.com> - http://facebook.com/ducsatthuttd
  */
 // No direct access.
 defined('_JEXEC') or die;
@@ -23,6 +23,7 @@ class FeeModelFee extends JModelAdmin {
      */
     protected $text_prefix = 'COM_FEE';
     public $typeAlias = 'com_fee.fee';
+
     /**
      * Returns a reference to the a Table object, always creating it.
      *
@@ -50,6 +51,29 @@ class FeeModelFee extends JModelAdmin {
 
         // Get the form.
         $form = $this->loadForm('com_fee.fee', 'fee', array('control' => 'jform', 'load_data' => $loadData));
+
+
+        if (empty($form)) {
+            return false;
+        }
+
+        return $form;
+    }
+
+    /**
+     * Method to get the record form custom
+     *
+     * @param	array	$data		An optional array of data for the form to interogate.
+     * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+     * @return	JForm	A JForm object on success, false on failure
+     * @since	1.6
+     */
+    public function getFormAdds($data = array(), $loadData = true) {
+        // Initialise variables.
+        $app = JFactory::getApplication();
+
+        // Get the form.
+        $form = $this->loadForm('com_fee.fee', 'fee_adds', array('control' => 'jform', 'load_data' => $loadData));
 
 
         if (empty($form)) {
@@ -147,6 +171,81 @@ class FeeModelFee extends JModelAdmin {
                     ->where('`year_alias` = ' . $db->quote($db->escape($param['year'])));
             $db->setQuery($query);
             $results = $db->loadResult();
+            if ($results) {
+                return $results;
+            }
+            return FALSE;
+        }
+        return FALSE;
+    }
+
+    public function addsFee($param) {
+
+        if (is_array($param)) {
+            $table = $this->getTable();
+            $save = array();
+            $listStudent = $this->getStudentByDepartment($param);
+            $error = array();
+            if (!$listStudent) {
+                $error = JText::_('COM_FEE_ERROR_NOT_EXITS_STUDENTS');
+
+                $result['error'][] = $error;
+                return $result;
+            }
+
+            foreach ($listStudent as $student) {
+                $checkStudent['student'] = $student;
+                $checkStudent['semester'] = $param['semester_alias'];
+                $checkStudent['year'] = $param['year_alias'];
+
+                $id = $this->checkFeeByParam($checkStudent);
+
+                if (!$id) {
+                    $id = 0;
+                }
+
+                $bind = array(
+                    'id' => $id,
+                    'created_by' => JFactory::getUser(),
+                    'student_alias' => $student,
+                    'semester_alias' => $param['semester_alias'],
+                    'year_alias' => $param['year_alias'],
+                    'payable' => $param['payable'],
+                );
+                $this->prepareTable($table);
+                if ($table->bind($bind)) {
+                    if ($table->check()) {
+                        if ($table->save($bind)) {
+                            $save = $table->store();
+                            $result['save'][] = $save;
+                        } else {
+                            $result['error'][] = $table->getError();
+                        }
+                    } else {
+                        $result['error'][] = $table->getError();
+                    }
+                } else {
+                    $result['error'][] = $table->getError();
+                }
+            }
+            return $result;
+        }
+        return FALSE;
+    }
+
+    public function getStudentByDepartment($param) {
+        if (is_array($param)) {
+            $db = JFactory::getDbo();
+            $query = $db->getQuery(true);
+
+            $query
+                    ->select('`alias`')
+                    ->from('`#__fee_student`')
+                    ->where('`department_alias` = ' . $db->quote($db->escape($param['department_alias'])))
+                    ->where('`course_alias` = ' . $db->quote($db->escape($param['course_alias'])))
+                    ->where('`level_alias` = ' . $db->quote($db->escape($param['level_alias'])));
+            $db->setQuery($query);
+            $results = $db->loadColumn();
             if ($results) {
                 return $results;
             }

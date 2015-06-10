@@ -22,5 +22,9 @@ class FeeControllerFee extends JControllerForm
         $this->view_list = 'fees';
         parent::__construct();
     }
-
+    
+    function adds(){
+        $url = 'index.php?option=com_fee&view=fee&layout=adds';
+        $this->setRedirect($url);
+    }
 }

@@ -5,7 +5,7 @@
  * @package     com_fee
  * @copyright   Bản quyền (C) 2015. Các quyền đều được bảo vệ.
  * @license     bản quyền mã nguồn mở GNU phiên bản 2
- * @author      Linh <mr.lynk92@gmail.com> - http://
+ * @author      Tran Xuan Duc <ductranxuan.29710@gmail.com> - http://facebook.com/ducsatthuttd
  */
 // No direct access
 defined('_JEXEC') or die;
@@ -27,7 +27,12 @@ class FeeViewFee extends JViewLegacy {
     public function display($tpl = null) {
         $this->state = $this->get('State');
         $this->item = $this->get('Item');
-        $this->form = $this->get('Form');
+
+        if ($this->_layout === 'edit') {
+            $this->form = $this->get('Form');
+        } else {
+            $this->form = $this->get('FormAdds');
+        }
 
         // Check for errors.
         if (count($errors = $this->get('Errors'))) {
@@ -57,17 +62,18 @@ class FeeViewFee extends JViewLegacy {
 
         // If not checked out, can save the item.
         if (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.create')))) {
-
             JToolBarHelper::apply('fee.apply', 'JTOOLBAR_APPLY');
-            JToolBarHelper::save('fee.save', 'JTOOLBAR_SAVE');
+            if ($this->_layout !== 'adds') {
+                JToolBarHelper::save('fee.save', 'JTOOLBAR_SAVE');
+            }
         }
-        if (!$checkedOut && ($canDo->get('core.create'))) {
+        if (!$checkedOut && ($canDo->get('core.create')) && $this->_layout !== 'adds') {
             JToolBarHelper::custom('fee.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
         }
         // If an existing item, can save to a copy.
-        if (!$isNew && $canDo->get('core.create')) {
+        if (!$isNew && $canDo->get('core.create') && $this->_layout !== 'adds') {
             JToolBarHelper::custom('fee.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
-        
+
             if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit')) {
                 JToolbarHelper::versions('com_fee.fee', $this->item->id);
             }
