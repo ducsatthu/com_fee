@@ -117,4 +117,29 @@ class FeeController extends JControllerLegacy {
         JFactory::getApplication()->close();
     }
 
+    function addsDo() {
+        JFactory::getDocument()->setMimeEncoding('application/json');
+
+        $input = JFactory::getApplication()->input;
+
+        $param['level_alias'] = $input->post->get('level_alias');
+
+        $param['department_alias'] = $input->post->get('department_alias');
+
+        $param['course_alias'] = $input->post->get('course_alias');
+
+        $param['semester_alias'] = $input->post->get('semester_alias');
+
+        $param['year_alias'] = $input->post->get('year_alias');
+        
+        $param['payable'] = $input->post->get('payable');
+        
+        $model_fee = $this->getModel('fee');
+        
+        $save = $model_fee->addsFee($param);
+        
+        echo json_encode($save);
+
+        JFactory::getApplication()->close();
+    }
 }
