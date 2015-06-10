@@ -23,6 +23,8 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
     js = jQuery.noConflict();
     js(document).ready(function () {
         js('#system-message-container-custom').hide();
+        js('#error').hide();
+        js('#success').hide();
         Joomla.submitbutton = function (task)
         {
             if (task == 'fee.cancel') {
@@ -51,6 +53,8 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
                         js('#toolbar-cancel').hide();
                         js('#warning').show();
                         js('#system-message-container-custom').show();
+                        js('#error').hide();
+                        js('#success').hide();
                         var data = {
                             "level_alias": js('#jform_level_alias').val(),
                             "department_alias": js('#jform_department_alias').val(),
@@ -80,9 +84,9 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
                                     js('#error').show('slow');
                                     js('#system-message-container-custom').show('slow');
                                 }
-                                if(data.save){
+                                if (data.save) {
                                     var textsuccess = "Lưu Thành công : ";
-                                    textsuccess += ('  '+data.save.length +' Bản ghi');
+                                    textsuccess += ('  ' + data.save.length + ' Bản ghi');
                                     js('#text-alert-success-custom').text(textsuccess);
                                     js('#success').show('slow');
                                     js('#system-message-container-custom').show('slow');
@@ -119,7 +123,7 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
                     <div class="alert alert-warning" style="display: none;" id="warning" >
                         <p id="text-alert-warning-custom">Đang Xử lý xin chờ trong giây lát</p>
                     </div>
-                     <div class="alert alert-success" style="display: none;" id="success" >
+                    <div class="alert alert-success" style="display: none;" id="success" >
                         <p id="text-alert-success-custom"></p>
                     </div>
                 </div>
@@ -143,7 +147,7 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
                     <li>Những sinh viên đã thêm học phí kỳ này (kỳ đã nhập) sẽ được cập nhật lại theo mức học phí mới</li>
                     <li>Những sinh viên được thêm mới học phí sẽ có mức miễn giảm bằng không </li>
                     <li>Những sinh viên đã được thêm rồi sẽ không cập nhật lại mức miễn giảm</li>
-                    
+
                 </ul>
                 <div class="alert alert-warning">
                     Cẩn thận:
