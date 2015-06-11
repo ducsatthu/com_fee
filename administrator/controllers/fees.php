@@ -103,6 +103,21 @@ class FeeControllerFees extends JControllerAdmin {
         $this->setRedirect($url);
     }
     
+    public function printsOwedCourse() {
+        $arrayInput = $this->input->getArray();
+        $filter_year_alias = $arrayInput['filter_year_alias'];
+        $filter_course_alias = $arrayInput['filter_course_alias'];
+        $filter_level_alias = $arrayInput['filter_level_alias'];
+
+        if (!$filter_year_alias || !$filter_level_alias || !$filter_course_alias) {
+            echo "<script>alert('" . JText::_('COM_FEE_ERROR_REQUIRE_SELECTED_TOTAL_FEE') . "');</script>";
+            echo "<script>window.location = 'index.php?option=com_fee&view=fees'</script>";
+            return 0;
+        }
+        $url = 'index.php?option=com_fee&view=fees&format=prints&layout=print_owed_course';
+        $this->setRedirect($url);
+    }
+    
     public function printTotalFee() {
         $arrayInput = $this->input->getArray();
         $filter_year_alias = $arrayInput['filter_year_alias'];
