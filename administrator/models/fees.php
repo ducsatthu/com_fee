@@ -1288,7 +1288,13 @@ class FeeModelFees extends JModelList {
                 ->where('`rate` > 0')
                 ->group("`student_alias`");
         $db->setQuery($queryGetPayable);
+        
         $result = $db->loadObjectList();
+        
+        if (!$result) {
+            $this->setError(JText::_('COM_FEE_ERROR_STUDENT_RATE_NOT_EXITS'));
+            return FALSE;
+        }
         foreach ($result as $key => $value) {
             @$items[$key]->totalPay = $value->totalPay;
             @$items[$key]->rate = $value->rate;
