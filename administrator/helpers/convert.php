@@ -32,9 +32,9 @@ class FeeHelperConvert {
             $number = (string) $number;
             $cutN = self::cutStringnumber($number);
             for ($i = count($cutN) - 1; $i >= 0; $i--) {
-                if ((int) $cutN[$i] !== 0 ) {
+                if ((int) $cutN[$i] !== 0) {
                     $string .= self::dictionaryNumberVNAll($cutN[$i]) . self::dictionaryNumberVN($i);
-                    if ((int)$i !== 0 && ((int)$cutN[$i - 1])!== 0 ) {
+                    if ((int) $i !== 0 && ((int) $cutN[$i - 1]) !== 0) {
                         if (@(int) $cutN[$i - 1] < 100 && @($i + 1) <= count($cutN) && @($i - 1) != 0) {
                             $string .= ' Không trăm ';
                         }
@@ -131,10 +131,12 @@ class FeeHelperConvert {
         $dictionary = array(
             0 => 'Không',
             1 => 'Một',
+            '1x' => 'Mốt',
             2 => 'Hai',
             3 => 'Ba',
             4 => 'Bốn',
             5 => 'Năm',
+            '5x' => 'Lăm',
             6 => 'Sáu',
             7 => 'Bảy',
             8 => 'Tám',
@@ -164,9 +166,6 @@ class FeeHelperConvert {
             return $negative . self::dictionaryNumberVNAll(abs($number));
         }
         switch (true) {
-            //      case $number < 10;
-            //           $string = 'lẻ ' . $dictionary[$number];
-            //          break;
             case $number < 21:
                 $string = $dictionary[$number];
                 break;
@@ -175,7 +174,13 @@ class FeeHelperConvert {
                 $units = $number % 10;
                 $string = $dictionary[$tens];
                 if ($units) {
-                    $string .= $hyphen . $dictionary[$units];
+                    if ($units == 1) {
+                        $string .= $hyphen . $dictionary['1x'];
+                    } else if ($units == 5) {
+                        $string .= $hyphen . $dictionary['5x'];
+                    } else {
+                        $string .= $hyphen . $dictionary[$units];
+                    }
                 }
                 break;
             case $number < 1000:
