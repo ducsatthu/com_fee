@@ -7,7 +7,7 @@
                description="COM_FEE_NAME_SCHOOL_DESCRIPTION"
          />
          <field name="address" type="textarea" 
-               default="Đức Thắng Quận Bắc Từ Liêm Hà Nội" 
+               default="Đức Thắng Bắc Từ Liêm Hà Nội" 
                label="COM_FEE_SCHOOL_ADDRESS"
                description="COM_FEE_SCHOOL_ADDRESS_DESCRIPTION"
          />
