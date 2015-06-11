@@ -5,7 +5,7 @@
  * @package     com_fee
  * @copyright   Bản quyền (C) 2015. Các quyền đều được bảo vệ.
  * @license     bản quyền mã nguồn mở GNU phiên bản 2
- * @author      Linh <mr.lynk92@gmail.com> - http://
+ * @author      Tran Xuan Duc <ductranxuan.29710@gmail.com> - http://facebook.com/ducsatthuttd
  */
 // No direct access
 defined('_JEXEC') or die;
