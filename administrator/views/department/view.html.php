@@ -68,7 +68,7 @@ class FeeViewDepartment extends JViewLegacy {
         if (!$isNew && $canDo->get('core.create')) {
             //JToolBarHelper::custom('department.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
             if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit')) {
-                JToolbarHelper::versions('com_fee.student', $this->item->id);
+                JToolbarHelper::versions('com_fee.department', $this->item->id);
             }
         }
         if (empty($this->item->id)) {
