@@ -66,7 +66,15 @@
                 onchange="this.form.submit();" translate="true"
                 query="SELECT 0 AS `alias`, 'COM_FEE_STUDENTS_LEVEL_ALIAS_FILTER_DEFAULT_OPTION' AS `val` UNION SELECT `alias`, `title` AS val FROM `#__fee_level`" key_field="alias" value_field="val"
         /> 
-        
+        <field name="formality" type="radio"
+               class="btn-group"
+               label="COM_FEE_FORM_RECEIPT_FORMALITY"
+               description="COM_FEE_FORM_RECEIPT_FORMALITY_DESC" 
+               default="0" 
+               required="true" >
+            <option value="0">Trong trường</option>
+            <option value="1">Ngân Hàng</option>
+        </field> 
         <field name="date" type="calendar" class="inputbox"
                readonly="readonly"
                required="true" 

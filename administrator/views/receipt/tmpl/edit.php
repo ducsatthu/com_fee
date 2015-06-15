@@ -229,7 +229,9 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
                             echo '<input type="hidden" class="year_alias" name="jform[year_aliashidden][' . $value . ']" value="' . $value . '" />';
                         endif;
                     endforeach;
-                    ?>			<div class="control-group">
+                    ?>
+                    <?php echo $this->form->getControlGroup('formality'); ?>
+                    <div class="control-group">
                         <div class="control-label"><?php echo $this->form->getLabel('date'); ?></div>
                         <div class="controls"><?php echo $this->form->getInput('date'); ?></div>
                     </div>

@@ -131,6 +131,7 @@ CREATE TABLE IF NOT EXISTS `#__fee_receipt` (
 `student_alias` VARCHAR(255)  NOT NULL ,
 `semester_alias` VARCHAR(255)  NOT NULL ,
 `year_alias` VARCHAR(255)  NOT NULL ,
+`formality` TINYINT(1) NOT NULL DEFAULT '0',
 `date` DATE NOT NULL DEFAULT '0000-00-00',
 `paid` FLOAT NOT NULL ,
 PRIMARY KEY (`id`)
