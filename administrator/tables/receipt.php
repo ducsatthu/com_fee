@@ -91,6 +91,7 @@ class FeeTablereceipt extends JTable {
             $array['alias'] = $this->checkExitsGuid();
         }
 
+
         //Support for multiple or not foreign key field: student_alias
         if (!empty($array['student_alias'])) {
             if (is_array($array['student_alias'])) {
@@ -101,6 +102,10 @@ class FeeTablereceipt extends JTable {
         } else {
             $array['student_alias'] = '';
         }
+
+
+
+        $array['level_alias'] = $this->getLevelAlias($array['student_alias']);
 
         //Support for multiple or not foreign key field: semester_alias
         if (!empty($array['semester_alias'])) {
@@ -355,6 +360,18 @@ class FeeTablereceipt extends JTable {
             return $db->execute();
         }
         return FALSE;
+    }
+
+    public function getLevelAlias($student_alias) {
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query
+                ->select('`level_alias`')
+                ->from('`#__fee_student`')
+                ->where('`#__fee_student`.`alias` = ' . $db->quote($student_alias, true));
+        $db->setQuery($query);
+        
+        return $db->loadResult();
     }
 
 }

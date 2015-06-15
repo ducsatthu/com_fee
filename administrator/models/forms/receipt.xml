@@ -27,6 +27,12 @@
                                                     
                required="true" 
                filter="safehtml" /> 
+        <field name="code" type="hidden" size="40" class="inputbox"
+               readonly="readonly"                                           
+               label="COM_FEE_FORM_LBL_RECEIPT_TITLE"
+               description="COM_FEE_FORM_DESC_RECEIPT_TITLE" 
+               required="true"    
+               filter="safehtml" /> 
 
         <field name="student_alias" type="foreignkey" class="inputbox"
                label="COM_FEE_FORM_LBL_RECEIPT_STUDENT_ALIAS"

@@ -90,9 +90,9 @@ class FeeModelReceipt extends JModelAdmin {
         if ($item = parent::getItem($pk)) {
 
             //Do any procesing on fields here if needed
-            if (!$item->title) {
-                $item->title = $this->getReceiptNext();
-            }
+//            if (!$item->title) {
+//                $item->title = $this->getReceiptNext();
+//            }
             if (!$item->date) {
                 $item->date = date_format(JFactory::getDate(), 'Y-m-d');
             }
@@ -156,7 +156,7 @@ class FeeModelReceipt extends JModelAdmin {
                     $this->setError(JText::_("COM_FEE_ERROR_SEMESTER_DO_NOT_EXITS"));
                     return false;
                 }
-                $item->semester_title = ((int) $semester_title > 0) ? FeeHelperConvert::number2roman((int) $semester_title) : $semester_title;
+                $item->semester_title = ((int) $semester_title > 0) ? FeeHelperConvert::number2roman((int) $semester_title) : "";
             }
             //get year 
             if ($item->year_alias) {
@@ -193,6 +193,7 @@ class FeeModelReceipt extends JModelAdmin {
         }
         return $item;
     }
+
     /**
      * Prepare and sanitise the table prior to saving.
      *
@@ -213,22 +214,39 @@ class FeeModelReceipt extends JModelAdmin {
         }
     }
 
-    protected function getReceiptNext() {
-        $year = date_format(JFactory::getDate(), 'Y');
-        $db = JFactory::getDbo();
-        $query = $db->getQuery(true);
+    public function getReceiptNext($param = array()) {
 
-        $query
-                ->select('MAX(`title`)')
-                ->from($this->_tbl)
-                ->where("DATE_FORMAT(`date`,'%Y') = DATE_FORMAT(CURRENT_DATE,'%Y')");
-
-        $db->setQuery($query);
-        $result = $db->loadResult();
-        if ($result) {
-            return $result + 1;
-        } else {
-            return 1;
+        if ($param['student_alias'] && $param['year_alias']) {
+            $db = JFactory::getDbo();
+            $query = $db->getQuery(true);
+            $query
+                    ->select('`level_alias`')
+                    ->from('`#__fee_student`')
+                    ->select('`#__fee_level`.`title`')
+                    ->join('LEFT', '`#__fee_level` ON `#__fee_level`.`alias` = `#__fee_student`.`level_alias`')
+                    ->where('`#__fee_student`.`alias` = '.$db->quote($param['student_alias'], true));
+            $db->setQuery($query);
+            
+            $level = $db->loadObject();
+            
+            $query = $db->getQuery(true);
+            $query
+                    ->select('MAX(`code`)')
+                    ->from($this->_tbl)
+                    ->where('`level_alias` = '.$db->quote($level->level_alias, true))
+                    ->where('`year_alias` = ' . $db->quote($db->escape($param['year_alias'])))
+                    ->where('`formality` =' . $db->quote($param['formality'], true))
+            ;
+            $db->setQuery($query);
+            $result['code'] = $db->loadResult();
+            if ($result['code'] ) {
+                $result['code']  + 1;
+            } else {
+                $result['code'] =  1;
+            }
+            $result['title'] = $level->title;
+            
+            return $result;
         }
     }
 

@@ -45,7 +45,7 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
         });
         js("#jform_year_alias").trigger("liszt:updated");
 
-        var student, semester, year;
+        var student, semester, year, formality;
         js("#jform_student_alias").change(function () {
             student = js("#jform_student_alias").val();
             data = "data=" + student;
@@ -85,7 +85,6 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
                                 totalPaid += parseInt(v.payable_rate);
 
                             });
-                            console.log(totalOwed);
                             tbody += '<tr class="info"><td  colspan="2"></td>';
                             tbody += '<td><?php echo JText::_('COM_FEE_TOTAL'); ?></td>';
 
@@ -106,6 +105,7 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
                 });
             }
             checkfee();
+            getReceipt();
         }).trigger("change");
 <?php if (!$this->item->id) { ?>
             js("#jform_semester_alias").change(function () {
@@ -115,7 +115,39 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
             js("#jform_year_alias").change(function () {
                 year = js("#jform_year_alias").val();
                 checkfee();
+                getReceipt();
             }).trigger("change");
+
+            js("#jform_formality").change(function () {
+                formality = js("#jform_formality input[name='jform[formality]']:checked").val();
+                getReceipt();
+            }).trigger("change");
+
+            function getReceipt() {
+                if (student && formality && year) {
+                    var data = {
+                        "student_alias": student,
+                        "formality": formality,
+                        "year_alias": year
+                    };
+
+                    js.ajax({
+                        type: "POST",
+                        url: "index.php?option=com_fee&task=getReceipt",
+                        data: data,
+                        datatype: "json",
+                        success: function (results) {
+                            results = JSON.decode(results);
+                            
+                            if(results.code && results.title){
+                                js('#jform_title').val(results.title + "-"+results.code);
+                                js('#jform_code').val(results.code);
+                            }
+                            
+                        }
+                    });
+                }
+            }
 
             function checkfee() {
                 js("tr").removeClass('error');
@@ -196,6 +228,7 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
                         <div class="control-label"><?php echo $this->form->getLabel('title'); ?></div>
                         <div class="controls"><?php echo $this->form->getInput('title'); ?></div>
                     </div>
+                    <?php echo $this->form->getControlGroup('code'); ?>
                     <div class="control-group">
                         <div class="control-label"><?php echo $this->form->getLabel('student_alias'); ?></div>
                         <div class="controls"><?php echo $this->form->getInput('student_alias'); ?></div>

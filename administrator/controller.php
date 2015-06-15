@@ -142,4 +142,33 @@ class FeeController extends JControllerLegacy {
 
         JFactory::getApplication()->close();
     }
+    
+    public function getReceipt(){
+         JFactory::getDocument()->setMimeEncoding('application/json');
+
+        $input = JFactory::getApplication()->input;
+        
+        $param['student_alias']= $input->post->get('student_alias');
+        
+        $param['formality'] = $input->post->get('formality');
+        
+        $param['year_alias'] = $input->post->get('year_alias');
+        
+        $model_receipt = $this->getModel('receipt');
+        
+        $receipt = $model_receipt->getReceiptNext($param);
+        
+        require_once JPATH_COMPONENT . '/helpers/convert.php';
+        
+        $receipt['title'] = FeeHelperConvert::convertVNese($receipt['title']);
+        
+        $receipt['title'] = strtoupper($receipt['title'][0]);
+        if(strtoupper($receipt['title']) === 'C' && $param['formality']){
+            $receipt['title'] = 'NH';
+        }
+        
+        echo json_encode($receipt);
+
+        JFactory::getApplication()->close();
+    }
 }
