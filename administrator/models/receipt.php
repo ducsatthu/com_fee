@@ -180,15 +180,10 @@ class FeeModelReceipt extends JModelAdmin {
                 }
                 $item->year_title = $year;
             }
-
             $date = new DateTime($item->date);
             $item->day = date_format($date, 'd');
             $item->month = date_format($date, 'm');
             $item->year = date_format($date, 'Y');
-            if (!FeeHelperConvert::convert_number_to_words($item->paid)) {
-                $this->setError(JText::_("COM_FEE_ERROR_CONVER_NUMBER_TO_ROMAN"));
-                return false;
-            }
             $item->paidString = FeeHelperConvert::convert_number_to_words($item->paid);
         }
         return $item;
@@ -224,28 +219,28 @@ class FeeModelReceipt extends JModelAdmin {
                     ->from('`#__fee_student`')
                     ->select('`#__fee_level`.`title`')
                     ->join('LEFT', '`#__fee_level` ON `#__fee_level`.`alias` = `#__fee_student`.`level_alias`')
-                    ->where('`#__fee_student`.`alias` = '.$db->quote($param['student_alias'], true));
+                    ->where('`#__fee_student`.`alias` = ' . $db->quote($param['student_alias'], true));
             $db->setQuery($query);
-            
+
             $level = $db->loadObject();
-            
+
             $query = $db->getQuery(true);
             $query
                     ->select('MAX(`code`)')
                     ->from($this->_tbl)
-                    ->where('`level_alias` = '.$db->quote($level->level_alias, true))
+                    ->where('`level_alias` = ' . $db->quote($level->level_alias, true))
                     ->where('`year_alias` = ' . $db->quote($db->escape($param['year_alias'])))
-                    ->where('`formality` =' . $db->quote($param['formality'], true))
+                    ->where('`formality` = ' . $db->quote($param['formality'], true))
             ;
             $db->setQuery($query);
             $result['code'] = $db->loadResult();
-            if ($result['code'] ) {
-                $result['code']  + 1;
+            if ($result['code']) {
+                $result['code'] = $result['code'] + 1;
             } else {
-                $result['code'] =  1;
+                $result['code'] = 1;
             }
             $result['title'] = $level->title;
-            
+
             return $result;
         }
     }
