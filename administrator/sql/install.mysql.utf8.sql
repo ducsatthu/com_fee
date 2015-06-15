@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `#__fee_semester` (
 `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
 `created_by` INT(11)  NOT NULL ,
 `alias` VARCHAR(255)  NOT NULL ,
-`title` INT(11)  NOT NULL ,
+`title` VARCHAR(11)  NOT NULL ,
 PRIMARY KEY (`id`)
 ) DEFAULT COLLATE=utf8_general_ci;
 
@@ -257,6 +257,7 @@ INSERT INTO `#__fee_level` (`id`, `asset_id`, `ordering`, `state`, `checked_out`
 (4, 245, 4, 1, 0, '0000-00-00 00:00:00', 668, '8C3B8FC5-1F03-4D0A-81EF-764867D35E33', 'Liên thông');
 
 INSERT INTO `#__fee_semester` (`id`, `asset_id`, `ordering`, `state`, `checked_out`, `checked_out_time`, `created_by`, `alias`, `title`) VALUES
-(1, 247, 1, 1, 0, '0000-00-00 00:00:00', 668, '4CEC3DF2-759F-49E4-B20E-78718B5C356B', 1),
-(2, 248, 2, 1, 0, '0000-00-00 00:00:00', 668, '30338A28-7BE5-4D36-9DFD-7CB287785129', 2),
-(3, 249, 3, 1, 0, '0000-00-00 00:00:00', 668, '82CCCF60-8C11-43EE-B2B8-E02D79A6A684', 3);
+(1, 247, 1, 1, 0, '0000-00-00 00:00:00', 668, '4CEC3DF2-759F-49E4-B20E-78718B5C356B', '1'),
+(2, 248, 2, 1, 0, '0000-00-00 00:00:00', 668, '30338A28-7BE5-4D36-9DFD-7CB287785129', '2'),
+(3, 249, 3, 1, 0, '0000-00-00 00:00:00', 668, '82CCCF60-8C11-43EE-B2B8-E02D79A6A684', '3');
+(4, 249, 4, 1, 0, '0000-00-00 00:00:00', 668, 'AA54A99B-B1C2-40AF-A577-0ACA55672E8F', 'Cả năm');
