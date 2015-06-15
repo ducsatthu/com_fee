@@ -303,7 +303,14 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
                         <td align="center">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
                         <td align="center"><br><h4>Phụ trách kế toán</h4></td>
                         <td align="center">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
-                        <td align="center"><i>Hà Nôi, ngày 19 tháng 5 năm 2015</i><br><h4>Người lập bảng</h4></td>			
+                        <td align="center">
+                            <?php
+                            $time = JComponentHelper::getParams('com_fee')->get('time', '30-12-2015');
+                            $timeformat = new DateTime($time);
+                            ?>
+                            <i>Hà Nôi, ngày <?php echo date_format($timeformat, 'd'); ?> tháng <?php echo date_format($timeformat, 'm'); ?> năm <?php echo date_format($timeformat, 'Y'); ?></i>
+                            <br><h4>Người lập bảng</h4>
+                        </td>			
                     </tr>
                 </table>
 

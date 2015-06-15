@@ -175,13 +175,13 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
                     <tr>
                         <td align="center"><?php echo $i++ ?></td>
                         <td align='center'><?php echo $item->name ?></td>
-                        <td align='right'><?php echo number_format($item->totalPay,'0',' ',' ') ?></td>
-                        <td align="center"> <?php echo number_format($item->rate,'0',' ',' ') ?> </td>
+                        <td align='right'><?php echo number_format($item->totalPay, '0', ' ', ' ') ?></td>
+                        <td align="center"> <?php echo number_format($item->rate, '0', ' ', ' ') ?> </td>
                         <td align="center" style="border-right: 1px solid black;">CBT</td>
-                        <td align="right" style="border-right: 1px solid black;border-left: 0px;"><?php 
-                        $payable  = $item->totalPay - $item->totalPay * $item->rate /100;
-                        echo number_format($payable ,'0',' ',' ') 
-                                ?></td>			
+                        <td align="right" style="border-right: 1px solid black;border-left: 0px;"><?php
+                            $payable = $item->totalPay - $item->totalPay * $item->rate / 100;
+                            echo number_format($payable, '0', ' ', ' ')
+                            ?></td>			
                     </tr>
                     <?php
                 }
@@ -196,7 +196,11 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
                     <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 
                     <td align="center">
-                        <p>Hà nội, ngày 05 tháng 06 năm 2015</p>
+                        <?php
+                        $time = JComponentHelper::getParams('com_fee')->get('time', '30-12-2015');
+                        $now = new DateTime($time);
+                        ?>
+                        <p>Hà nội, ngày <?php echo date_format($now, 'd'); ?> tháng <?php echo date_format($now, 'm'); ?> năm <?php echo date_format($now, 'Y'); ?></p>
 
                     </td>
                 </tr>

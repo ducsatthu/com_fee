@@ -254,8 +254,8 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
 
                         <td align="center">
                             <?php
-                            $now = new DateTime();
-                            $day = date_format($now, 'd');
+                            $time = JComponentHelper::getParams('com_fee')->get('time', '30-12-2015');
+                            $now = new DateTime($time);
                             ?>
                             <p>Hà nội, ngày <?php echo date_format($now, 'd'); ?> tháng <?php echo date_format($now, 'm'); ?> năm <?php echo date_format($now, 'Y'); ?></p>
                             <h4><b>Người lập bảng</b></h4>

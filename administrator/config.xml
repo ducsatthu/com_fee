@@ -21,7 +21,12 @@
                label="COM_FEE_DEPARTMENT_CODE"
                description="COM_FEE_DEPARTMENT_CODE_DESCRIPTION"
          />
-          
+          <field name="time" type="calendar" 
+                 label="COM_FEE_TIME" 
+                 description="COM_FEE_TIME_DESC"
+                 format="%d-%m-%Y"
+        
+        />
           <field
             name="save_history"
             type="radio"

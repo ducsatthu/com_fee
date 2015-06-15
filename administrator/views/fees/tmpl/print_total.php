@@ -217,43 +217,43 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
                             <td><?php echo $this->items[$item]->department ?></td>
                             <td align="center"><?php echo $this->items[$item]->course; ?></td>
                             <td align="center"><?php
-                echo number_format($this->items[$item]->hundpercent, '0', ' ', ' ');
-                $total_hundpercent += $this->items[$item]->hundpercent;
-                        ?></td>
+                                echo number_format($this->items[$item]->hundpercent, '0', ' ', ' ');
+                                $total_hundpercent += $this->items[$item]->hundpercent;
+                                ?></td>
                             <td align="center"><?php
-                        echo number_format($this->items[$item]->free, '0', ' ', ' ');
-                        $total_free += $this->items[$item]->free;
-                        ?></td>
+                                echo number_format($this->items[$item]->free, '0', ' ', ' ');
+                                $total_free += $this->items[$item]->free;
+                                ?></td>
                             <td align="center"><?php
-                        echo number_format($this->items[$item]->decrease, '0', ' ', ' ');
-                        $total_decrease += $this->items[$item]->decrease;
-                        ?></td>
+                                echo number_format($this->items[$item]->decrease, '0', ' ', ' ');
+                                $total_decrease += $this->items[$item]->decrease;
+                                ?></td>
 
                             <td align="center"><?php
-                        echo number_format($this->items[$item]->hundpercent + $this->items[$item]->decrease + $this->items[$item]->free, '0', ' ', ' ');
-                        ?></td>
+                                echo number_format($this->items[$item]->hundpercent + $this->items[$item]->decrease + $this->items[$item]->free, '0', ' ', ' ');
+                                ?></td>
                             <td align="right"><?php
-                        echo number_format($this->items[$item]->totalOwed, '0', ' ', ' ');
-                        $total_owed_ago += $this->items[$item]->totalOwed;
-                        ?></td>
+                                echo number_format($this->items[$item]->totalOwed, '0', ' ', ' ');
+                                $total_owed_ago += $this->items[$item]->totalOwed;
+                                ?></td>
                             <td align="right"><?php
-                        echo number_format($this->items[$item]->pay, '0', ' ', ' ');
-                        $total_payable += $this->items[$item]->pay;
-                        ?></td>
+                                echo number_format($this->items[$item]->pay, '0', ' ', ' ');
+                                $total_payable += $this->items[$item]->pay;
+                                ?></td>
                             <td align="right"><?php
-                        echo number_format($this->items[$item]->pay + $this->items[$item]->totalOwed, '0', ' ', ' ');
-                        $totalOwedNow = $this->items[$item]->pay + $this->items[$item]->totalOwed;
-                        $total_total += $this->items[$item]->pay + $this->items[$item]->totalOwed;
-                        ?></td>
+                                echo number_format($this->items[$item]->pay + $this->items[$item]->totalOwed, '0', ' ', ' ');
+                                $totalOwedNow = $this->items[$item]->pay + $this->items[$item]->totalOwed;
+                                $total_total += $this->items[$item]->pay + $this->items[$item]->totalOwed;
+                                ?></td>
                             <td align="right"><?php
-                        echo number_format($this->items[$item]->paid, '0', ' ', ' ');
-                        $total_paid += $this->items[$item]->paid;
-                        ?></td>
+                                echo number_format($this->items[$item]->paid, '0', ' ', ' ');
+                                $total_paid += $this->items[$item]->paid;
+                                ?></td>
                             <td align="right"> </td>
                             <td align="right"><?php
-                        #quan tam cai nay thuc thu
-                        echo number_format($this->items[$item]->paid, '0', ' ', ' ');
-                        ?>
+                                #quan tam cai nay thuc thu
+                                echo number_format($this->items[$item]->paid, '0', ' ', ' ');
+                                ?>
                             </td>
                             <td align="right">
                                 <?php
@@ -400,8 +400,8 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
                             <td align="center">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
                             <td align="center">
                                 <?php
-                                $now = new DateTime();
-                                $day = date_format($now, 'd');
+                                $time = JComponentHelper::getParams('com_fee')->get('time', '30-12-2015');
+                                $now = new DateTime($time);
                                 ?>
                                 <p><i>Hà nội, ngày <?php echo date_format($now, 'd'); ?> tháng <?php echo date_format($now, 'm'); ?> năm <?php echo date_format($now, 'Y'); ?></i></p>
                                 <h4>Người lập bảng</h4>

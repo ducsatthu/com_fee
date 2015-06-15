@@ -1,5 +1,6 @@
 <?php
-require_once JPATH_COMPONENT . '/helpers/convert.php';;
+require_once JPATH_COMPONENT . '/helpers/convert.php';
+;
 ?>
 <html>
     <head>
@@ -183,49 +184,49 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';;
                         <td align='right'> <?php echo $item->rate; ?> </td>
                         <td align="right">
                             <?php
-                                if($item->owedAgo){
-                                    echo number_format($item->owedAgo,'0',' ',' ');
-                                }else{
-                                    echo 0;
-                                }
+                            if ($item->owedAgo) {
+                                echo number_format($item->owedAgo, '0', ' ', ' ');
+                            } else {
+                                echo 0;
+                            }
                             ?>
                         </td>
-                        <td align="right">  <?php echo number_format($item->pay,'0',' ',' '); ?></td>
+                        <td align="right">  <?php echo number_format($item->pay, '0', ' ', ' '); ?></td>
                         <td align="right"> 
-                        <?php
+                            <?php
                             $totalPay = $item->owedAgo + $item->pay;
-                            echo number_format($totalPay,'0',' ',' ');
-                        ?>
+                            echo number_format($totalPay, '0', ' ', ' ');
+                            ?>
                         </td>
                         <td align="right"> 
-                        <?php
-                            echo number_format($item->paid,'0',' ',' ');
-                        ?>
+                            <?php
+                            echo number_format($item->paid, '0', ' ', ' ');
+                            ?>
                         </td>
                         <td align="right" style="border-right: 1px solid black;">
-                        <?php
+                            <?php
                             $totalOwed = $totalPay - $item->paid;
-                            echo number_format($totalOwed,'0',' ',' ');
+                            echo number_format($totalOwed, '0', ' ', ' ');
                             $totalOweds += $totalOwed;
-                        ?>
+                            ?>
                         </td>
                     </tr>
                     <?php
                 }
                 ?>
 
-                
+
 
                 <!-- Cộng -->
                 <tr>
                     <td colspan="6" style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 0px solid black;"></td>
                     <td align="center" style="border-right:0px;border-left:0px;border-top: 1px solid black;border-bottom: 1px solid black;">Tổng nợ : </td>
                     <td align="center" style="border-right: 1px solid black;border-left: 0px;border-top: 1px solid black;border-bottom: 1px solid black;"  align="center">
-                    <span>
-                        <?php
-                        echo number_format($totalOweds,'0',' ',' ');
-                        ?>
-                     </span>
+                        <span>
+                            <?php
+                            echo number_format($totalOweds, '0', ' ', ' ');
+                            ?>
+                        </span>
                     </td>
                 </tr>
             </table>
@@ -248,8 +249,8 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';;
 
                                     <td align="center">
                                         <?php
-                                        $now = new DateTime();
-                                        $day = date_format($now, 'd');
+                                        $time = JComponentHelper::getParams('com_fee')->get('time', '30-12-2015');
+                                        $now = new DateTime($time);
                                         ?>
                                         <p>Hà nội, ngày <?php echo date_format($now, 'd'); ?> tháng <?php echo date_format($now, 'm'); ?> năm <?php echo date_format($now, 'Y'); ?></p>
                                         <h4><b>Cán bộ thu tiền</b></h4>
