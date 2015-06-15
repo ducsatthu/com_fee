@@ -200,6 +200,7 @@ if ($this->item->id) {
                         <div class="control-label"><?php echo $this->form->getLabel('title'); ?></div>
                         <div class="controls"><?php echo $this->form->getInput('title'); ?></div>
                     </div>
+                    <?php echo $this->form->getControlGroup('born'); ?>
                     <div class="control-group">
                         <div class="control-label"><?php echo $this->form->getLabel('department_alias'); ?></div>
                         <div class="controls"><?php echo $this->form->getInput('department_alias'); ?></div>

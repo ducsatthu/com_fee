@@ -5,7 +5,7 @@
  * @package     com_fee
  * @copyright   Bản quyền (C) 2015. Các quyền đều được bảo vệ.
  * @license     bản quyền mã nguồn mở GNU phiên bản 2
- * @author      Linh <mr.lynk92@gmail.com> - http://
+ * @author      Tran Xuan Duc <ductranxuan.29710@gmail.com> - http://facebook.com/ducsatthuttd
  */
 defined('_JEXEC') or die;
 
@@ -37,6 +37,7 @@ class FeeModelStudents extends JModelList {
                 'course_alias', 'a.course_alias',
                 'level_alias', 'a.level_alias',
                 'special', 'a.special',
+                'born','a.born'
             );
         }
 

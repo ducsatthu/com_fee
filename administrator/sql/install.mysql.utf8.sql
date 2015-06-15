@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS `#__fee_student` (
 `alias` VARCHAR(255)  NOT NULL ,
 `student_id` VARCHAR(255)  NOT NULL ,
 `title` VARCHAR(255)  NOT NULL ,
+`born` DATE NOT NULL DEFAULT '1992-10-07',
 `department_alias` VARCHAR(255)  NOT NULL ,
 `course_alias` VARCHAR(255)  NOT NULL ,
 `level_alias` VARCHAR(255)  NOT NULL ,

@@ -125,7 +125,10 @@ class FeeTablestudent extends JTable {
         } else {
             $array['level_alias'] = '';
         }
-
+        //format date
+        $born = new DateTime($array['born']);
+        $array['born'] = date_format($born, "Y-m-d");
+        
         if (isset($array['params']) && is_array($array['params'])) {
             $registry = new JRegistry();
             $registry->loadArray($array['params']);

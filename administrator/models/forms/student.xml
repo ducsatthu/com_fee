@@ -36,6 +36,10 @@
                                                     
                                                      required="true" 
                                                     filter="safehtml" /> 
+       <field name="born" type="calendar" 
+              default="7-10-1992" 
+              label="COM_FEE_FORM_LBL_STUDENT_BORN" 
+              description="COM_FEE_FORM_DESC_STUDENT_BORN" format="%d-%m-%Y" />
 
  <field name="department_alias" type="foreignkey" class="inputbox"
             label="COM_FEE_FORM_LBL_STUDENT_DEPARTMENT_ALIAS"
