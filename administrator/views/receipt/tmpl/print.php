@@ -116,7 +116,7 @@
                         </td>
                         <td align="center">
                             <p>Số chứng từ:</p>
-                            <p>C-<?php echo $this->item->title; ?></p>
+                            <p><?php echo $this->item->title; ?></p>
                         </td>
 
                     </tr>
@@ -132,124 +132,132 @@
 
             </div>
             <div style="padding-left:15mm">
-                <p>Họ, tên người nộp : <span style="text-transform: uppercase;"><?php echo $this->item->student_name; ?><span></p>
-                            <p>MSSV : <?php echo $this->item->student_id; ?></p>
-                            <p>Địa chỉ : Lớp <?php echo $this->item->department; ?> - K<?php echo $this->item->course; ?></p>
-                            <p>
-                                Nội dung thu: Học phí 
-                                <?php
-                                if ($this->item->semester_title) {
-                                    echo "kỳ " . $this->item->semester_title;
-                                }
-                                ?>
-                                - Năm học
-                                <?php
-                                echo $this->item->year_title;
-                                ?>
-                            </p>
-                            <p>Số tiền thu (bằng số) : <span> <?php echo number_format($this->item->paid, 0, " ", " ") ?> đồng </span></p>
-                            <p>Số tiền thu (bằng chữ) :<span> <?php echo $this->item->paidString; ?> đồng chẵn</span></p>
-                            <p>.....................................................................................................................................................</p>
-                            </div>
+                <p>Họ, tên người nộp : <span style="text-transform: uppercase;"><?php echo $this->item->student_name; ?></span></p>
+                <p>Mã SV/Học Viên : <?php echo $this->item->student_id; ?></p>
+                <p>Địa chỉ : Lớp <?php echo $this->item->department; ?> - K<?php echo $this->item->course; ?></p>
+                <p>
+                    Nội dung thu: Học phí 
+                    <?php
+                    if ($this->item->semester_title) {
+                        echo "kỳ " . $this->item->semester_title;
+                    }
+                    ?>
+                    - Năm học
+                    <?php
+                    echo $this->item->year_title;
+                    ?>
+                </p>
+                <p>Số tiền thu (bằng số) : <span> <?php echo number_format($this->item->paid, 0, " ", " ") ?> đồng </span></p>
+                <p>Số tiền thu (bằng chữ) :<span> <?php echo $this->item->paidString; ?> đồng chẵn</span></p>
+                <p>.....................................................................................................................................................</p>
+            </div>
 
-                            <div align="center">
-                                <table align="center">
-                                    <tr>
-                                        <td align="center">
-                                            <p></p>
-                                            <p>Người nộp tiền</p>
-                                            <p style='font-style: italic;'>(Ký và ghi rõ họ tên)</p>
-                                        </td>
-                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                        <td align="center">
-                                            <p style='font-style: italic;'>Hà nội , ngày <?php echo $this->item->day; ?> tháng <?php echo $this->item->month; ?> năm <?php echo $this->item->year; ?> </p>
-                                            <p>Người thu tiền</p>
-                                            <p style='font-style: italic;'>(Ký và ghi rõ họ tên)</p>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
+            <div align="center">
+                <table align="center">
+                    <tr>
+                        <td align="center">
+                            <p></p>
+                            <p>Người nộp tiền</p>
+                            <p style='font-style: italic;'>(Ký và ghi rõ họ tên)</p>
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td align="center">
+                            <p style='font-style: italic;'>Hà nội , ngày <?php echo $this->item->day; ?> tháng <?php echo $this->item->month; ?> năm <?php echo $this->item->year; ?> </p>
+                            <p>Người thu tiền</p>
+                            <p style='font-style: italic;'>(Ký và ghi rõ họ tên)</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
 
-                            <div style="padding-top:30mm">
+            <div style="padding-top:30mm">
 
-                            </div>
-                            <div align="center">
-                                <table align="center">
-                                    <tr>
-                                        <td align="center">
-                                            <h6 style="text-transform: uppercase;"><?php echo JComponentHelper::getParams('com_fee')->get('name_school', 'Trường Đại học Mỏ - Địa chất'); ?></h6>
-                                            <p style="font-size: 10pt;"><?php echo JComponentHelper::getParams('com_fee')->get('address', 'Đức Thằng Bắc Từ Liêm Hà Nội'); ?></p>
-                                            <p style="font-size: 10pt;"><?php echo JComponentHelper::getParams('com_fee')->get('department_code', 'Mã đơn vị SDNS : 1055493'); ?></p>
-                                        </td>
-                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                        <td align="center">
-                                            <p>Mẫu số : C38 - BB</p>
-                                            <p>(Ban hành theo QĐ Số 19/2006/QĐ-BTC</p>
-                                            <p>Ngày 30/3/2006 của Bộ trưởng BTC)</p>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <div style="padding-top:3mm">
+            </div>
+            <div align="center">
+                <table align="center">
+                    <tr>
+                        <td align="center">
+                            <h6 style="text-transform: uppercase;"><?php echo JComponentHelper::getParams('com_fee')->get('name_school', 'Trường Đại học Mỏ - Địa chất'); ?></h6>
+                            <p style="font-size: 10pt;"><?php echo JComponentHelper::getParams('com_fee')->get('address', 'Đức Thằng Bắc Từ Liêm Hà Nội'); ?></p>
+                            <p style="font-size: 10pt;"><?php echo JComponentHelper::getParams('com_fee')->get('department_code', 'Mã đơn vị SDNS : 1055493'); ?></p>
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td align="center">
+                            <p>Mẫu số : C38 - BB</p>
+                            <p>(Ban hành theo QĐ Số 19/2006/QĐ-BTC</p>
+                            <p>Ngày 30/3/2006 của Bộ trưởng BTC)</p>
+                        </td>
+                    </tr>
+                </table>
+                <div style="padding-top:3mm">
 
-                                </div>
-                                <table align="center">
-                                    <tr>
-                                        <td style="width:85%;">
+                </div>
+                <table align="center">
+                    <tr>
+                        <td style="width:85%;">
 
-                                        </td>
-                                        <td align="center">
-                                            <p>Số chứng từ:</p>
-                                            <p>C-<?php echo $this->item->title; ?></p>
-                                        </td>
+                        </td>
+                        <td align="center">
+                            <p>Số chứng từ:</p>
+                            <p><?php echo $this->item->title; ?></p>
+                        </td>
 
-                                    </tr>
-                                </table>
-                                <div style="padding-top:0mm">
+                    </tr>
+                </table>
+                <div style="padding-top:0mm">
 
-                                </div>
-                                <h3 style="text-transform: uppercase;">Biên Lai Thu Tiền</h3>
-                                <p>(Liên 2: Giao cho sinh viên)</p>
+                </div>
+                <h3 style="text-transform: uppercase;">Biên Lai Thu Tiền</h3>
+                <p>(Liên 2: Giao cho sinh viên)</p>
 
-                            </div>
-                            <div style="padding-top:5mm">
+            </div>
+            <div style="padding-top:5mm">
 
-                            </div>
-                            <div style="padding-left:15mm">
-                                <p>Họ, tên người nộp : <span style="text-transform: uppercase;"><?php echo $this->item->student_name; ?><span></p>
-                                            <p>MSSV : <?php echo $this->item->student_id; ?></p>
-                                            <p>Địa chỉ : Lớp <?php echo $this->item->department; ?> - K<?php echo $this->item->course; ?></p>
-                                            <p>
-                                                Nội dung thu: Học phí 
-                                                <?php
-                                                if ($this->item->semester_title) {
-                                                    echo "kỳ " . $this->item->semester_title;
-                                                }
-                                                ?>
-                                                - Năm học
-                                                <?php
-                                                echo $this->item->year_title;
-                                                ?>
-                                            </p>
-                                            <p>Số tiền thu (bằng số) : <span> <?php echo number_format($this->item->paid, 0, " ", " ") ?> đồng </span></p>
-                                            <p>Số tiền thu (bằng chữ) :<span> <?php echo $this->item->paidString; ?> đồng chẵn</span></p>
-                                            <p>.....................................................................................................................................................</p>
-                                            </div>
-                                            <div align="center">
-                                                <table align="center">
-                                                    <tr>
-                                                        <td align="center">
-                                                            <p><b>Chú ý : mất biên lai không cấp lại</b></p>
-                                                            <p>Người nộp tiền</p>
-                                                            <p style='font-style: italic;'>(Ký và ghi rõ họ tên)</p>
-                                                        </td>
-                                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                                        <td align="center">
-                                                            <p style='font-style: italic;'>Hà nội , ngày <?php echo $this->item->day; ?> tháng <?php echo $this->item->month; ?> năm <?php echo $this->item->year; ?> </p>
-                                                            <p>Người thu tiền</p>
-                                                            <p style='font-style: italic;'>(Ký và ghi rõ họ tên)</p>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                            </body>
-                                            </html>
+            </div>
+            <div style="padding-left:15mm">
+                <p>Họ, tên người nộp : 
+                    <span style="text-transform: uppercase;"><?php echo $this->item->student_name; ?>
+                    </span>
+                </p>
+                <p>
+                    Mã SV/Học Viên : 
+                    <?php
+                    echo $this->item->student_id;
+                    ?>
+                </p>
+                <p>Địa chỉ : Lớp <?php echo $this->item->department; ?> - K<?php echo $this->item->course; ?></p>
+                <p>
+                    Nội dung thu: Học phí 
+                    <?php
+                    if ($this->item->semester_title) {
+                        echo "kỳ " . $this->item->semester_title;
+                    }
+                    ?>
+                    - Năm học
+                    <?php
+                    echo $this->item->year_title;
+                    ?>
+                </p>
+                <p>Số tiền thu (bằng số) : <span> <?php echo number_format($this->item->paid, 0, " ", " ") ?> đồng </span></p>
+                <p>Số tiền thu (bằng chữ) :<span> <?php echo $this->item->paidString; ?> đồng chẵn</span></p>
+                <p>.....................................................................................................................................................</p>
+            </div>
+            <div align="center">
+                <table align="center">
+                    <tr>
+                        <td align="center">
+                            <p><b>Chú ý : mất biên lai không cấp lại</b></p>
+                            <p>Người nộp tiền</p>
+                            <p style='font-style: italic;'>(Ký và ghi rõ họ tên)</p>
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td align="center">
+                            <p style='font-style: italic;'>Hà nội , ngày <?php echo $this->item->day; ?> tháng <?php echo $this->item->month; ?> năm <?php echo $this->item->year; ?> </p>
+                            <p>Người thu tiền</p>
+                            <p style='font-style: italic;'>(Ký và ghi rõ họ tên)</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+    </body>
+</html>

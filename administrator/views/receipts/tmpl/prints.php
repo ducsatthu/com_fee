@@ -201,7 +201,7 @@ require_once JPATH_COMPONENT . '/helpers/convert.php';
                                 echo date_format($date, "d-m-Y");
                                 ?>
                             </td>
-                            <td align="center">C-<?php echo $this->items[$item]->title; ?></td>
+                            <td align="center"><?php echo $this->items[$item]->title; ?></td>
                             <td align="right" style="border-right: 1px solid black;">
                                 <?php
                                 echo number_format($this->items[$item]->paid, 0, " ", " ");
