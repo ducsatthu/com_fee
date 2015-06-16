@@ -31,7 +31,11 @@ class FeeController extends JControllerLegacy {
 
         return $this;
     }
-
+    
+    
+    /**
+     * Check Student ID exits 
+     */
     public function checkStudentId() {
         JFactory::getDocument()->setMimeEncoding('application/json');
 
@@ -47,7 +51,10 @@ class FeeController extends JControllerLegacy {
 
         JFactory::getApplication()->close();
     }
-
+    
+    /**
+     * Get Student 
+     */
     public function getStudent() {
         JFactory::getDocument()->setMimeEncoding('application/json');
 
@@ -80,7 +87,11 @@ class FeeController extends JControllerLegacy {
 
         JFactory::getApplication()->close();
     }
-
+    
+    
+    /**
+     * Get Fee Student
+     */
     public function getFeeStudent() {
         JFactory::getDocument()->setMimeEncoding('application/json');
 
@@ -96,7 +107,9 @@ class FeeController extends JControllerLegacy {
 
         JFactory::getApplication()->close();
     }
-
+    /**
+     * Check student fee
+     */
     public function checkFee() {
         JFactory::getDocument()->setMimeEncoding('application/json');
 
@@ -116,7 +129,10 @@ class FeeController extends JControllerLegacy {
 
         JFactory::getApplication()->close();
     }
-
+    
+    /**
+     * add all fee for class
+     */
     function addsDo() {
         JFactory::getDocument()->setMimeEncoding('application/json');
 
@@ -143,6 +159,9 @@ class FeeController extends JControllerLegacy {
         JFactory::getApplication()->close();
     }
     
+    /**
+     * Get next Receipt
+     */
     public function getReceipt(){
          JFactory::getDocument()->setMimeEncoding('application/json');
 
