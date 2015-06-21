@@ -80,7 +80,9 @@ class JFormFieldForeignKey extends JFormField {
                     )
                     ->from($this->table);
         }
-
+        $query
+                ->order($this->value_field .' DESC');
+        
         $db->setQuery($query);
         $results = $db->loadObjectList();
         
