@@ -70,7 +70,7 @@ class FeeControllerFees extends JControllerAdmin {
             return 0;
         }
         $url = 'index.php?option=com_fee&view=fees&format=prints&layout=print_owed';
-        $this->setRedirect($url);
+        echo "<script>window.open('" . $url . "','_self');</script>";
     }
 
     public function printFee() {
@@ -86,9 +86,9 @@ class FeeControllerFees extends JControllerAdmin {
             return 0;
         }
         $url = 'index.php?option=com_fee&view=fees&format=prints&layout=print_fee';
-        $this->setRedirect($url);
+        echo "<script>window.open('" . $url . "','_self');</script>";
     }
-    
+
     public function printsOwedlevel() {
         $arrayInput = $this->input->getArray();
         $filter_year_alias = $arrayInput['filter_year_alias'];
@@ -100,9 +100,9 @@ class FeeControllerFees extends JControllerAdmin {
             return 0;
         }
         $url = 'index.php?option=com_fee&view=fees&format=prints&layout=print_owed_level';
-        $this->setRedirect($url);
+        echo "<script>window.open('" . $url . "','_self');</script>";
     }
-    
+
     public function printsOwedCourse() {
         $arrayInput = $this->input->getArray();
         $filter_year_alias = $arrayInput['filter_year_alias'];
@@ -115,9 +115,9 @@ class FeeControllerFees extends JControllerAdmin {
             return 0;
         }
         $url = 'index.php?option=com_fee&view=fees&format=prints&layout=print_owed_course';
-        $this->setRedirect($url);
+        echo "<script>window.open('" . $url . "','_self');</script>";
     }
-    
+
     public function printTotalFee() {
         $arrayInput = $this->input->getArray();
         $filter_year_alias = $arrayInput['filter_year_alias'];
@@ -131,24 +131,24 @@ class FeeControllerFees extends JControllerAdmin {
         }
 
         $url = 'index.php?option=com_fee&view=fees&format=prints&layout=print_total';
-        $this->setRedirect($url);
+        echo "<script>window.open('" . $url . "','_self');</script>";
     }
-    
+
     public function printTotalFeeLevel() {
         $arrayInput = $this->input->getArray();
         $filter_year_alias = $arrayInput['filter_year_alias'];
         $filter_level_alias = $arrayInput['filter_level_alias'];
 
-        if (!$filter_year_alias || !$filter_level_alias ) {
+        if (!$filter_year_alias || !$filter_level_alias) {
             echo "<script>alert('" . JText::_('COM_FEE_ERROR_REQUIRE_SELECTED_YEAR_LEVEL') . "')</script>";
             echo "<script>window.location = 'index.php?option=com_fee&view=fees'</script>";
             return 0;
         }
 
         $url = 'index.php?option=com_fee&view=fees&format=prints&layout=print_total_level';
-        $this->setRedirect($url);
+        echo "<script>window.open('" . $url . "','_self');</script>";
     }
-    
+
     public function printRate() {
         $arrayInput = $this->input->getArray();
         $filter_year_alias = $arrayInput['filter_year_alias'];
@@ -163,7 +163,7 @@ class FeeControllerFees extends JControllerAdmin {
         }
 
         $url = 'index.php?option=com_fee&view=fees&format=prints&layout=print_rate';
-        $this->setRedirect($url);
+        echo "<script>window.open('" . $url . "','_self');</script>";
     }
 
 }

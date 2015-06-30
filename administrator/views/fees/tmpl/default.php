@@ -4,7 +4,7 @@
  * @package     com_fee
  * @copyright   Bản quyền (C) 2015. Các quyền đều được bảo vệ.
  * @license     bản quyền mã nguồn mở GNU phiên bản 2
- * @author      Linh <mr.lynk92@gmail.com> - http://
+ * @author      Tran Xuan Duc <ductranxuan.29710@gmail.com> - http://facebook.com/ducsatthuttd
  */
 // no direct access
 defined('_JEXEC') or die;
@@ -49,6 +49,7 @@ $sortFields = $this->getSortFields();
             jQuery('#adminForm').submit();
         });
     });
+
 </script>
 
 <?php
@@ -70,7 +71,66 @@ $totalOwed = 0;
         <?php else : ?>
             <div id="j-main-container">
             <?php endif; ?>
+            <div class="btn-toolbar">
+                <div class="btn-wrapper" id="toolbar-print">
+                    <a onclick="Joomla.submitbutton('fees.printsOwed')" class="btn btn-small">
+                        <span class="icon-print"></span>
+                        <?php
+                        echo JText::_('COM_FEE_PRINTS_OWED_FEE');
+                        ?>
+                    </a>
+                </div>
+                <div class="btn-wrapper" id="toolbar-print">
+                    <button onclick="Joomla.submitbutton('fees.printsOwedcourse')" class="btn btn-small">
+                        <span class="icon-print"></span>
+                        <?php
+                        echo JText::_('COM_FEE_PRINTS_OWED_FEE_COURSE');
+                        ?>
+                    </button>
+                </div>
 
+                <div class="btn-wrapper" id="toolbar-print">
+                    <button onclick="Joomla.submitbutton('fees.printsOwedlevel')" class="btn btn-small">
+                        <span class="icon-print"></span>
+                        <?php
+                        echo JText::_('COM_FEE_PRINTS_OWED_FEE_LEVEL');
+                        ?>
+                    </button>
+                </div>
+                <div class="btn-wrapper" id="toolbar-print">
+                    <button onclick="Joomla.submitbutton('fees.printFee')" class="btn btn-small">
+                        <span class="icon-print"></span>
+                        <?php
+                        echo JText::_('COM_FEE_PRINTS_FEE_DEPARTMENT');
+                        ?>
+                    </button>
+                </div>
+
+                <div class="btn-wrapper" id="toolbar-print">
+                    <button onclick="Joomla.submitbutton('fees.printTotalFee')" class="btn btn-small">
+                        <span class="icon-print"></span>
+                        <?php
+                        echo JText::_('COM_FEE_PRINTS_TOTAL_FEE');
+                        ?>
+                    </button>
+                </div>
+                <div class="btn-wrapper" id="toolbar-print">
+                    <button onclick="Joomla.submitbutton('fees.printTotalFeeLevel')" class="btn btn-small">
+                        <span class="icon-print"></span>
+                        <?php
+                        echo JText::_('COM_FEE_PRINTS_TOTAL_FEE_LEVEL');
+                        ?>
+                    </button>
+                </div>
+                <div class="btn-wrapper" id="toolbar-print">
+                    <button onclick="Joomla.submitbutton('fees.printRate')" class="btn btn-small">
+                        <span class="icon-print"></span>
+                        <?php
+                        echo JText::_('COM_FEE_PRINTS_RATE');
+                        ?>
+                    </button>
+                </div>
+            </div>
             <div id="filter-bar" class="btn-toolbar">
                 <div class="filter-search btn-group pull-left">
                     <label for="filter_search" class="element-invisible"><?php echo JText::_('JSEARCH_FILTER'); ?></label>
