@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset>
+
+        <field name="department_alias" type="foreignkey" class="inputbox"
+               label="COM_FEE_FORM_LBL_STUDENT_DEPARTMENT_ALIAS"
+               description="COM_FEE_FORM_DESC_STUDENT_DEPARTMENT_ALIAS" input_type="list" table="#__fee_department" key_field="alias" value_field="title"  required="true"  /> 
+
+        <field name="course_alias" type="foreignkey" class="inputbox"
+               label="COM_FEE_FORM_LBL_STUDENT_COURSE_ALIAS"
+               description="COM_FEE_FORM_DESC_STUDENT_COURSE_ALIAS" input_type="list" table="#__fee_course" key_field="alias" value_field="title"  required="true"  /> 
+
+        <field name="level_alias" type="foreignkey" class="inputbox"
+               label="COM_FEE_FORM_LBL_STUDENT_LEVEL_ALIAS"
+               description="COM_FEE_FORM_DESC_STUDENT_LEVEL_ALIAS" input_type="list" table="#__fee_level" key_field="alias" value_field="title"  required="true"  /> 
+        
+        <field name="year_alias" type="foreignkey" class="inputbox"
+               label="COM_FEE_FORM_LBL_RECEIPT_YEAR_ALIAS"
+               description="COM_FEE_FORM_DESC_RECEIPT_YEAR_ALIAS" input_type="list" table="#__fee_year" key_field="alias" value_field="start" val="CONCAT(CAST(`start` AS CHAR), ' - ',CAST(`end` AS CHAR)) AS start" special="true" required="true"  /> 
+
+
+    </fieldset>
+
+</form>

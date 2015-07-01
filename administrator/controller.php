@@ -24,15 +24,47 @@ class FeeController extends JControllerLegacy {
     public function display($cachable = false, $urlparams = false) {
         require_once JPATH_COMPONENT . '/helpers/fee.php';
 
-        $view = JFactory::getApplication()->input->getCmd('view', 'students');
+        $view = JFactory::getApplication()->input->getCmd('view', 'dashboard');
         JFactory::getApplication()->input->set('view', $view);
+
+        $this->setSession();
 
         parent::display($cachable, $urlparams);
 
         return $this;
     }
     
-    
+
+    public function setSession() {
+        $input = JFactory::getApplication()->input;
+
+        $session = JFactory::getSession();
+        
+        if ($session->get('filter_level_alias')) {
+            if (!$input->get('filter_level_alias')) {
+                JFactory::getApplication()->input->set('filter_level_alias', $session->get('filter_level_alias'));
+            }
+        }
+        
+        if ($session->get('filter_department_alias')) {
+            if (!$input->get('filter_department_alias')) {
+                JFactory::getApplication()->input->set('filter_department_alias', $session->get('filter_department_alias'));
+            }
+        }
+        
+        if ($session->get('filter_course_alias')) {
+            if (!$input->get('filter_course_alias')) {
+                JFactory::getApplication()->input->set('filter_course_alias', $session->get('filter_course_alias'));
+            }
+        }
+        
+        if ($session->get('filter_year_alias')) {
+            if (!$input->get('filter_year_alias')) {
+                JFactory::getApplication()->input->set('filter_year_alias', $session->get('filter_year_alias'));
+            }
+        }
+    }
+
     /**
      * Check Student ID exits 
      */
@@ -51,7 +83,7 @@ class FeeController extends JControllerLegacy {
 
         JFactory::getApplication()->close();
     }
-    
+
     /**
      * Get Student 
      */
@@ -87,8 +119,7 @@ class FeeController extends JControllerLegacy {
 
         JFactory::getApplication()->close();
     }
-    
-    
+
     /**
      * Get Fee Student
      */
@@ -107,6 +138,7 @@ class FeeController extends JControllerLegacy {
 
         JFactory::getApplication()->close();
     }
+
     /**
      * Check student fee
      */
@@ -129,7 +161,7 @@ class FeeController extends JControllerLegacy {
 
         JFactory::getApplication()->close();
     }
-    
+
     /**
      * add all fee for class
      */
@@ -147,47 +179,48 @@ class FeeController extends JControllerLegacy {
         $param['semester_alias'] = $input->post->get('semester_alias');
 
         $param['year_alias'] = $input->post->get('year_alias');
-        
+
         $param['payable'] = $input->post->get('payable');
-        
+
         $model_fee = $this->getModel('fee');
-        
+
         $save = $model_fee->addsFee($param);
-        
+
         echo json_encode($save);
 
         JFactory::getApplication()->close();
     }
-    
+
     /**
      * Get next Receipt
      */
-    public function getReceipt(){
-         JFactory::getDocument()->setMimeEncoding('application/json');
+    public function getReceipt() {
+        JFactory::getDocument()->setMimeEncoding('application/json');
 
         $input = JFactory::getApplication()->input;
-        
-        $param['student_alias']= $input->post->get('student_alias');
-        
+
+        $param['student_alias'] = $input->post->get('student_alias');
+
         $param['formality'] = $input->post->get('formality');
-        
+
         $param['year_alias'] = $input->post->get('year_alias');
-        
+
         $model_receipt = $this->getModel('receipt');
-        
+
         $receipt = $model_receipt->getReceiptNext($param);
-        
+
         require_once JPATH_COMPONENT . '/helpers/convert.php';
-        
+
         $receipt['title'] = FeeHelperConvert::convertVNese($receipt['title']);
-        
+
         $receipt['title'] = strtoupper($receipt['title'][0]);
-        if(strtoupper($receipt['title']) === 'C' && $param['formality']){
+        if (strtoupper($receipt['title']) === 'C' && $param['formality']) {
             $receipt['title'] = 'NH';
         }
-        
+
         echo json_encode($receipt);
 
         JFactory::getApplication()->close();
     }
+
 }
