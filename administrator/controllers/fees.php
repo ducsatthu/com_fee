@@ -52,18 +52,53 @@ class FeeControllerFees extends JControllerAdmin {
         if ($return) {
             echo "1";
         }
-
+        
         // Close the application
         JFactory::getApplication()->close();
     }
 
+    public function __construct($config = array()) {
+        $this->setSession();
+        parent::__construct($config);
+    }
+    public function setSession() {
+        $input = JFactory::getApplication()->input;
+        
+        $session = JFactory::getSession();
+        
+        if ($session->get('filter_level_alias')) {
+            if (!$input->get('filter_level_alias')) {
+                JFactory::getApplication()->input->set('filter_level_alias', $session->get('filter_level_alias'));
+            }
+        }
+        
+        if ($session->get('filter_department_alias')) {
+            if (!$input->get('filter_department_alias')) {
+                JFactory::getApplication()->input->set('filter_department_alias', $session->get('filter_department_alias'));
+            }
+        }
+        
+        if ($session->get('filter_course_alias')) {
+            if (!$input->get('filter_course_alias')) {
+                JFactory::getApplication()->input->set('filter_course_alias', $session->get('filter_course_alias'));
+            }
+        }
+        
+        if ($session->get('filter_year_alias')) {
+            if (!$input->get('filter_year_alias')) {
+                JFactory::getApplication()->input->set('filter_year_alias', $session->get('filter_year_alias'));
+            }
+        }
+    }
+    
     public function printsOwed() {
+        
         $arrayInput = $this->input->getArray();
-        $filter_year_alias = $arrayInput['filter_year_alias'];
-        $filter_department_alias = $arrayInput['filter_department_alias'];
-        $filter_course_alias = $arrayInput['filter_course_alias'];
-        $filter_level_alias = $arrayInput['filter_level_alias'];
-
+        @$filter_year_alias = $arrayInput['filter_year_alias'];
+        @$filter_department_alias = $arrayInput['filter_department_alias'];
+        @$filter_course_alias = $arrayInput['filter_course_alias'];
+        @$filter_level_alias = $arrayInput['filter_level_alias'];
+        
         if (!$filter_course_alias || !$filter_department_alias || !$filter_level_alias || !$filter_year_alias) {
             echo "<script>alert('" . JText::_('COM_FEE_ERROR_REQUIRE_SELECTED') . "');</script>";
             echo "<script>window.location = 'index.php?option=com_fee&view=fees'</script>";
@@ -75,10 +110,10 @@ class FeeControllerFees extends JControllerAdmin {
 
     public function printFee() {
         $arrayInput = $this->input->getArray();
-        $filter_year_alias = $arrayInput['filter_year_alias'];
-        $filter_department_alias = $arrayInput['filter_department_alias'];
-        $filter_course_alias = $arrayInput['filter_course_alias'];
-        $filter_level_alias = $arrayInput['filter_level_alias'];
+        @$filter_year_alias = $arrayInput['filter_year_alias'];
+        @$filter_department_alias = $arrayInput['filter_department_alias'];
+        @$filter_course_alias = $arrayInput['filter_course_alias'];
+        @$filter_level_alias = $arrayInput['filter_level_alias'];
 
         if (!$filter_course_alias || !$filter_department_alias || !$filter_level_alias || !$filter_year_alias) {
             echo "<script>alert('" . JText::_('COM_FEE_ERROR_REQUIRE_SELECTED') . "');</script>";
@@ -91,8 +126,8 @@ class FeeControllerFees extends JControllerAdmin {
 
     public function printsOwedlevel() {
         $arrayInput = $this->input->getArray();
-        $filter_year_alias = $arrayInput['filter_year_alias'];
-        $filter_level_alias = $arrayInput['filter_level_alias'];
+        @$filter_year_alias = $arrayInput['filter_year_alias'];
+        @$filter_level_alias = $arrayInput['filter_level_alias'];
 
         if (!$filter_level_alias || !$filter_year_alias) {
             echo "<script>alert('" . JText::_('COM_FEE_ERROR_REQUIRE_SELECTED_YEAR_LEVEL') . "');</script>";
@@ -105,9 +140,9 @@ class FeeControllerFees extends JControllerAdmin {
 
     public function printsOwedCourse() {
         $arrayInput = $this->input->getArray();
-        $filter_year_alias = $arrayInput['filter_year_alias'];
-        $filter_course_alias = $arrayInput['filter_course_alias'];
-        $filter_level_alias = $arrayInput['filter_level_alias'];
+        @$filter_year_alias = $arrayInput['filter_year_alias'];
+        @$filter_course_alias = $arrayInput['filter_course_alias'];
+        @$filter_level_alias = $arrayInput['filter_level_alias'];
 
         if (!$filter_year_alias || !$filter_level_alias || !$filter_course_alias) {
             echo "<script>alert('" . JText::_('COM_FEE_ERROR_REQUIRE_SELECTED_TOTAL_FEE') . "');</script>";
@@ -120,9 +155,9 @@ class FeeControllerFees extends JControllerAdmin {
 
     public function printTotalFee() {
         $arrayInput = $this->input->getArray();
-        $filter_year_alias = $arrayInput['filter_year_alias'];
-        $filter_course_alias = $arrayInput['filter_course_alias'];
-        $filter_level_alias = $arrayInput['filter_level_alias'];
+        @$filter_year_alias = $arrayInput['filter_year_alias'];
+        @$filter_course_alias = $arrayInput['filter_course_alias'];
+        @$filter_level_alias = $arrayInput['filter_level_alias'];
 
         if (!$filter_year_alias || !$filter_level_alias || !$filter_course_alias) {
             echo "<script>alert('" . JText::_('COM_FEE_ERROR_REQUIRE_SELECTED_TOTAL_FEE') . "')</script>";
@@ -136,8 +171,8 @@ class FeeControllerFees extends JControllerAdmin {
 
     public function printTotalFeeLevel() {
         $arrayInput = $this->input->getArray();
-        $filter_year_alias = $arrayInput['filter_year_alias'];
-        $filter_level_alias = $arrayInput['filter_level_alias'];
+        @$filter_year_alias = $arrayInput['filter_year_alias'];
+        @$filter_level_alias = $arrayInput['filter_level_alias'];
 
         if (!$filter_year_alias || !$filter_level_alias) {
             echo "<script>alert('" . JText::_('COM_FEE_ERROR_REQUIRE_SELECTED_YEAR_LEVEL') . "')</script>";
@@ -151,10 +186,10 @@ class FeeControllerFees extends JControllerAdmin {
 
     public function printRate() {
         $arrayInput = $this->input->getArray();
-        $filter_year_alias = $arrayInput['filter_year_alias'];
-        $filter_department_alias = $arrayInput['filter_department_alias'];
-        $filter_course_alias = $arrayInput['filter_course_alias'];
-        $filter_level_alias = $arrayInput['filter_level_alias'];
+        @$filter_year_alias = $arrayInput['filter_year_alias'];
+        @$filter_department_alias = $arrayInput['filter_department_alias'];
+        @$filter_course_alias = $arrayInput['filter_course_alias'];
+        @$filter_level_alias = $arrayInput['filter_level_alias'];
 
         if (!$filter_year_alias || !$filter_department_alias || !$filter_level_alias || !$filter_course_alias) {
             echo "<script>alert('" . JText::_('COM_FEE_ERROR_REQUIRE_SELECTED') . "')</script>";
