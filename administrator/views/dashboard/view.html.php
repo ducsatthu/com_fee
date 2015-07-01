@@ -79,13 +79,13 @@ class FeeViewDashboard extends JViewLegacy {
      */
     protected function addToolbar() {
         require_once JPATH_COMPONENT . '/helpers/fee.php';
-        JToolBarHelper::title(JText::_('Bảng tin'), 'dashboard');
+        JToolBarHelper::title(JText::_('COM_FEE_TITLE_DASHBOARD'), 'Bảng Tin');
         $canDo = FeeHelper::getActions();
     }
 
     protected function setDocument() {
         $document = JFactory::getDocument();
-        $document->setTitle(JText::_('dashboard quan ly hoc phi'));
+        $document->setTitle(JText::_('COM_FEE_TITLE_DASHBOARD'));
 
         JHtml::_('jquery.framework'); // load jquery
         JHtml::_('jquery.ui'); // load jquery ui

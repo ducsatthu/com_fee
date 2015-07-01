@@ -78,13 +78,13 @@ $document = JFactory::getDocument();
             <?php endif; ?>
             <section class="content-header">
                 <h1>
-                    Bảng Tin
+                    <?php echo JText::_('COM_FEE_TITLE_DASHBOARD'); ?>
                 </h1>
             </section>
             <section class="content">
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Chọn Các Mục Muốn Thao Tác</h3>
+                        <h3 class="box-title"><?php echo JText::_('COM_FEE_FORM_LBL_FIELD'); ?></h3>
                         <div class="box-tools pull-right">
                             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                             <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -153,7 +153,7 @@ $document = JFactory::getDocument();
                         <!-- Line CHART -->
                         <div class="box box-primary">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Tổng Thu (Toàn Bộ)</h3>
+                                <h3 class="box-title"><?php echo JText::_('COM_FEE_DASHBOARD_TOTAL'); ?></h3>
                                 <div class="box-tools pull-right">
                                     <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                     <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -190,7 +190,7 @@ $document = JFactory::getDocument();
 
                         <div class="box box-default">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Tổng thu theo hệ</h3>
+                                <h3 class="box-title"><?php echo JText::_('COM_FEE_DASHBOARD_TOTAL_LEVEL'); ?></h3>
                                 <div class="box-tools pull-right">
                                     <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                     <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>

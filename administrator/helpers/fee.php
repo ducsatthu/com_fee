@@ -5,7 +5,7 @@
  * @package     com_fee
  * @copyright   Bản quyền (C) 2015. Các quyền đều được bảo vệ.
  * @license     bản quyền mã nguồn mở GNU phiên bản 2
- * @author      Linh <mr.lynk92@gmail.com> - http://
+ * @author      Tran Xuan Duc <ductranxuan.29710@gmail.com> - http://facebook.com/ducsatthuttd
  */
 // No direct access
 defined('_JEXEC') or die;
@@ -19,6 +19,10 @@ class FeeHelper {
      * Configure the Linkbar.
      */
     public static function addSubmenu($vName = '') {
+        JHtmlSidebar::addEntry(
+                JText::_('COM_FEE_TITLE_DASHBOARD'), 'index.php?option=com_fee&view=dashboard', $vName == 'dashboard'
+        );
+        
         JHtmlSidebar::addEntry(
                 JText::_('COM_FEE_TITLE_STUDENTS'), 'index.php?option=com_fee&view=students', $vName == 'students'
         );
@@ -71,5 +75,7 @@ class FeeHelper {
 
         return $result;
     }
-
+    
+    
+    
 }
