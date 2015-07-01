@@ -75,15 +75,23 @@ class FeeControllerDashboard extends JControllerAdmin {
 
         if ($param['level_alias']) {
             $session->set('filter_level_alias', $param['level_alias']);
+        }else{
+            $session->set('filter_level_alias', "0");
         }
         if ($param['department_alias']) {
             $session->set('filter_department_alias', $param['department_alias']);
+        }else{
+            $session->set('filter_department_alias', "0");
         }
         if ($param['course_alias']) {
              $session->set('filter_course_alias', $param['course_alias']);
+        }else{
+            $session->set('filter_course_alias', "0");
         }
         if ($param['year_alias']) {
             $session->set('filter_year_alias', $param['year_alias']);
+        }else{
+            $session->set('filter_year_alias', "0");
         }
         
        
