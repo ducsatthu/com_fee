@@ -45,7 +45,6 @@ class FeeViewStudent extends JViewLegacy {
         if (count($errors = $this->get('Errors'))) {
             throw new Exception(implode("\n", $errors));
         }
-
         $this->addToolbar();
         parent::display($tpl);
     }
@@ -67,26 +66,29 @@ class FeeViewStudent extends JViewLegacy {
 
         JToolBarHelper::title(JText::_('COM_FEE_TITLE_STUDENT'), 'student.png');
 
-        // If not checked out, can save the item.
-        if (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.create')))) {
+        if (!$this->_layout === 'upload') {
 
-            JToolBarHelper::apply('student.apply', 'JTOOLBAR_APPLY');
-            JToolBarHelper::save('student.save', 'JTOOLBAR_SAVE');
-        }
-        if (!$checkedOut && ($canDo->get('core.create'))) {
-            JToolBarHelper::custom('student.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
-        }
-        // If an existing item, can save to a copy.
-        if (!$isNew && $canDo->get('core.create')) {
-            if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit')) {
-                JToolbarHelper::versions('com_fee.student', $this->item->id);
+            // If not checked out, can save the item.
+            if (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.create')))) {
+
+                JToolBarHelper::apply('student.apply', 'JTOOLBAR_APPLY');
+                JToolBarHelper::save('student.save', 'JTOOLBAR_SAVE');
             }
-            // JToolBarHelper::custom('student.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
-        }
-        if (empty($this->item->id)) {
-            JToolBarHelper::cancel('student.cancel', 'JTOOLBAR_CANCEL');
-        } else {
-            JToolBarHelper::cancel('student.cancel', 'JTOOLBAR_CLOSE');
+            if (!$checkedOut && ($canDo->get('core.create'))) {
+                JToolBarHelper::custom('student.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+            }
+            // If an existing item, can save to a copy.
+            if (!$isNew && $canDo->get('core.create')) {
+                if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit')) {
+                    JToolbarHelper::versions('com_fee.student', $this->item->id);
+                }
+                // JToolBarHelper::custom('student.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+            }
+            if (empty($this->item->id)) {
+                JToolBarHelper::cancel('student.cancel', 'JTOOLBAR_CANCEL');
+            } else {
+                JToolBarHelper::cancel('student.cancel', 'JTOOLBAR_CLOSE');
+            }
         }
     }
 
