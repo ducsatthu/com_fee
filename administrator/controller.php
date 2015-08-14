@@ -44,24 +44,24 @@ class FeeController extends JControllerLegacy {
         $session->set('filter_year_alias', "0");
 
         try {
-            if (!empty($session->get('filter_level_alias'))) {
+            if (($session->get('filter_level_alias'))) {
                 if (empty($input->get('filter_level_alias'))) {
                     JFactory::getApplication()->input->set('filter_level_alias', $session->get('filter_level_alias'));
                 }
             }
-            if (!empty($session->get('filter_department_alias'))) {
+            if (($session->get('filter_department_alias'))) {
                 if (empty($input->get('filter_department_alias'))) {
                     JFactory::getApplication()->input->set('filter_department_alias', $session->get('filter_department_alias'));
                 }
             }
 
-            if (!empty($session->get('filter_course_alias'))) {
+            if (($session->get('filter_course_alias'))) {
                 if (empty($input->get('filter_course_alias'))) {
                     JFactory::getApplication()->input->set('filter_course_alias', $session->get('filter_course_alias'));
                 }
             }
 
-            if (!empty($session->get('filter_year_alias'))) {
+            if (($session->get('filter_year_alias'))) {
                 if (empty($input->get('filter_year_alias'))) {
                     JFactory::getApplication()->input->set('filter_year_alias', $session->get('filter_year_alias'));
                 }
