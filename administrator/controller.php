@@ -33,36 +33,37 @@ class FeeController extends JControllerLegacy {
 
         return $this;
     }
-    
+
     public function setSession() {
         $input = JFactory::getApplication()->input;
 
         $session = JFactory::getSession();
-        
-        if($session){
-        if (!empty($session->get('filter_level_alias'))) {
-            if (empty($input->get('filter_level_alias'))) {
-                JFactory::getApplication()->input->set('filter_level_alias', $session->get('filter_level_alias'));
+
+        try {
+            if (!empty($session->get('filter_level_alias'))) {
+                if (empty($input->get('filter_level_alias'))) {
+                    JFactory::getApplication()->input->set('filter_level_alias', $session->get('filter_level_alias'));
+                }
             }
-        }
-        
-        if (!empty($session->get('filter_department_alias'))) {
-            if (empty($input->get('filter_department_alias'))) {
-                JFactory::getApplication()->input->set('filter_department_alias', $session->get('filter_department_alias'));
+            if (!empty($session->get('filter_department_alias'))) {
+                if (empty($input->get('filter_department_alias'))) {
+                    JFactory::getApplication()->input->set('filter_department_alias', $session->get('filter_department_alias'));
+                }
             }
-        }
-        
-        if (!empty($session->get('filter_course_alias'))) {
-            if (empty($input->get('filter_course_alias'))) {
-                JFactory::getApplication()->input->set('filter_course_alias', $session->get('filter_course_alias'));
+
+            if (!empty($session->get('filter_course_alias'))) {
+                if (empty($input->get('filter_course_alias'))) {
+                    JFactory::getApplication()->input->set('filter_course_alias', $session->get('filter_course_alias'));
+                }
             }
-        }
-        
-        if (!empty($session->get('filter_year_alias'))) {
-            if (empty($input->get('filter_year_alias'))) {
-                JFactory::getApplication()->input->set('filter_year_alias', $session->get('filter_year_alias'));
+
+            if (!empty($session->get('filter_year_alias'))) {
+                if (empty($input->get('filter_year_alias'))) {
+                    JFactory::getApplication()->input->set('filter_year_alias', $session->get('filter_year_alias'));
+                }
             }
-        }
+        } catch (Exception $exc) {
+            # echo $exc->getTraceAsString();
         }
     }
 
@@ -100,7 +101,7 @@ class FeeController extends JControllerLegacy {
 
             $param['level'] = $input->post->get('level');
 
-            //save session 
+//save session 
             $session = JFactory::getSession();
 
             $session->set('department', $param['department']);
