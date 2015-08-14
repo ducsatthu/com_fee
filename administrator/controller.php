@@ -39,6 +39,7 @@ class FeeController extends JControllerLegacy {
 
         $session = JFactory::getSession();
         
+        if($session){
         if (!empty($session->get('filter_level_alias'))) {
             if (empty($input->get('filter_level_alias'))) {
                 JFactory::getApplication()->input->set('filter_level_alias', $session->get('filter_level_alias'));
@@ -61,6 +62,7 @@ class FeeController extends JControllerLegacy {
             if (empty($input->get('filter_year_alias'))) {
                 JFactory::getApplication()->input->set('filter_year_alias', $session->get('filter_year_alias'));
             }
+        }
         }
     }
 
