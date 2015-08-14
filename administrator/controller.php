@@ -38,6 +38,10 @@ class FeeController extends JControllerLegacy {
         $input = JFactory::getApplication()->input;
 
         $session = JFactory::getSession();
+        $session->set('filter_level_alias', "0");
+        $session->set('filter_department_alias', "0");
+        $session->set('filter_course_alias', "0");
+        $session->set('filter_year_alias', "0");
 
         try {
             if (!empty($session->get('filter_level_alias'))) {
