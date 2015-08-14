@@ -280,9 +280,8 @@ class FeeHelperConvert {
         else
             return strtolower($res);
     }
-    
-    
-     /**
+
+    /**
      * convert accented Vietnamese
      * 
      * @param type $str
@@ -309,15 +308,17 @@ class FeeHelperConvert {
         }
         return $str;
     }
-    
+
     public static function random_color_part_dark() {
         return str_pad(dechex(mt_rand(100, 200)), 2, '0', STR_PAD_LEFT);
     }
 
     public static function random_color($number) {
-        for($i = 0 ; $i< $number ; $i++){
-            $item[$i] = '#'.self::random_color_part_dark() . self::random_color_part_dark() . self::random_color_part_dark();
+        for ($i = 0; $i < $number; $i++) {
+            $item[$i] = '#' . self::random_color_part_dark() . self::random_color_part_dark() . self::random_color_part_dark();
         }
         return json_encode($item);
     }
+
 }
+

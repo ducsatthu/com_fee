@@ -78,7 +78,6 @@ class FeeTabledepartment extends JTable {
      */
     public function bind($array, $ignore = '') {
 
-
         $input = JFactory::getApplication()->input;
         $task = $input->getString('task', '');
         if (($task == 'save' || $task == 'apply') && (!JFactory::getUser()->authorise('core.edit.state', 'com_fee.department.' . $array['id']) && $array['state'] == 1)) {
@@ -165,7 +164,7 @@ class FeeTabledepartment extends JTable {
         $query
                 ->select('count(`title`)')
                 ->from($this->_tbl)
-                ->where("`title`= " . $this->_db->quote($this->title, TRUE));
+                ->where("`title` LIKE '%" . $this->_db->escape($this->title) . "%'");
 
         $this->_db->setQuery($query);
 
@@ -291,5 +290,16 @@ class FeeTabledepartment extends JTable {
 
         return $result;
     }
+    
+    public function store($updateNulls = false) {
+        if(!parent::store($updateNulls)):
+            return FALSE;
+        endif;
+        
+        return $this->alias;
+        
+    }
+    
+  
 
 }

@@ -154,7 +154,7 @@ class FeeTablecourse extends JTable {
         $query
                 ->select('count(`title`)')
                 ->from($this->_tbl)
-                ->where("`title`= " . $this->_db->quote($this->title, TRUE));
+                ->where("`title` LIKE '%" . $this->_db->escape($this->title) . "%'");
 
         $this->_db->setQuery($query);
 
@@ -164,7 +164,7 @@ class FeeTablecourse extends JTable {
             $this->setError(JText::_('COM_FEE_ERROR_COURSE_VALIDATE_EXITS'));
             return FALSE;
         }
-        
+
         return parent::check();
     }
 
@@ -282,4 +282,12 @@ class FeeTablecourse extends JTable {
         return $result;
     }
 
+    public function store($updateNulls = false) {
+        if (!parent::store($updateNulls)):
+            return FALSE;
+        endif;
+
+        return $this->alias;
+    }
 }
+    
