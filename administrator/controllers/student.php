@@ -23,20 +23,25 @@ class FeeControllerStudent extends JControllerForm {
         $this->view_list = 'students';
         parent::__construct();
     }
-
+    
+    public function adds(){
+        $url = 'index.php?option=com_fee&view=student&layout=upload';
+        $this->setRedirect($url);
+    }
+    
     function upload() {
         JFactory::getDocument()->setMimeEncoding('application/json');
         $mimes = array(
             'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         );
-        sleep(2);
 
         $fieldName = 'myfile';
 
         $fileStatus = array(
             'status' => 0,
             'message' => '',
-            'path' => ''
+            'path' => '',
+            'object' => ''
         );
         if (isset($_FILES[$fieldName])) {
             $fileError = $_FILES[$fieldName]['error'];
@@ -79,6 +84,9 @@ class FeeControllerStudent extends JControllerForm {
                             $fileStatus['status'] = 1;
                             $fileStatus['message'] = "Bạn đã upload $fileName thành công";
                             $fileStatus['path'] = $uploadPath;
+                            //doc file va tra ve o day:
+                            require_once JPATH_COMPONENT . '/helpers/excel.php'; // goi cai file vua viet vao
+                            $fileStatus['object'] = FeeHelperExcel::readExcel($uploadPath);
                         }
                     }
                 endif;
@@ -86,6 +94,42 @@ class FeeControllerStudent extends JControllerForm {
         }
 
         echo json_encode($fileStatus);
+        JFactory::getApplication()->close();
+    }
+
+    function insertData() {
+        /* Gọi model để xử lý */
+        $modelStudent = $this->getModel('student');
+        $modelDepartment = $this->getModel('department');
+        $modelCourse = $this->getModel('course');
+
+        /* Nhận data */
+        JFactory::getDocument()->setMimeEncoding('application/json');
+        $input = JFactory::getApplication()->input; //lấy ra trị trong cái input
+        $data = $input->post->getString('insertData'); //lấy dữ liệu từ Ajax
+
+        /* Xử lý insert */
+        $parram = json_decode($data);
+        $dataError = array();
+        for ($i = 0; $i < count($parram); $i++) {
+            $student = $modelStudent->checkStudent($parram[$i]->idstudent);
+            if ($student) {
+                //Lưu lại dữ liệu lỗi
+                $dataError[] = $parram[$i];
+            } else {
+                $department = $modelDepartment->insertDepartment($parram[$i]->department);
+                $course = $modelCourse->insertCourse($parram[$i]->course);
+ 
+                //Thêm sinh viên mới
+                $date = DateTime::createFromFormat('d/m/Y', $parram[$i]->birthday);
+                $birthday = $date->format('Y-m-d');
+                $modelStudent->insertStudent($parram[$i]->idstudent, $parram[$i]->name,$birthday, $department, $course);
+                
+            }
+        }
+
+       echo json_encode($dataError);
+
         JFactory::getApplication()->close();
     }
 

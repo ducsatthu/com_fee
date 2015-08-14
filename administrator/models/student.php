@@ -22,8 +22,8 @@ class FeeModelStudent extends JModelAdmin {
      * @since	1.6
      */
     protected $text_prefix = 'COM_FEE';
-    
     public $typeAlias = 'com_fee.student';
+
     /**
      * Returns a reference to the a Table object, always creating it.
      *
@@ -51,6 +51,21 @@ class FeeModelStudent extends JModelAdmin {
 
         // Get the form.
         $form = $this->loadForm('com_fee.student', 'student', array('control' => 'jform', 'load_data' => $loadData));
+
+
+        if (empty($form)) {
+            return false;
+        }
+
+        return $form;
+    }
+
+    public function getFormUpload($data = array(), $loadData = true) {
+        // Initialise variables.
+        $app = JFactory::getApplication();
+
+        // Get the form.
+        $form = $this->loadForm('com_fee.student', 'upload', array('control' => 'jform', 'load_data' => $loadData));
 
 
         if (empty($form)) {
@@ -126,25 +141,25 @@ class FeeModelStudent extends JModelAdmin {
 
             $db->setQuery($query);
             $results = $db->loadResult();
-            
-            if($results){
+
+            if ($results) {
                 return $results;
-            }else{
+            } else {
                 return FALSE;
             }
         }
         return FALSE;
     }
-    
-    public function getItemsByParam($param = array()){
-        if(!empty($param) && is_array($param)){
-            
+
+    public function getItemsByParam($param = array()) {
+        if (!empty($param) && is_array($param)) {
+
             $db = JFactory::getDbo();
             $query = $db->getQuery(true);
 
             $query
                     ->select(array(
-                         '`id`','`title`','`student_id`','`special`'
+                        '`id`', '`title`', '`student_id`', '`special`'
                     ))
                     ->from('`#__fee_student`')
                     ->where('`department_alias` =' . $db->quote($db->escape($param['department'])))
@@ -152,12 +167,12 @@ class FeeModelStudent extends JModelAdmin {
                     ->where('`level_alias` =' . $db->quote($db->escape($param['level'])));
             $db->setQuery($query);
             $results = $db->loadObjectList();
-            if($results){
+            if ($results) {
                 return $results;
             }
             return FALSE;
         }
-        if(!empty ($param) && !is_array($param)){
+        if (!empty($param) && !is_array($param)) {
             $db = JFactory::getDbo();
             $query = $db->getQuery(true);
 
@@ -166,12 +181,49 @@ class FeeModelStudent extends JModelAdmin {
                     ->from('`#__fee_student`')
                     ->where('`alias` =' . $db->quote($db->escape($param)));
             $db->setQuery($query);
-            
+
             $results = $db->loadResult();
-            if($results){
+            if ($results) {
                 return $results;
             }
             return FALSE;
+        }
+        return FALSE;
+    }
+
+    public function checkStudent($studentId) {
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query
+                ->select('id')
+                ->from('`#__fee_student`')
+                ->where('`student_id`=' . $db->quote($studentId, TRUE));
+        $db->setQuery($query);
+        $result = $db->loadResult();
+        return $result;
+    }
+
+    public function insertStudent($idstudent, $title, $birthday, $department, $course) {
+        $table = $this->getTable();
+        $user = JFactory::getUser();
+
+        $bind = array(
+            'id' => 0,
+            'state' => 0,
+            'created_by' => $user->id, //Lay id nguoi tao
+            'student_id' => $idstudent,
+            'title' => $title,
+            'born' =>$birthday,
+            'department_alias' =>$department,
+            'course_alias' => $course,
+            'special' => 0,
+            'level_alias'=> 'BA875AD5-B5CD-4AE8-8251-C90B19EF8BB0',
+        );
+
+        if ($table->bind($bind)) {
+            if ($table->check()) {
+                return $table->store();
+            }
         }
         return FALSE;
     }

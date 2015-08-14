@@ -61,6 +61,7 @@ class FeeViewStudents extends JViewLegacy {
 
             if ($canDo->get('core.create')) {
                 JToolBarHelper::addNew('student.add', 'JTOOLBAR_NEW');
+                JToolBarHelper::addNew('student.adds', 'COM_FEE_ADDS');
             }
 
             if ($canDo->get('core.edit') && isset($this->items[0])) {
