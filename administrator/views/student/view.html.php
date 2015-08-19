@@ -66,7 +66,7 @@ class FeeViewStudent extends JViewLegacy {
 
         JToolBarHelper::title(JText::_('COM_FEE_TITLE_STUDENT'), 'student.png');
 
-        if (!$this->_layout === 'upload') {
+        if ($this->_layout !== 'upload') {
 
             // If not checked out, can save the item.
             if (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.create')))) {
