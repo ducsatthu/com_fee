@@ -213,11 +213,11 @@ class FeeModelStudent extends JModelAdmin {
             'created_by' => $user->id, //Lay id nguoi tao
             'student_id' => $idstudent,
             'title' => $title,
-            'born' =>$birthday,
-            'department_alias' =>$department,
+            'born' => $birthday,
+            'department_alias' => $department,
             'course_alias' => $course,
             'special' => 0,
-            'level_alias'=> 'BA875AD5-B5CD-4AE8-8251-C90B19EF8BB0',
+            'level_alias' => 'BA875AD5-B5CD-4AE8-8251-C90B19EF8BB0',
         );
 
         if ($table->bind($bind)) {
@@ -228,4 +228,25 @@ class FeeModelStudent extends JModelAdmin {
         return FALSE;
     }
 
+    public function getSearchStudent($search) {
+        if ($search) {
+            
+            $db = JFactory::getDbo();
+            $query = $db->getQuery(true);
+            $query
+                    ->select(array(
+                        '`alias`','`title`','DATE_FORMAT(`born`,"%d/%m/%Y") AS born'
+                    ))
+                    ->from('`#__fee_student`')
+                    ->where('`#__fee_student`.`title` LIKE "%'.$search.'%"');
+            
+          #  var_dump($query->__toString());die();
+            $db->setQuery($query);
+            $result = $db->loadObjectList();
+            return $result;
+        }
+        return FALSE;
+    }
+
+    
 }

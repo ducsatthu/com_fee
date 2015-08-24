@@ -45,10 +45,57 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
         });
         js("#jform_year_alias").trigger("liszt:updated");
 
+
+
+        js('#search-student').click(function () {
+            var text = js('#search_name').val();
+            if (text) {
+                var data = {
+                    "search": text,
+                };
+                js('#search-student-field').find('#search_student_list').remove();
+                //   js('#search-student-field').find('div').remove();
+                js.ajax({
+                    type: "POST",
+                    url: "index.php?option=com_fee&task=searchStudent",
+                    data: data,
+                    datatype: "json",
+                    success: function (results) {
+                        results = JSON.decode(results);
+                        var length = results.length;
+                        var html = '<select id="search_student_list" style="display: none">';
+                        html += "<option value selected='selected'>Chọn sinh viên/học viên</option>";
+                        js.each(results, function (k, v) {
+                            html += "<option value='" + v.alias + "'>" + v.title + "- Ngày sinh: " + v.born + "</option>";
+                        });
+                        html += "</select>";
+                        js('#search-student-field').append(html);
+                        js('#search_student_list').show();
+                        changeStudentName();
+                    }
+                });
+
+            } else {
+                alert('Nhập tên sinh viên');
+            }
+        });
+
+        function changeStudentName() {
+            js('#search_student_list').change(function () {
+                var student = js('#search_student_list').val();
+
+                js("#jform_student_alias").val(student).trigger("liszt:updated");
+
+                var data = "data=" + student;
+
+                getAjaxStudent();
+            }).trigger();
+        }
         var student, semester, year, formality;
-        js("#jform_student_alias").change(function () {
+
+        function getAjaxStudent() {
             student = js("#jform_student_alias").val();
-            data = "data=" + student;
+            var data = "data=" + student;
             js('#body-table').remove();
             js('#list-student-form').hide('slow');
             if (student) {
@@ -59,7 +106,7 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
                     datatype: "json",
                     success: function (results) {
                         results = JSON.decode(results);
-                        js("#department-show").text(results);
+                        js("#search_name").val(results);
                     }
                 });
                 js.ajax({
@@ -106,7 +153,11 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
             }
             checkfee();
             getReceipt();
+        }
+        js("#jform_student_alias").change(function () {
+            getAjaxStudent();
         }).trigger("change");
+
 <?php if (!$this->item->id) { ?>
             js("#jform_semester_alias").change(function () {
                 semester = js("#jform_semester_alias").val();
@@ -138,12 +189,12 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
                         datatype: "json",
                         success: function (results) {
                             results = JSON.decode(results);
-                            
-                            if(results.code && results.title){
-                                js('#jform_title').val(results.title + "-"+results.code);
+
+                            if (results.code && results.title) {
+                                js('#jform_title').val(results.title + "-" + results.code);
                                 js('#jform_code').val(results.code);
                             }
-                            
+
                         }
                     });
                 }
@@ -229,6 +280,20 @@ $document->addStyleSheet('components/com_fee/assets/css/fee.css');
                         <div class="controls"><?php echo $this->form->getInput('title'); ?></div>
                     </div>
                     <?php echo $this->form->getControlGroup('code'); ?>
+                    <div class="control-group">
+                        <div class="control-label"><?php echo JText::_("Tên Sinh Viên/Học viên:"); ?></div>
+                        <div class="controls">
+                            <div class="input-append">
+                                <input id="search_name" type="text" class="input-medium" placeholder="Tên HV/SV" />
+                                <a id="search-student" class="btn width-auto hasTooltip" title="" data-original-title="Tim sinh vien">
+                                    <i class="icon-search"></i>
+                                </a>
+                            </div>
+                            <div id="search-student-field">
+
+                            </div>
+                        </div>
+                    </div>
                     <div class="control-group">
                         <div class="control-label"><?php echo $this->form->getLabel('student_alias'); ?></div>
                         <div class="controls"><?php echo $this->form->getInput('student_alias'); ?></div>

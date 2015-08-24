@@ -191,3 +191,30 @@
     padding-right: 5px;
     color: #333;
 }
+
+.search-field-student{
+    display: none;
+    position: absolute;
+    z-index: 3;
+    width: 275px;
+    background-color: white;
+    border: solid;
+    border-width: 2px;
+    border-color: #F26B09;
+    border-radius: 5px;
+}
+.fields{
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    overflow: hidden;
+}
+.field{
+    margin-top: 10px;
+    padding-left: 30px;
+    height: 30px;
+    border-bottom:dotted;
+    border-bottom-width: 1px;
+    border-bottom-color: gray;
+    cursor: pointer;
+}

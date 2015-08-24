@@ -132,5 +132,5 @@ class FeeControllerStudent extends JControllerForm {
 
         JFactory::getApplication()->close();
     }
-
+    
 }

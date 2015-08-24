@@ -201,7 +201,7 @@ class FeeController extends JControllerLegacy {
      * Get next Receipt
      */
     public function getReceipt() {
-        JFactory::getDocument()->setMimeEncoding('application/json');
+        JFactory::getDocument()->setMimeEncoding('application/json;charset=utf-8');
 
         $input = JFactory::getApplication()->input;
 
@@ -228,5 +228,20 @@ class FeeController extends JControllerLegacy {
 
         JFactory::getApplication()->close();
     }
+    
+    
+    public function searchStudent(){
+         /* Nhận data */
+        JFactory::getDocument()->setMimeEncoding('application/json');
+        $input = JFactory::getApplication()->input; //lấy ra trị trong cái input
+        $data = $input->post->getString('search'); //lấy dữ liệu từ Ajax
+        
+        $model_student = $this->getModel('student');
+        
+        $search = $model_student->getSearchStudent($data);
+        
+        echo json_encode($search);
 
+        JFactory::getApplication()->close();
+    }
 }
