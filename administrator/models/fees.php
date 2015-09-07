@@ -180,7 +180,6 @@ class FeeModelFees extends JModelList {
         }
 
 
-
         //Filtering student_alias
         $filter_student_alias = $this->state->get("filter.student_alias");
         if ($filter_student_alias) {
@@ -407,7 +406,7 @@ class FeeModelFees extends JModelList {
                 ->join('LEFT', '`#__fee_student` ON `#__fee_student`.`alias` = `student_alias`')
                 ->where("`student_alias` IN ('" . implode("','", $listStudent) . "')")
                 ->where("`year_alias`  IN ('" . implode("','", $listYearAlias) . "')")
-                ->where('`owed` > 0')
+                ->where('`owed` != 0')
                 ->group('`student_alias`');
 
         $db->setQuery($query);
@@ -666,7 +665,7 @@ class FeeModelFees extends JModelList {
                 ->join('LEFT', '`#__fee_course` ON `#__fee_course`.alias = `#__fee_student`.`course_alias`')
                 ->where("`year_alias`  IN ('" . implode("','", $listYearAlias) . "')")
                 ->where('`level_alias` = '.$db->quote($db->escape($level)))
-                ->where('`owed` > 0')
+                ->where('`owed` != 0')
                 ->group('`student_alias`');
 
         $db->setQuery($query);
@@ -686,7 +685,7 @@ class FeeModelFees extends JModelList {
                         ->select('sum(`owed`)')
                         ->from('`#__fee_fee` as fee')
                         ->where("`year_alias`  IN ('" . implode("','", $listYearAgo) . "')")
-                        ->where('`owed` > 0')
+                        ->where('`owed` != 0')
                         ->where('`student_alias` = ' . $db->quote($db->escape($item->student_alias)))
                         ->group('`student_alias`');
 
@@ -779,7 +778,7 @@ class FeeModelFees extends JModelList {
                 ->where("`year_alias`  IN ('" . implode("','", $listYearAlias) . "')")
                 ->where('`level_alias` = '.$db->quote($db->escape($level)))
                 ->where('`course_alias` ='.$db->quote($db->escape($course)))
-                ->where('`owed` > 0')
+                ->where('`owed` != 0')
                 ->group('`student_alias`');
 
         $db->setQuery($query);
@@ -799,7 +798,7 @@ class FeeModelFees extends JModelList {
                         ->select('sum(`owed`)')
                         ->from('`#__fee_fee` as fee')
                         ->where("`year_alias`  IN ('" . implode("','", $listYearAgo) . "')")
-                        ->where('`owed` > 0')
+                        ->where('`owed` != 0')
                         ->where('`student_alias` = ' . $db->quote($db->escape($item->student_alias)))
                         ->group('`student_alias`');
 
@@ -1285,7 +1284,7 @@ class FeeModelFees extends JModelList {
                 ->join('LEFT', '`#__fee_student` ON `#__fee_student`.`alias` = `#__fee_fee`.`student_alias`')
                 ->where("`student_alias` IN ('" . implode("','", $listStudent) . "')")
                 ->where("`year_alias` = " . $db->quote($db->escape($year)))
-                ->where('`rate` > 0')
+                ->where('`rate` != 0')
                 ->group("`student_alias`");
         $db->setQuery($queryGetPayable);
         
