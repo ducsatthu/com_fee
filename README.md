@@ -6,3 +6,4 @@ Component joomla fee manager for University
 - lưu trữ hóa đơn theo năm học - kỳ học 
 - In hóa đơn 
 - In các bảng tổng hợp
+- test
